@@ -25,6 +25,7 @@
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img{display:block;max-width:100%}
+section[id]{scroll-margin-top:76px}
 a{color:inherit}
 button{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:6px}
@@ -47,7 +48,22 @@ b,strong{font-weight:600}
 
 /* ── Шапка ───────────────────────────────────── */
 .top{position:sticky;top:0;z-index:30;transition:background .4s var(--ease),box-shadow .4s var(--ease)}
-.top.scrolled{background:rgba(245,245,243,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.top.scrolled,.top.open{background:var(--bg);box-shadow:0 1px 0 var(--line)}
+.burger{display:none;position:relative;width:44px;height:44px;border-radius:50%;border:1px solid var(--line-2);background:transparent;cursor:pointer;transition:border-color .3s,background .3s}
+.burger:hover{border-color:var(--ink)}
+.burger span{position:absolute;left:13px;width:16px;height:1.5px;background:var(--ink);border-radius:2px;transition:transform .45s var(--ease),top .45s var(--ease)}
+.burger span:first-child{top:17px}.burger span:last-child{top:24px}
+.top.open .burger{background:var(--ink);border-color:var(--ink)}
+.top.open .burger span{background:#fff;top:21px}
+.top.open .burger span:first-child{transform:rotate(45deg)}.top.open .burger span:last-child{transform:rotate(-45deg)}
+.mnav{position:fixed;inset:0;z-index:29;background:var(--bg);padding:96px var(--gut) 32px;display:flex;flex-direction:column;justify-content:space-between;gap:24px;overflow-y:auto;opacity:0;visibility:hidden;transform:translateY(-12px);transition:opacity .4s var(--ease),transform .5s var(--ease),visibility 0s .5s}
+.mnav.open{opacity:1;visibility:visible;transform:none;transition:opacity .4s var(--ease),transform .5s var(--ease),visibility 0s}
+.mnav nav{display:flex;flex-direction:column}
+.mnav nav a{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--line);font-size:clamp(28px,8vw,40px);font-weight:300;letter-spacing:-.03em;text-decoration:none;color:var(--ink)}
+.mnav nav a span{font-size:11px;letter-spacing:.2em;color:var(--muted)}
+.mnav-foot{display:grid;gap:10px}
+.mnav-foot .pill{min-height:52px}
+body.menu-open{overflow:hidden}
 .top-in{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:76px}
 .logo{display:flex;align-items:center;min-height:44px;text-decoration:none}
 .logo svg{transition:transform .6s var(--ease)}
@@ -262,6 +278,7 @@ footer{margin-top:clamp(90px,11vw,160px);background:var(--night);color:#9A9AA2;b
 /* ── Адаптив ──────────────────────────────────── */
 @media (max-width:1080px){
   .nav{display:none}
+  .burger{display:block}
   .hero-grid{grid-template-columns:1fr;min-height:0;gap:10px}
   .hero-txt{padding-top:24px}
   .scroll-cue{display:none}
@@ -340,9 +357,19 @@ footer{margin-top:clamp(90px,11vw,160px);background:var(--night);color:#9A9AA2;b
         <span data-city="name">Москва</span>
       </button>
       <a href="#" class="pill pill-ink">Войти</a>
+      <button type="button" class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="mnav"><span></span><span></span></button>
     </div>
   </div>
 </header>
+<div class="mnav" id="mnav" aria-hidden="true">
+  <nav aria-label="Мобильное меню">
+    <a href="#calc">Расчёт <span>01</span></a><a href="#types">Кредиты <span>02</span></a><a href="#offers">Банки <span>03</span></a><a href="#compare">Почему мы <span>04</span></a><a href="#cities">Города <span>05</span></a>
+  </nav>
+  <div class="mnav-foot">
+    <button type="button" class="pill pill-soft" id="mCity">Город: <span data-city="name">Москва</span></button>
+    <a href="#" class="pill pill-ink">Войти</a>
+  </div>
+</div>
 
 <section class="hero" aria-label="Главный экран">
   <div class="vert" aria-hidden="true">Все банки +</div>
@@ -674,6 +701,17 @@ document.addEventListener('DOMContentLoaded',function(){
     if(Math.abs(dx)>50){go(active+(dx<0?1:-1));auto(true);}}
   stage.addEventListener('pointerup',end);stage.addEventListener('pointercancel',end);
   $('.deck').addEventListener('keydown',function(e){if(e.key==='ArrowRight'){go(active+1);auto(true);}if(e.key==='ArrowLeft'){go(active-1);auto(true);}});
+
+  /* ── Мобильное меню ── */
+  var burger=$('#burger'), mnav=$('#mnav'), topEl=$('#top');
+  function menu(open){topEl.classList.toggle('open',open);mnav.classList.toggle('open',open);document.body.classList.toggle('menu-open',open);
+    burger.setAttribute('aria-expanded',open);burger.setAttribute('aria-label',open?'Закрыть меню':'Открыть меню');mnav.setAttribute('aria-hidden',!open);
+    if(open){var f=mnav.querySelector('a');if(f)f.focus({preventScroll:true});}}
+  burger.addEventListener('click',function(){menu(!mnav.classList.contains('open'));});
+  $$('a',mnav).forEach(function(a){a.addEventListener('click',function(){menu(false);});});
+  $('#mCity').addEventListener('click',function(){menu(false);$('#cityBtn').click();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mnav.classList.contains('open')){menu(false);burger.focus();}});
+  window.addEventListener('resize',function(){if(window.innerWidth>1080&&mnav.classList.contains('open'))menu(false);});
 
   /* ── Шапка при скролле ── */
   var top=$('#top');
