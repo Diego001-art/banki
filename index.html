@@ -270,7 +270,10 @@ h2 b{font-weight:600}
 
 /* ── Подвал ──────────────────────────────────── */
 footer{margin-top:clamp(90px,11vw,160px);background:var(--night);color:#9A9AA2;border-radius:36px 36px 0 0;padding:clamp(48px,6vw,90px) 0 32px}
-.foot-big{margin:0;font-size:clamp(44px,8vw,128px);line-height:.95;letter-spacing:-.05em;font-weight:300;color:#fff}
+.foot-big{margin:0;font-size:clamp(44px,8vw,128px);line-height:.95;letter-spacing:-.05em;font-weight:300;color:#fff;overflow-wrap:anywhere}
+.hint{font-size:12px;color:#B42318;min-height:0}
+.hint:empty{display:none}
+.empty{margin:8px 0 0;font-size:15px;color:var(--muted)}
 .foot-big b{font-weight:600}
 .foot-row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px;margin-top:clamp(40px,5vw,72px);padding-top:24px;border-top:1px solid var(--night-line);font-size:13px}
 .foot-row p{margin:0;max-width:560px;line-height:1.6}
@@ -337,6 +340,7 @@ footer{margin-top:clamp(90px,11vw,160px);background:var(--night);color:#9A9AA2;b
   .res{grid-template-columns:1fr}
   .res div+div{padding-left:0;border-left:0;border-top:1px solid var(--night-line);margin-top:14px}
   .ccard{width:72vw}
+  .foot-big{font-size:clamp(32px,10.5vw,44px)}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
@@ -463,7 +467,7 @@ footer{margin-top:clamp(90px,11vw,160px);background:var(--night);color:#9A9AA2;b
           <option value="flat">Под залог квартиры</option>
         </select>
       </label>
-      <label class="fld"><span>Сумма</span><input id="cAmount" type="text" value="500 000 ₽" inputmode="numeric" autocomplete="off"></label>
+      <label class="fld"><span>Сумма</span><input id="cAmount" type="text" value="500 000 ₽" inputmode="numeric" autocomplete="off" maxlength="16" aria-describedby="cHint"><small class="hint" id="cHint" aria-live="polite"></small></label>
       <label class="fld"><span>Срок</span>
         <select id="cTerm">
           <option value="12">1 год</option><option value="24">2 года</option><option value="36" selected>3 года</option><option value="48">4 года</option><option value="60">5 лет</option><option value="84">7 лет</option>
@@ -547,6 +551,7 @@ footer{margin-top:clamp(90px,11vw,160px);background:var(--night);color:#9A9AA2;b
       </div>
     </div>
     <div class="rail" id="cityList"></div>
+    <p class="empty" id="cityEmpty" hidden>Такого города пока нет в списке — выберите ближайший или смотрите предложения по Москве.</p>
   </div>
 </section>
 </main>
@@ -587,7 +592,7 @@ document.addEventListener('DOMContentLoaded',function(){
   var select=$('#citySelect'), rail=$('#cityList'), cityImg=$('#cityTileImg');
   CITIES.forEach(function(c,i){
     var o=document.createElement('option');o.value=c.id;o.textContent=c.name;select.appendChild(o);
-    var a=document.createElement('a');a.href='#';a.className='ccard';a.dataset.id=c.id;a.draggable=false;
+    var a=document.createElement('a');a.href='?city='+c.id;a.className='ccard';a.dataset.id=c.id;a.draggable=false;
     a.innerHTML='<img src="'+c.img+'" alt="" loading="lazy" draggable="false"><span class="num">'+(i<9?'0':'')+(i+1)+'</span><span class="n">'+c.name+'</span><span class="k">Кредиты в '+c.loc+' →</span>';
     a.addEventListener('click',function(e){e.preventDefault();if(rail.dataset.moved==='1')return;setCity(c.id,true);window.scrollTo({top:0,behavior:reduce?'auto':'smooth'});});
     rail.appendChild(a);
@@ -606,14 +611,15 @@ document.addEventListener('DOMContentLoaded',function(){
       var swap=function(){if(hi.dataset.city!==c.id)return;hi.srcset=ss;hi.src='img/cities/sm/'+c.id+'.webp';hi.style.opacity=1;};
       if(pre.complete)setTimeout(swap,reduce?0:250);else{pre.onload=swap;pre.onerror=swap;}}
     $$('.ccard',rail).forEach(function(a){a.classList.toggle('cur',a.dataset.id===c.id);});
-    if(remember){try{localStorage.setItem('city',c.id);}catch(e){}}
+    if(remember){try{localStorage.setItem('city',c.id);}catch(e){}
+      try{history.replaceState(null,'',location.pathname+'?city='+c.id);}catch(e){}}
   }
   select.addEventListener('change',function(){setCity(select.value,true);});
   $('#cityBtn').addEventListener('click',function(){$('#calc').scrollIntoView({behavior:reduce?'auto':'smooth'});setTimeout(function(){select.focus();},reduce?0:700);});
   $('#citySearch').addEventListener('input',function(e){
     var q=e.target.value.trim().toLowerCase();
-    $$('.ccard',rail).forEach(function(a){a.style.display=a.querySelector('.n').textContent.toLowerCase().indexOf(q)>-1?'':'none';});
-    rail.scrollLeft=0;
+    var shown=0;$$('.ccard',rail).forEach(function(a){var ok=a.querySelector('.n').textContent.toLowerCase().indexOf(q)>-1;a.style.display=ok?'':'none';if(ok)shown++;});
+    $('#cityEmpty').hidden=shown>0;rail.scrollLeft=0;
   });
   // лента городов: стрелки и перетаскивание мышью
   var step=function(){var c=$('.ccard',rail);return c?c.getBoundingClientRect().width*2+28:400;};
@@ -645,7 +651,10 @@ document.addEventListener('DOMContentLoaded',function(){
   var termTxt=function(m){var y=m/12;return y+' '+(y===1?'год':y<5?'года':'лет');};
   function amount(){var v=parseInt(String(cA.value).replace(/\D/g,''),10);return isNaN(v)?0:v;}
   function calc(){
-    var a=amount(), m=+cT.value, r=PSK[cP.value](a), avg=r[0], i=avg/100/12;
+    var a=amount(), bad=a&&(a<10000||a>100000000);
+    $('#cHint').textContent=bad?(a<10000?'Минимальная сумма — 10 000 ₽':'Максимальная сумма — 100 000 000 ₽'):'';
+    if(bad)a=0;
+    var m=+cT.value, r=PSK[cP.value](a), avg=r[0], i=avg/100/12;
     var pay=a? a*i/(1-Math.pow(1+i,-m)) : 0, over=pay*m-a, prod=cP.options[cP.selectedIndex].text;
     $('#oRate').textContent='≈'+pct(avg);
     $('#oPay').textContent=a?rub(pay):'—';
@@ -748,7 +757,7 @@ document.addEventListener('DOMContentLoaded',function(){
     // строки банков — каскадом
     ScrollTrigger.create({trigger:'#bankList',start:'top 85%',once:true,onEnter:function(){gsap.from('#bankList .bank:not(.bank-head)',{y:24,opacity:0,duration:.7,stagger:.05,ease:'power3.out',clearProps:'transform,opacity'});}});
     // тёмная секция «наезжает» и раскрывается
-    gsap.from('.night',{scale:.94,ease:'none',scrollTrigger:{trigger:'.night',start:'top bottom',end:'top 25%',scrub:true}});
+    gsap.from('.night',{scale:.94,transformOrigin:'50% 0%',ease:'none',scrollTrigger:{trigger:'.night',start:'top bottom',end:'top 25%',scrub:true}});
     gsap.from('.tile',{y:60,opacity:0,scale:.94,duration:1,stagger:.07,ease:'power3.out',scrollTrigger:{trigger:'#bento',start:'top 85%',once:true}});
     $$('.tile .ph').forEach(function(ph){
       gsap.fromTo(ph,{yPercent:-6},{yPercent:6,ease:'none',scrollTrigger:{trigger:ph.parentNode,start:'top bottom',end:'bottom top',scrub:true}});
@@ -760,6 +769,8 @@ document.addEventListener('DOMContentLoaded',function(){
 
   calc(); auto(true);
   var saved=null;try{saved=localStorage.getItem('city');}catch(e){}
+  var qp=(location.search.match(/[?&]city=([a-z]+)/)||[])[1];
+  if(qp&&CITIES.some(function(c){return c.id===qp;})){setCity(qp);return;} // ссылка вида ?city=kazan
   if(saved&&CITIES.some(function(c){return c.id===saved;})){setCity(saved);return;}
   setCity('moscow'); // по умолчанию и для иностранных IP — Москва
   // Город по IP: ipapi.co, запасной — ipwho.is. Не Россия или город не из списка — Москва.
