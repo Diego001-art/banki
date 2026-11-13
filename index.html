@@ -7,329 +7,563 @@
 <meta name="description" content="Сравните кредиты, ипотеку и кредитные карты всех банков в вашем городе.">
 <link rel="icon" type="image/svg+xml" href="logo-bird.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--plum:#2A1A33;--violet:#6B4A8A;--bg:#EFEEF2;--ink:#141218;--muted:#6A6472;--line:#D8D5DD;--gold:#F2C27A}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Manrope,Inter,system-ui,sans-serif}
-a{color:var(--plum)}a:hover{color:var(--violet)}
-.wrap{padding:12px}
-.container{max-width:1360px;margin:0 auto;padding:0 16px}
-/* HERO */
-.hero{position:relative;overflow:hidden;border-radius:28px;color:#fff;padding:20px 28px 40px;min-height:600px;background:var(--plum)}
-.hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s}
-.hero-photo.on{opacity:1}
-.hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(42,26,51,.94) 0%,rgba(42,26,51,.72) 50%,rgba(42,26,51,.35) 100%)}
-.layer{position:relative;z-index:1}
-header.top{display:grid;grid-template-columns:1fr auto 1fr;align-items:start;gap:16px}
-.nav{display:flex;flex-wrap:wrap;gap:24px;font-size:14px;padding-top:12px}
-.nav a{color:#fff;text-decoration:none}.nav a:hover{text-decoration:underline}
-.logo{display:flex;background:var(--bg);padding:10px 32px 12px;border-radius:0 0 20px 20px;margin-top:-20px}
-.actions{display:flex;justify-content:flex-end;align-items:center;gap:12px;font-size:14px;padding-top:4px}
-.pill{border-radius:999px;min-height:44px;padding:0 18px;display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:14px;text-decoration:none;cursor:pointer}
-.pill-white{background:#fff;color:var(--plum);border:0;font-weight:600}
-.pill-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5)}
-.hero-main{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:40px;margin-top:80px}
-.hero-text{flex:1 1 480px;max-width:660px}
-.kicker{margin:0 0 16px;font-size:14px;color:#E6DDEC}
-h1{margin:0;font-size:clamp(34px,5vw,56px);line-height:1.08;font-weight:600;letter-spacing:-.01em}
-.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
-.cta-row .pill{min-height:52px;padding:0 26px;font-size:15px}
-.glass{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
-.calc{flex:0 1 460px;border-radius:24px;padding:24px}
-.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.calc label{display:flex;flex-direction:column;gap:6px;font-size:12px;color:#D9CCE3}
-.calc input{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);border-radius:12px;color:#fff;font:inherit;font-size:18px;font-weight:600;padding:12px;min-height:44px;width:100%}
-.offers{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.offer{background:rgba(255,255,255,.08);border-radius:14px;padding:14px}
-.offer b{display:block;font-size:26px;font-weight:600;color:var(--gold)}
-.offer span{display:block;font-size:12px;color:#E6DDEC;margin-top:18px}
-.calc-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px;font-size:13px;color:#D9CCE3}
-.calc-foot a{color:#fff}
-.city-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:24px;font-size:13px}
-.city-select{display:flex;align-items:center;gap:8px;border-radius:999px;padding:0 6px 0 14px}
-.city-select select{background:#3A2547;color:#fff;border:0;border-radius:999px;font:inherit;font-size:13px;padding:0 10px;min-height:36px}
-/* SECTIONS */
-section.block{padding-top:110px}
-.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px}
-.eyebrow{margin:0;font-size:13px;color:#55505C;min-width:120px}
-h2{margin:0;font-size:clamp(28px,3.4vw,40px);line-height:1.15;font-weight:500;text-align:center;flex:1 1 420px}
-h2 .grey{color:#8E8896}
-.spacer{min-width:120px}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:48px}
-.card{background:#fff;border-radius:16px;padding:24px;min-height:220px;display:flex;flex-direction:column;justify-content:space-between;text-decoration:none;color:var(--ink);transition:transform .2s}
-.card:hover{transform:translateY(-3px);color:var(--ink)}
-.card .t{font-size:18px;font-weight:500}
-.card .d{font-size:13px;color:var(--muted);line-height:1.5}
-.card-cta{background:linear-gradient(160deg,#7A5896 0%,#4E3463 100%);color:#fff;align-items:center;justify-content:center;text-align:center;gap:20px}
-.card-cta .t{font-size:20px;font-weight:600;line-height:1.3}
-.compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:48px}
-.compare-visual{background:#5B3F75;border-radius:16px;min-height:340px;display:grid;place-items:center;padding:32px;color:#fff;text-align:center}
-.compare-visual .glass{border-radius:14px;padding:18px;font-size:16px;line-height:1.4;max-width:340px}
-.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;align-content:start}
-.cols h3{margin:0 0 12px;font-size:17px;font-weight:600}
-.cols p{margin:0;padding:18px 0;border-bottom:1px solid var(--line);font-size:14px}
-.dot-bad{color:#C2410C}.dot-good{color:#1D6FD1}
-.partners{grid-column:1/-1;background:#fff;border-radius:16px;padding:22px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:28px;font-size:15px;color:var(--muted)}
-.cities-box{background:#fff;border-radius:20px;padding:28px;margin-top:48px}
-.cities-box label{display:flex;flex-direction:column;gap:8px;font-size:13px;color:#55505C;max-width:520px}
-.cities-box input{border:1px solid var(--line);border-radius:999px;padding:14px 20px;font:inherit;font-size:15px;min-height:48px}
-.city-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px 24px;margin-top:28px;font-size:15px}
-footer{background:var(--plum);color:#D9CCE3;border-radius:28px;margin-top:110px;padding:40px 28px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:24px;font-size:13px}
-footer p{max-width:640px;line-height:1.6;margin:0}
-@media (max-width:760px){
-  .hero{padding:16px 16px 28px;border-radius:22px}
-  header.top{grid-template-columns:1fr auto}
-  .nav{display:none}
-  header.top{align-items:center}
-  .logo{margin-top:0;width:48px;height:48px;padding:0;border-radius:50%;background:#fff;align-items:center;justify-content:center;justify-self:start;box-shadow:0 2px 10px rgba(0,0,0,.18)}
-  .logo svg{width:30px;height:auto}
-  .actions{padding-top:0}
-  .hero-main{margin-top:40px}
-  .offers{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .offer b{font-size:20px}
-  .spacer{display:none}
+/* ── Токены ───────────────────────────────────── */
+:root{
+  --bg:#F5F5F3; --white:#FFFFFF; --ink:#0E0E10; --ink-2:#2B2B30; --muted:#6E6E76; --line:#E3E3E0; --line-2:#D4D4D0;
+  --night:#0E0E10; --night-2:#1A1A1E; --night-line:#2A2A30;
+  --gold:#F2C27A; --plum:#4B2E63;
+  --ease:cubic-bezier(.22,.8,.2,1);
+  --gut:clamp(16px,4vw,56px);
+  --font:"Inter Tight",Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
 }
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1360px;margin:0 auto;padding:0 var(--gut)}
+.label{font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.light{font-weight:300}
+b,strong{font-weight:600}
 
-/* ── Калькулятор и банки ── */
-.calc select{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);border-radius:12px;color:#fff;font:inherit;font-size:15px;font-weight:600;padding:0 12px;min-height:44px;width:100%}
-.calc select option{color:var(--ink)}
-.calc .full{grid-column:1/-1}
-.offer small{display:block;font-size:11px;color:#D9CCE3;margin-top:4px}
-.offer b.sm{font-size:20px}
-.calc-foot small{font-size:11px;color:#BFB2C9}
-#offers .lead{margin:16px 0 0;font-size:14px;color:var(--muted);max-width:720px;line-height:1.55}
-.banks{margin-top:40px;background:#fff;border-radius:20px;overflow:hidden}
-.bank{display:grid;grid-template-columns:44px minmax(160px,1.4fr) repeat(3,minmax(110px,1fr)) auto;gap:16px;align-items:center;padding:18px 24px;border-bottom:1px solid var(--line)}
+/* кнопки-капсулы */
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 22px;border-radius:999px;border:1px solid transparent;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:background .35s var(--ease),color .35s var(--ease),border-color .35s var(--ease),transform .35s var(--ease)}
+.pill:active{transform:scale(.97)}
+.pill-ink{background:var(--ink);color:#fff}
+.pill-ink:hover{background:var(--plum)}
+.pill-soft{background:#EAEAE7;color:var(--ink)}
+.pill-soft:hover{background:#DEDEDA}
+.pill-line{border-color:var(--line-2);background:transparent}
+.pill-line:hover{border-color:var(--ink)}
+.pill .arr{transition:transform .4s var(--ease)}
+.pill:hover .arr{transform:translateX(3px)}
+
+/* ── Шапка ───────────────────────────────────── */
+.top{position:sticky;top:0;z-index:30;transition:background .4s var(--ease),box-shadow .4s var(--ease)}
+.top.scrolled{background:rgba(245,245,243,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.top-in{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:76px}
+.logo{display:flex;align-items:center;text-decoration:none}
+.logo svg{transition:transform .6s var(--ease)}
+.logo:hover svg{transform:rotate(-6deg)}
+.nav{display:flex;gap:30px;font-size:14px}
+.nav a{text-decoration:none;color:var(--ink-2);background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;padding-bottom:2px;transition:background-size .4s var(--ease)}
+.nav a:hover{background-size:100% 1px}
+.top-act{display:flex;align-items:center;gap:8px}
+.city-chip{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line-2);background:transparent;font-size:13px;cursor:pointer;transition:border-color .3s}
+.city-chip:hover{border-color:var(--ink)}
+.top-act .pill{min-height:40px;padding:0 18px}
+
+/* ── Первый экран ─────────────────────────────── */
+.hero{position:relative;background:var(--white);border-radius:0 0 36px 36px;overflow:hidden;margin-top:-76px;padding-top:76px}
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(24px,4vw,64px);align-items:center;min-height:min(92vh,860px);padding-bottom:40px}
+.hero-txt{padding:40px 0 20px}
+.scroll-cue{display:flex;flex-direction:column;gap:10px;margin-bottom:44px;color:var(--muted)}
+.scroll-cue span:first-child{opacity:.35}
+.hero .label{margin:0 0 18px}
+h1{margin:0;font-size:clamp(40px,5.4vw,80px);line-height:1.02;letter-spacing:-.035em;font-weight:300}
+h1 .ln{display:block;overflow:hidden;padding-bottom:.06em}
+h1 .ln>span{display:inline-block}
+h1 b{font-weight:600}
+.hero-p{margin:26px 0 0;max-width:470px;font-size:15px;line-height:1.6;color:var(--ink-2)}
+.hero-p span{color:var(--muted)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.hero-banks{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:56px;padding-top:22px;border-top:1px solid var(--line);font-size:13px;color:#8C8C93}
+.vert{position:absolute;right:clamp(6px,1.2vw,20px);top:110px;writing-mode:vertical-rl;font-size:clamp(60px,6.4vw,104px);line-height:1;font-weight:600;letter-spacing:-.03em;color:transparent;-webkit-text-stroke:1px #E4E4E0;white-space:nowrap;pointer-events:none;user-select:none;z-index:0}
+
+/* слайдер карт */
+.deck{position:relative}
+.stage{position:relative;height:clamp(300px,34vw,470px);perspective:1400px;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.stage.dragging{cursor:grabbing}
+.bcard{--pos:translate3d(0,0,0);--rx:0deg;--ry:0deg;--drag:0px;position:absolute;left:4%;top:2%;width:68%;aspect-ratio:1.586/1;border-radius:22px;overflow:hidden;color:#fff;transform:translateX(var(--drag)) var(--pos) rotateX(var(--rx)) rotateY(var(--ry));transition:transform .9s var(--ease),filter .9s var(--ease),opacity .9s var(--ease);box-shadow:0 1px 1px rgba(0,0,0,.08),0 24px 48px -24px rgba(14,14,16,.5);will-change:transform}
+.stage.dragging .bcard,.bcard.tilting{transition:filter .9s var(--ease),opacity .9s var(--ease)}
+.bcard::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(115deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,0) 32%,rgba(255,255,255,0) 68%,rgba(255,255,255,.08) 100%);pointer-events:none}
+.bc-art{position:absolute;inset:0;overflow:hidden}
+.bc-in{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:7% 7.5%}
+.bc-row{display:flex;justify-content:space-between;align-items:center}
+.bc-name{font-size:clamp(15px,1.5vw,21px);font-weight:600;letter-spacing:-.01em}
+.bc-chip{width:13%;aspect-ratio:1.3/1;border-radius:7px;background:linear-gradient(135deg,#F6E3B4,#C9A75E 55%,#EED79F);position:relative;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.bc-chip::before{content:"";position:absolute;inset:28% 0;border-top:1px solid rgba(0,0,0,.22);border-bottom:1px solid rgba(0,0,0,.22)}
+.bc-chip::after{content:"";position:absolute;inset:0 38%;border-left:1px solid rgba(0,0,0,.22);border-right:1px solid rgba(0,0,0,.22)}
+.bc-num{font-size:clamp(12px,1.25vw,17px);letter-spacing:.18em;opacity:.92;font-variant-numeric:tabular-nums}
+.bc-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;font-size:clamp(10px,.9vw,12px);letter-spacing:.14em;text-transform:uppercase;opacity:.92}
+.bc-rate{font-size:clamp(15px,1.5vw,21px);letter-spacing:-.01em;text-transform:none;font-weight:600;white-space:nowrap}
+/* Альфа — красная */
+.b-alfa{background:#B5091E}
+.b-alfa .bc-art{background:radial-gradient(70% 90% at 100% 0%,#FF5A4D 0%,rgba(255,90,77,0) 60%),radial-gradient(60% 70% at 0% 100%,#6E0010 0%,rgba(110,0,16,0) 70%),linear-gradient(135deg,#8E0617,#E01F2E 60%,#F2433A)}
+.b-alfa .bc-art::before{content:"";position:absolute;width:120%;height:120%;left:38%;top:-30%;border-radius:50%;border:clamp(18px,2.6vw,38px) solid rgba(255,255,255,.13);transform:rotate(-24deg)}
+.b-alfa .bc-art::after{content:"";position:absolute;width:80%;height:80%;left:52%;top:20%;border-radius:50%;border:clamp(10px,1.4vw,20px) solid rgba(255,220,210,.14)}
+/* Сбер — зелёная */
+.b-sber{background:#0F7A26}
+.b-sber .bc-art{background:radial-gradient(80% 100% at 100% 100%,#7EE08A 0%,rgba(126,224,138,0) 55%),radial-gradient(60% 70% at 0% 0%,#06501A 0%,rgba(6,80,26,0) 70%),linear-gradient(150deg,#0A5A1C,#139A32 55%,#2DBE4E)}
+.b-sber .bc-art::before{content:"";position:absolute;inset:-40% -20% -40% 30%;border-radius:50%;background:repeating-radial-gradient(circle at 70% 60%,rgba(255,255,255,.10) 0 2px,transparent 2px 22px)}
+.b-sber .bc-art::after{content:"";position:absolute;width:70%;height:140%;right:-18%;top:-20%;border-radius:45%;background:linear-gradient(200deg,rgba(255,255,255,.22),rgba(255,255,255,0) 60%);transform:rotate(18deg)}
+/* Т-Банк — чёрно-жёлтая */
+.b-tbank{background:#121212}
+.b-tbank .bc-art{background:radial-gradient(90% 90% at 0% 100%,#2A2A2A 0%,#121212 60%)}
+.b-tbank .bc-art::before{content:"";position:absolute;width:78%;height:150%;right:-22%;top:-30%;background:linear-gradient(160deg,#FFE45C,#FFDD2D 45%,#E8B800);transform:rotate(24deg);border-radius:28px}
+.b-tbank .bc-art::after{content:"";position:absolute;width:30%;height:150%;right:38%;top:-30%;background:rgba(255,221,45,.10);transform:rotate(24deg)}
+.b-tbank .bc-num,.b-tbank .bc-foot,.b-tbank .bc-row svg{text-shadow:0 1px 8px rgba(0,0,0,.35)}
+.b-tbank .bc-rate{color:#121212;background:#FFDD2D;padding:4px 10px;border-radius:999px;text-shadow:none}
+
+.deck-ui{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-top:18px}
+.deck-info{min-height:96px}
+.deck-info .label{margin:0 0 8px}
+.deck-name{margin:0;font-size:clamp(24px,2.4vw,34px);font-weight:300;letter-spacing:-.025em;line-height:1.1}
+.deck-name b{font-weight:600}
+.deck-meta{display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:10px;font-size:14px;color:var(--muted)}
+.deck-meta strong{color:var(--ink)}
+.deck-ctrl{display:flex;align-items:center;gap:16px;flex:none}
+.dots{display:flex;gap:6px}
+.dot{position:relative;width:28px;height:3px;border:0;padding:0;border-radius:3px;background:var(--line-2);overflow:hidden;cursor:pointer}
+.dot::before{content:"";position:absolute;inset:-14px 0}
+.dot i{position:absolute;inset:0;background:var(--ink);transform:scaleX(0);transform-origin:left}
+.dot.on i{transform:scaleX(1)}
+.dot.on.playing i{animation:fill 5s linear forwards}
+@keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.arrows{display:flex;gap:6px}
+.arw{width:44px;height:44px;border-radius:50%;border:1px solid var(--line-2);background:#fff;display:grid;place-items:center;cursor:pointer;transition:background .3s var(--ease),color .3s,border-color .3s,transform .3s var(--ease)}
+.arw:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.arw:active{transform:scale(.92)}
+.deck-go{margin-top:14px}
+
+/* ── Секции ───────────────────────────────────── */
+.sec{padding-top:clamp(90px,11vw,160px)}
+.sec-head{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:24px;align-items:end;margin-bottom:clamp(36px,4vw,56px)}
+h2{margin:0;font-size:clamp(34px,4.2vw,62px);line-height:1.04;letter-spacing:-.035em;font-weight:300}
+h2 b{font-weight:600}
+.sec-head p{margin:0;max-width:440px;justify-self:end;font-size:15px;line-height:1.6;color:var(--muted)}
+
+/* калькулятор */
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);background:var(--white);border-radius:28px;overflow:hidden}
+.calc-in{padding:clamp(24px,3vw,44px);display:grid;grid-template-columns:1fr 1fr;gap:26px 22px;align-content:start}
+.fld{display:flex;flex-direction:column;gap:8px}
+.fld.full{grid-column:1/-1}
+.fld>span{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.fld input,.fld select{width:100%;min-height:52px;border:0;border-bottom:1px solid var(--line-2);border-radius:0;background-color:transparent;color:var(--ink);font:300 clamp(22px,2.2vw,30px)/1.1 var(--font);letter-spacing:-.02em;padding:6px 0;appearance:none;-webkit-appearance:none;transition:border-color .3s}
+.fld select{background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 12px) 55%,calc(100% - 6px) 55%;background-size:6px 6px;background-repeat:no-repeat;padding-right:28px;cursor:pointer}
+.fld input:hover,.fld select:hover{border-color:var(--muted)}
+.fld input:focus,.fld select:focus{outline:0;border-color:var(--ink)}
+.calc-out{background:var(--night);color:#fff;padding:clamp(24px,3vw,44px);display:flex;flex-direction:column;justify-content:space-between;gap:28px;position:relative;overflow:hidden}
+.calc-out::before{content:"";position:absolute;right:-30%;top:-40%;width:90%;aspect-ratio:1;border-radius:50%;border:1px solid var(--night-line)}
+.calc-out::after{content:"";position:absolute;right:-12%;top:-18%;width:52%;aspect-ratio:1;border-radius:50%;border:1px solid var(--night-line)}
+.calc-out .label{color:#9A9AA2;position:relative;margin:0}
+.big{position:relative;font-size:clamp(54px,6.4vw,96px);line-height:1;letter-spacing:-.045em;font-weight:300}
+.res{position:relative;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--night-line)}
+.res div{padding-top:18px}
+.res div+div{padding-left:22px;border-left:1px solid var(--night-line)}
+.res span{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#9A9AA2}
+.res strong{display:block;margin-top:6px;font-size:clamp(22px,2.3vw,32px);font-weight:400;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.calc-note{position:relative;margin:0;font-size:12px;color:#9A9AA2;line-height:1.5}
+.calc-note a{color:#fff}
+
+/* список банков */
+.banks{margin-top:22px;background:var(--white);border-radius:28px;padding:8px clamp(16px,2.6vw,36px)}
+.bank{display:grid;grid-template-columns:44px minmax(150px,1.4fr) repeat(3,minmax(100px,1fr)) auto;gap:16px;align-items:center;padding:18px 0;border-bottom:1px solid var(--line)}
 .bank:last-child{border-bottom:0}
-.bank-head{font-size:12px;color:var(--muted);padding-top:14px;padding-bottom:14px;background:#F7F6F9}
-.bank .ava{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:15px;color:#fff;background:var(--violet)}
-.bank .nm{font-weight:600;font-size:16px}
+.bank-head{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding:16px 0}
+.bank .ava{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:600;font-size:13px;color:#fff;transition:transform .4s var(--ease)}
+.bank:hover .ava{transform:scale(1.08) rotate(-6deg)}
+.bank .nm{font-weight:500;font-size:16px}
 .bank .nm small{display:block;font-weight:400;font-size:12px;color:var(--muted);margin-top:2px}
-.bank .v{font-weight:600;font-size:16px;font-variant-numeric:tabular-nums}
+.bank .v{font-weight:500;font-size:16px;font-variant-numeric:tabular-nums}
 .bank .v small{display:block;font-weight:400;font-size:11px;color:var(--muted)}
-.bank .rate{color:var(--violet)}
-.bank .go{background:var(--plum);color:#fff;text-decoration:none;border-radius:999px;padding:12px 18px;font-weight:600;font-size:14px;white-space:nowrap;min-height:44px;display:inline-flex;align-items:center}
-.bank .go:hover{background:var(--violet);color:#fff}
-.src{margin-top:14px;font-size:12px;color:var(--muted)}
-@media (max-width:860px){
+.bank .go{min-height:40px;padding:0 16px;font-size:11px}
+.src{margin:14px 4px 0;font-size:12px;color:var(--muted)}
+
+/* ── Тёмная бенто-секция ─────────────────────── */
+.night{margin-top:clamp(90px,11vw,160px);background:var(--night);color:#fff;border-radius:36px;padding:clamp(56px,7vw,110px) 0;overflow:hidden}
+.night h2{color:#fff}
+.night .sec-head p{color:#9A9AA2}
+.bento{display:grid;grid-template-columns:1.05fr 1fr 1fr 1fr;grid-template-rows:repeat(4,clamp(160px,15vw,210px));gap:14px;grid-template-areas:"city big big big" "city cash cash mort" "chance auto refi refi" "chance pledge cards biz"}
+.tile{position:relative;border-radius:22px;overflow:hidden;background:var(--night-2);text-decoration:none;color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(16px,1.8vw,24px);isolation:isolate}
+.tile .ph{position:absolute;inset:-12% 0;z-index:-2}
+.tile .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.tile::before{content:"";position:absolute;inset:0;z-index:-1}
+.tile:hover .ph img{transform:scale(1.07)}
+.tile .label{margin:0;color:rgba(255,255,255,.75)}
+.tile .t{font-size:clamp(20px,1.9vw,28px);font-weight:300;letter-spacing:-.025em;line-height:1.1}
+.tile .t b{font-weight:600}
+.tile .s{font-size:13px;color:rgba(255,255,255,.78);margin-top:4px}
+.tile .go-i{position:absolute;right:16px;top:16px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.16);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transform:scale(.6) rotate(-45deg);opacity:0;transition:transform .5s var(--ease),opacity .4s var(--ease)}
+.tile:hover .go-i{transform:none;opacity:1}
+.t-city{grid-area:city}.t-big{grid-area:big}.t-cash{grid-area:cash}.t-mort{grid-area:mort}.t-chance{grid-area:chance}.t-auto{grid-area:auto}.t-refi{grid-area:refi}.t-pledge{grid-area:pledge}.t-cards{grid-area:cards}.t-biz{grid-area:biz}
+.t-city::before{background:linear-gradient(180deg,rgba(14,14,16,.15),rgba(14,14,16,.78))}
+.t-big .ph img{filter:grayscale(1) contrast(1.1) brightness(.75)}
+.t-big::before{background:linear-gradient(90deg,rgba(14,14,16,.85) 0%,rgba(14,14,16,.2) 70%)}
+.t-big .stat{font-size:clamp(42px,4.6vw,68px);font-weight:300;letter-spacing:-.045em;line-height:1}
+.t-cash{background:linear-gradient(120deg,#C9481A,#F0954A)}
+.t-cash .ph{mix-blend-mode:luminosity;opacity:.55}
+.t-cash::before{background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(80,20,0,.35))}
+.t-mort::before{background:linear-gradient(160deg,rgba(14,14,16,.25),rgba(14,14,16,.82))}
+.t-mort .ph img{filter:saturate(.6)}
+.t-chance{background:var(--gold);color:var(--ink)}
+.t-chance .label{color:rgba(14,14,16,.62)}
+.t-chance .t{font-size:clamp(24px,2.3vw,34px)}
+.t-chance .ring{position:absolute;right:-30%;bottom:-24%;width:90%;aspect-ratio:1;border-radius:50%;border:1px solid rgba(14,14,16,.18);z-index:-1}
+.t-chance .ring+.ring{right:-12%;bottom:-8%;width:56%}
+.t-chance .pill{margin-top:16px}
+.t-auto::before{background:linear-gradient(140deg,rgba(20,20,24,.78),rgba(20,20,24,.3))}
+.t-auto .ph img{filter:grayscale(.8) brightness(.9)}
+.t-refi{background:linear-gradient(120deg,#2E6B3C,#8DBE7E)}
+.t-refi .ph{mix-blend-mode:luminosity;opacity:.5}
+.t-refi::before{background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(10,40,20,.35))}
+.t-pledge{background:linear-gradient(160deg,#A88462,#5A3F2E)}
+.t-pledge .ph{mix-blend-mode:luminosity;opacity:.55}
+.t-pledge::before{background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(40,25,15,.4))}
+.t-cards::before{background:linear-gradient(200deg,rgba(14,14,16,.3),rgba(14,14,16,.86))}
+.t-biz::before{background:linear-gradient(180deg,rgba(14,14,16,.35),rgba(14,14,16,.86))}
+.t-biz .ph img{filter:grayscale(1) contrast(1.2)}
+
+/* ── Сравнение ───────────────────────────────── */
+.vs{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--ink)}
+.vs>div{padding:28px 32px 4px 0}
+.vs>div+div{padding:28px 0 4px 32px;border-left:1px solid var(--line-2)}
+.vs h3{margin:0 0 10px;font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.vs .us h3{color:var(--ink)}
+.vs p{display:flex;gap:14px;margin:0;padding:20px 0;border-bottom:1px solid var(--line);font-size:clamp(18px,1.6vw,22px);font-weight:300;letter-spacing:-.015em}
+.vs p::before{flex:none;width:18px;color:var(--muted)}
+.vs .them p{color:var(--muted)}
+.vs .them p::before{content:"—"}
+.vs .us p::before{content:"+";color:var(--ink);font-weight:500}
+.quote{margin:44px 0 0;font-size:clamp(24px,2.6vw,38px);line-height:1.2;letter-spacing:-.025em;font-weight:300;max-width:20em}
+.quote b{font-weight:600}
+
+/* ── Города: горизонтальная лента ───────────── */
+.city-tools{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:28px}
+.city-tools .fld{width:min(420px,100%)}
+.rail{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:4px var(--gut) 8px;margin:0 calc(var(--gut) * -1);scroll-padding:0 var(--gut);cursor:grab}
+.rail::-webkit-scrollbar{display:none}
+.rail.drag{cursor:grabbing;scroll-snap-type:none}
+.ccard{flex:none;width:clamp(200px,20vw,260px);aspect-ratio:3/4;scroll-snap-align:start;position:relative;border-radius:20px;overflow:hidden;text-decoration:none;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:18px;isolation:isolate}
+.ccard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform 1s var(--ease)}
+.ccard::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(14,14,16,0) 40%,rgba(14,14,16,.8))}
+.ccard:hover img{transform:scale(1.08)}
+.ccard .n{font-size:22px;font-weight:500;letter-spacing:-.02em;line-height:1.1}
+.ccard .k{font-size:12px;color:rgba(255,255,255,.8);margin-top:4px}
+.ccard .num{position:absolute;top:16px;left:18px;font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.85)}
+.ccard.cur{box-shadow:inset 0 0 0 2px #fff}
+
+/* ── Подвал ──────────────────────────────────── */
+footer{margin-top:clamp(90px,11vw,160px);background:var(--night);color:#9A9AA2;border-radius:36px 36px 0 0;padding:clamp(48px,6vw,90px) 0 32px}
+.foot-big{margin:0;font-size:clamp(44px,8vw,128px);line-height:.95;letter-spacing:-.05em;font-weight:300;color:#fff}
+.foot-big b{font-weight:600}
+.foot-row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px;margin-top:clamp(40px,5vw,72px);padding-top:24px;border-top:1px solid var(--night-line);font-size:13px}
+.foot-row p{margin:0;max-width:560px;line-height:1.6}
+.foot-nav{display:flex;gap:22px}
+.foot-nav a{color:#fff;text-decoration:none}
+
+/* ── Адаптив ──────────────────────────────────── */
+@media (max-width:1080px){
+  .nav{display:none}
+  .hero-grid{grid-template-columns:1fr;min-height:0;gap:10px}
+  .hero-txt{padding-top:24px}
+  .scroll-cue{display:none}
+  .stage{height:clamp(260px,62vw,480px)}
+  .bcard{width:72%}
+  .sec-head{grid-template-columns:1fr}
+  .sec-head p{justify-self:start}
+  .calc{grid-template-columns:1fr}
+  .bento{grid-template-columns:1fr 1fr;grid-template-rows:none;grid-auto-rows:clamp(170px,34vw,230px);grid-template-areas:"city big" "city cash" "mort auto" "chance refi" "chance pledge" "cards biz"}
+  .vert{display:none}
+}
+@media (max-width:760px){
+  .top-in{min-height:64px}
+  .hero{margin-top:-64px;padding-top:64px;border-radius:0 0 26px 26px}
+  .top-act .pill{display:none}
+  .logo svg{width:44px;height:auto}
+  h1{font-size:clamp(36px,11vw,52px)}
+  .hero-banks{display:none}
+  .stage{height:clamp(220px,70vw,380px)}
+  .bcard{width:80%;left:2%;border-radius:16px}
+  .deck-ui{flex-direction:column;align-items:stretch}
+  .deck-ctrl{justify-content:space-between}
+  .calc-in{grid-template-columns:1fr}
   .bank-head{display:none}
-  .bank{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:18px}
+  .bank{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
   .bank .ava{grid-column:1;grid-row:1}
   .bank .nm{grid-column:1/4;grid-row:1;padding-left:58px;align-self:center}
-  .bank .go{grid-column:1/-1;justify-content:center}
   .bank .v{font-size:15px}
+  .bank .go{grid-column:1/-1}
+  .bento{grid-template-columns:1fr;grid-auto-rows:190px;grid-template-areas:"city" "big" "cash" "mort" "auto" "refi" "chance" "pledge" "cards" "biz"}
+  .night{border-radius:26px}
+  .vs{grid-template-columns:1fr}
+  .vs>div,.vs>div+div{padding:24px 0 4px;border-left:0}
+  .vs>div+div{border-top:1px solid var(--line-2)}
+  footer{border-radius:26px 26px 0 0}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
 }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-<section class="hero" aria-label="Главный экран">
-  <img class="hero-photo" id="heroPhoto" alt="" aria-hidden="true">
-  <div class="hero-shade"></div>
-
-  <header class="top layer">
-    <nav class="nav" aria-label="Основное меню">
-      <a href="#types">Кредиты</a><a href="#types">Ипотека</a><a href="#types">Автокредиты</a><a href="#compare">Банки</a><a href="#cities">Города</a>
-    </nav>
+<header class="top" id="top">
+  <div class="wrap top-in">
     <a class="logo" href="./" aria-label="На главную">
-      <svg width="64" height="41" viewBox="90 620 428 274" role="img" aria-label="Логотип"><path fill="#2A1A33" d="M 94.2422 625.929 L 176.47 625.892 C 193.419 625.892 213.58 625.217 230.011 627.572 C 243.646 629.449 256.93 633.326 269.434 639.077 C 307.083 656.318 328.066 683.83 342.081 721.583 C 344.13 734.977 349.461 770.451 345.462 782.118 C 343.953 782.832 343.76 783.024 342.154 783.434 C 304.513 781.534 252.781 783.13 214.475 783.207 C 157.756 782.379 103.544 728.391 95.9329 673.323 C 93.9499 658.974 94.4375 640.626 94.2422 625.929 z"/><path fill="#6B4A8A" d="M 342.081 721.583 C 348.617 689.182 362.295 668.636 389.998 649.62 C 429.215 622.699 467.606 626.009 512.452 626.043 C 512.518 674.836 518.668 715.92 481.068 753.627 C 441.873 792.933 395.559 781.997 345.6 783.827 L 342.154 783.434 C 343.76 783.024 343.953 782.832 345.462 782.118 C 349.461 770.451 344.13 734.977 342.081 721.583 z"/><path fill="#F2C27A" d="M 214.475 783.207 C 252.781 783.13 304.513 781.534 342.154 783.434 L 345.6 783.827 C 348.436 839.309 296.559 887.044 243.43 889.596 C 240.957 887.662 241.809 888.884 240.973 885.685 C 241.754 883.986 243.262 881.747 244.952 881.277 C 276.354 872.557 302.288 852.132 316.168 822.153 C 321.447 810.75 324.713 797.296 328.164 784.061 C 298.362 783.342 268.386 784.284 238.566 784.064 C 230.58 784.006 222.39 784.309 214.475 783.207 z"/></svg>
+      <svg width="54" height="35" viewBox="90 620 428 274" role="img" aria-label="Логотип"><path fill="#2A1A33" d="M 94.2422 625.929 L 176.47 625.892 C 193.419 625.892 213.58 625.217 230.011 627.572 C 243.646 629.449 256.93 633.326 269.434 639.077 C 307.083 656.318 328.066 683.83 342.081 721.583 C 344.13 734.977 349.461 770.451 345.462 782.118 C 343.953 782.832 343.76 783.024 342.154 783.434 C 304.513 781.534 252.781 783.13 214.475 783.207 C 157.756 782.379 103.544 728.391 95.9329 673.323 C 93.9499 658.974 94.4375 640.626 94.2422 625.929 z"/><path fill="#6B4A8A" d="M 342.081 721.583 C 348.617 689.182 362.295 668.636 389.998 649.62 C 429.215 622.699 467.606 626.009 512.452 626.043 C 512.518 674.836 518.668 715.92 481.068 753.627 C 441.873 792.933 395.559 781.997 345.6 783.827 L 342.154 783.434 C 343.76 783.024 343.953 782.832 345.462 782.118 C 349.461 770.451 344.13 734.977 342.081 721.583 z"/><path fill="#F2C27A" d="M 214.475 783.207 C 252.781 783.13 304.513 781.534 342.154 783.434 L 345.6 783.827 C 348.436 839.309 296.559 887.044 243.43 889.596 C 240.957 887.662 241.809 888.884 240.973 885.685 C 241.754 883.986 243.262 881.747 244.952 881.277 C 276.354 872.557 302.288 852.132 316.168 822.153 C 321.447 810.75 324.713 797.296 328.164 784.061 C 298.362 783.342 268.386 784.284 238.566 784.064 C 230.58 784.006 222.39 784.309 214.475 783.207 z"/></svg>
     </a>
-    <div class="actions">
-      <button type="button" class="pill pill-ghost" id="cityBtn" aria-label="Выбрать город">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+    <nav class="nav" aria-label="Основное меню">
+      <a href="#calc">Расчёт</a><a href="#types">Кредиты</a><a href="#offers">Банки</a><a href="#compare">Почему мы</a><a href="#cities">Города</a>
+    </nav>
+    <div class="top-act">
+      <button type="button" class="city-chip" id="cityBtn" aria-label="Выбрать город">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 22s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
         <span data-city="name">Москва</span>
       </button>
-      <a href="#" class="pill pill-white">Войти</a>
-    </div>
-  </header>
-
-  <div class="hero-main layer">
-    <div class="hero-text">
-      <p class="kicker"><span data-city="name">Москва</span> · все банки города</p>
-      <h1>Кредиты в <span data-city="loc">Москве</span>: сравните все банки</h1>
-      <div class="cta-row">
-        <a href="#offers" class="pill pill-white">Подобрать кредит</a>
-        <a href="#compare" class="pill pill-ghost">Каталог банков</a>
-      </div>
-    </div>
-
-    <div class="calc glass">
-      <div class="calc-grid">
-        <label class="full">Кредит
-          <select id="cProduct">
-            <option value="cash">Наличными без залога</option>
-            <option value="salary">Для зарплатных клиентов</option>
-            <option value="autoNew">Автокредит — новое авто</option>
-            <option value="autoUsed">Автокредит — с пробегом</option>
-            <option value="flat">Под залог квартиры</option>
-          </select>
-        </label>
-        <label>Сумма<input id="cAmount" type="text" value="500 000 ₽" inputmode="numeric" autocomplete="off"></label>
-        <label>Срок
-          <select id="cTerm">
-            <option value="12">1 год</option><option value="24">2 года</option><option value="36" selected>3 года</option><option value="48">4 года</option><option value="60">5 лет</option><option value="84">7 лет</option>
-          </select>
-        </label>
-      </div>
-      <p style="margin:20px 0 10px;font-size:12px;color:#D9CCE3">Примерно в <span data-city="loc">Москве</span>, по данным ЦБ</p>
-      <div class="offers">
-        <div class="offer"><b id="oRate">—</b><span>Средняя ставка</span></div>
-        <div class="offer"><b class="sm" id="oPay">—</b><span>Платёж в месяц</span></div>
-        <div class="offer"><b class="sm" id="oOver">—</b><span>Переплата</span></div>
-      </div>
-      <div class="calc-foot"><small>Среднерыночная ПСК, IV кв. 2026</small><a href="#offers">Все банки →</a></div>
+      <a href="#" class="pill pill-ink">Войти</a>
     </div>
   </div>
+</header>
 
-  <div class="city-row layer">
-    <span style="color:#D9CCE3">Не ваш город?</span>
-    <label class="city-select glass">Город
-      <select id="citySelect" aria-label="Город"></select>
-    </label>
-  </div>
-</section>
-
-<div class="container">
-<section class="block" id="offers">
-  <div class="head">
-    <p class="eyebrow">Предложения банков</p>
-    <h2><span class="grey" id="offTitle">Кредит 500 000 ₽ на 3 года —</span><br>банки в <span data-city="loc">Москве</span></h2>
-    <div class="spacer"></div>
-  </div>
-  <p class="lead">Ставки примерные: это среднерыночная полная стоимость кредита по данным Банка России для выбранной категории. Точную ставку банк назначит после заявки — она зависит от дохода и кредитной истории.</p>
-  <div class="banks" id="bankList">
-    <div class="bank bank-head"><span></span><span>Банк</span><span>Ставка ≈</span><span>Платёж ≈</span><span>Переплата ≈</span><span></span></div>
-  </div>
-  <p class="src">Источник: Банк России, среднерыночные значения ПСК для договоров IV квартала 2026 г. (опубликовано 14.08.2026). Предельная ПСК по закону — не выше <span id="maxRate">—</span>.</p>
-</section>
-
-<section class="block" id="types">
-  <div class="head">
-    <p class="eyebrow">Что можно подобрать</p>
-    <h2><span class="grey">Кредит под любую задачу —</span><br>в любом городе России</h2>
-    <div class="spacer"></div>
-  </div>
-  <div class="cards">
-    <a href="#" class="card"><span class="t">Потребительский кредит наличными</span><span class="d">Сравните ставки, сроки и переплату по всем банкам вашего города.</span></a>
-    <a href="#" class="card"><span class="t">Рефинансирование</span><span class="d">Посчитайте, сколько сэкономите, объединив текущие кредиты в один.</span></a>
-    <a href="#" class="card"><span class="t">Ипотека</span><span class="d">Новостройки, вторичка и господдержка — программы банков в одном списке.</span></a>
-    <a href="#" class="card"><span class="t">Автокредит</span><span class="d">Новые и подержанные авто, с первым взносом и без.</span></a>
-    <a href="#" class="card"><span class="t">Кредит под залог недвижимости</span><span class="d">Крупные суммы и длинные сроки под залог квартиры или дома.</span></a>
-    <a href="#" class="card"><span class="t">Кредитные карты</span><span class="d">Льготный период, лимит и обслуживание — сравнение по условиям.</span></a>
-    <a href="#" class="card"><span class="t">Кредит для бизнеса</span><span class="d">Оборотные средства, инвестиционные кредиты, овердрафт для ИП и ООО.</span></a>
-    <div class="card card-cta"><span class="t">Узнайте шансы на одобрение за минуту</span><a href="#" class="pill pill-white">Проверить бесплатно</a></div>
-  </div>
-</section>
-
-<section class="block" id="compare">
-  <div class="head">
-    <p class="eyebrow">Почему здесь</p>
-    <h2><span class="grey">Один банк — одно предложение.</span><br>Все банки — лучший выбор</h2>
-    <div class="spacer"></div>
-  </div>
-  <div class="compare">
-    <div class="compare-visual"><div class="glass">Вы видите не одну ставку, а реальную переплату по каждому банку</div></div>
-    <div class="cols">
-      <div>
-        <h3>Сайт одного банка</h3>
-        <p><span class="dot-bad" aria-hidden="true">●</span> только свои продукты</p>
-        <p><span class="dot-bad" aria-hidden="true">●</span> ставка «от», без переплаты</p>
-        <p><span class="dot-bad" aria-hidden="true">●</span> несколько заявок — несколько запросов в БКИ</p>
+<section class="hero" aria-label="Главный экран">
+  <div class="vert" aria-hidden="true">Все банки +</div>
+  <div class="wrap hero-grid">
+    <div class="hero-txt">
+      <div class="scroll-cue" aria-hidden="true"><span>↑</span><span>↓</span></div>
+      <p class="label" data-hero>Кредиты · <span data-city="name">Москва</span></p>
+      <h1><span class="ln"><span>Кредиты <b>всех</b> банков</span></span><span class="ln"><span>в&nbsp;<b data-city="loc">Москве</b></span></span></h1>
+      <p class="hero-p" data-hero>Сравните наличные, ипотеку, автокредиты и карты крупных банков вашего города. <span>Ставка, платёж и переплата — за пару секунд, по данным Банка России.</span></p>
+      <div class="hero-cta" data-hero>
+        <a href="#calc" class="pill pill-ink">Рассчитать кредит <span class="arr">→</span></a>
+        <a href="#offers" class="pill pill-soft">Все банки</a>
       </div>
-      <div>
-        <h3>С нами</h3>
-        <p><span class="dot-good" aria-hidden="true">●</span> все банки вашего города</p>
-        <p><span class="dot-good" aria-hidden="true">●</span> полная стоимость кредита и платёж</p>
-        <p><span class="dot-good" aria-hidden="true">●</span> одна анкета — много решений</p>
+      <div class="hero-banks" data-hero aria-label="Банки в сравнении"><span>Сбербанк</span><span>ВТБ</span><span>Альфа-Банк</span><span>Т-Банк</span><span>Газпромбанк</span><span>Совкомбанк</span></div>
+    </div>
+
+    <div class="deck" aria-roledescription="карусель" aria-label="Банки">
+      <div class="stage" id="stage">
+        <div class="bcard b-alfa" aria-hidden="true">
+          <div class="bc-art"></div>
+          <div class="bc-in">
+            <div class="bc-row"><span class="bc-name">Альфа-Банк</span><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8.5 7.5a6 6 0 0 1 0 9M12 5a9.5 9.5 0 0 1 0 14M15.5 2.8a13 13 0 0 1 0 18.4"/></svg></div>
+            <div class="bc-chip"></div>
+            <div class="bc-num">•••• •••• •••• 1990</div>
+            <div class="bc-foot"><span class="bc-prod">Наличными</span><span class="bc-rate" data-rate>≈29,3%</span></div>
+          </div>
+        </div>
+        <div class="bcard b-sber" aria-hidden="true">
+          <div class="bc-art"></div>
+          <div class="bc-in">
+            <div class="bc-row"><span class="bc-name">Сбербанк</span><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8.5 7.5a6 6 0 0 1 0 9M12 5a9.5 9.5 0 0 1 0 14M15.5 2.8a13 13 0 0 1 0 18.4"/></svg></div>
+            <div class="bc-chip"></div>
+            <div class="bc-num">•••• •••• •••• 1841</div>
+            <div class="bc-foot"><span class="bc-prod">Наличными</span><span class="bc-rate" data-rate>≈29,3%</span></div>
+          </div>
+        </div>
+        <div class="bcard b-tbank" aria-hidden="true">
+          <div class="bc-art"></div>
+          <div class="bc-in">
+            <div class="bc-row"><span class="bc-name">Т-Банк</span><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8.5 7.5a6 6 0 0 1 0 9M12 5a9.5 9.5 0 0 1 0 14M15.5 2.8a13 13 0 0 1 0 18.4"/></svg></div>
+            <div class="bc-chip"></div>
+            <div class="bc-num">•••• •••• •••• 2006</div>
+            <div class="bc-foot"><span class="bc-prod">Наличными</span><span class="bc-rate" data-rate>≈29,3%</span></div>
+          </div>
+        </div>
       </div>
-      <div class="partners"><span style="font-size:13px">Банки-партнёры</span><span>скоро здесь появятся логотипы</span></div>
+      <div class="deck-ui">
+        <div class="deck-info" aria-live="polite">
+          <p class="label"><span id="dIdx">01</span> / 03 · <span id="dProd">Наличными без залога</span></p>
+          <p class="deck-name" id="dName"><b>Альфа-Банк</b></p>
+          <div class="deck-meta"><span>Ставка <strong data-rate>≈29,3%</strong></span><span>Платёж <strong data-pay>—</strong></span></div>
+          <a class="pill pill-line deck-go" id="dGo" href="https://alfabank.ru/" target="_blank" rel="noopener">На сайт банка <span class="arr">→</span></a>
+        </div>
+        <div class="deck-ctrl">
+          <div class="dots" id="dots" aria-label="Выбор банка">
+            <button class="dot" type="button" aria-label="Альфа-Банк"><i></i></button>
+            <button class="dot" type="button" aria-label="Сбербанк"><i></i></button>
+            <button class="dot" type="button" aria-label="Т-Банк"><i></i></button>
+          </div>
+          <div class="arrows">
+            <button class="arw" type="button" id="prev" aria-label="Предыдущий банк"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+            <button class="arw" type="button" id="next" aria-label="Следующий банк"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="block" id="cities">
-  <div class="head">
-    <p class="eyebrow">География</p>
-    <h2><span class="grey">Кредиты в вашем городе —</span><br>от Калининграда до Владивостока</h2>
-    <div class="spacer"></div>
+<main>
+<section class="sec wrap" id="calc">
+  <div class="sec-head" data-reveal>
+    <h2>Рассчитайте <b>платёж</b><br><span class="light">за пару секунд</span></h2>
+    <p>Выберите вид кредита, сумму и срок — посчитаем примерную ставку, платёж и переплату по данным Банка России для вашего города.</p>
   </div>
-  <div class="cities-box">
-    <label>Найти город<input type="search" id="citySearch" placeholder="Например, Екатеринбург"></label>
-    <div class="city-list" id="cityList"></div>
+  <div class="calc" data-reveal>
+    <div class="calc-in">
+      <label class="fld full"><span>Кредит</span>
+        <select id="cProduct">
+          <option value="cash">Наличными без залога</option>
+          <option value="salary">Для зарплатных клиентов</option>
+          <option value="autoNew">Автокредит — новое авто</option>
+          <option value="autoUsed">Автокредит — с пробегом</option>
+          <option value="flat">Под залог квартиры</option>
+        </select>
+      </label>
+      <label class="fld"><span>Сумма</span><input id="cAmount" type="text" value="500 000 ₽" inputmode="numeric" autocomplete="off"></label>
+      <label class="fld"><span>Срок</span>
+        <select id="cTerm">
+          <option value="12">1 год</option><option value="24">2 года</option><option value="36" selected>3 года</option><option value="48">4 года</option><option value="60">5 лет</option><option value="84">7 лет</option>
+        </select>
+      </label>
+      <label class="fld full"><span>Город</span><select id="citySelect"></select></label>
+    </div>
+    <div class="calc-out">
+      <p class="label">Средняя ставка в <span data-city="loc">Москве</span></p>
+      <div class="big" id="oRate">—</div>
+      <div class="res">
+        <div><span>Платёж в месяц</span><strong id="oPay">—</strong></div>
+        <div><span>Переплата</span><strong id="oOver">—</strong></div>
+      </div>
+      <p class="calc-note">Среднерыночная ПСК, IV кв. 2026. Предельная по закону — не выше <span id="maxRate">—</span>. <a href="#offers">Смотреть банки →</a></p>
+    </div>
+  </div>
+
+  <div id="offers" style="scroll-margin-top:90px">
+    <div class="banks" id="bankList" data-reveal>
+      <div class="bank bank-head"><span></span><span id="offTitle">Банки</span><span>Ставка ≈</span><span>Платёж ≈</span><span>Переплата ≈</span><span></span></div>
+    </div>
+    <p class="src">Ставки примерные: среднерыночная полная стоимость кредита по данным Банка России для договоров IV квартала 2026 г. (опубликовано 14.08.2026). Точную ставку банк назначит после заявки.</p>
   </div>
 </section>
-</div>
+
+<section class="night" id="types">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>Кредит под <b>любую</b> задачу</h2>
+      <p>Наличные, ипотека, автокредит, рефинансирование и карты — все предложения банков в одном месте.</p>
+    </div>
+    <div class="bento" id="bento">
+      <a href="#calc" class="tile t-city"><div class="ph"><img id="cityTileImg" src="img/cities/moscow.webp" alt=""></div><p class="label">Ваш город</p><div><div class="t">Кредиты в <b data-city="loc">Москве</b></div><div class="s">все банки города</div></div><span class="go-i" aria-hidden="true">→</span></a>
+      <a href="#offers" class="tile t-big"><div class="ph"><img src="img/cities/spb.webp" alt="" loading="lazy"></div><p class="label">В сравнении</p><div><div class="stat">10 банков</div><div class="s">крупнейшие банки России · 24 города</div></div><span class="go-i" aria-hidden="true">→</span></a>
+      <a href="#calc" class="tile t-cash" data-product="cash"><div class="ph"><img src="img/cities/sochi.webp" alt="" loading="lazy"></div><p class="label">01</p><div><div class="t">Кредит <b>наличными</b></div><div class="s">ставки, сроки и переплата</div></div><span class="go-i" aria-hidden="true">→</span></a>
+      <a href="#calc" class="tile t-mort" data-product="flat"><div class="ph"><img src="img/cities/kazan.webp" alt="" loading="lazy"></div><p class="label">02</p><div><div class="t"><b>Ипотека</b></div><div class="s">новостройки и вторичка</div></div><span class="go-i" aria-hidden="true">→</span></a>
+      <div class="tile t-chance"><span class="ring"></span><span class="ring"></span><p class="label">За минуту</p><div><div class="t">Узнайте <b>шансы</b> на одобрение</div><a href="#" class="pill pill-ink">Проверить бесплатно</a></div></div>
+      <a href="#calc" class="tile t-auto" data-product="autoNew"><div class="ph"><img src="img/cities/vladivostok.webp" alt="" loading="lazy"></div><p class="label">03</p><div><div class="t"><b>Авто</b>кредит</div><div class="s">новые и с пробегом</div></div><span class="go-i" aria-hidden="true">→</span></a>
+      <a href="#calc" class="tile t-refi" data-product="salary"><div class="ph"><img src="img/cities/perm.webp" alt="" loading="lazy"></div><p class="label">04</p><div><div class="t"><b>Рефинансирование</b></div><div class="s">объедините кредиты в один</div></div><span class="go-i" aria-hidden="true">→</span></a>
+      <a href="#calc" class="tile t-pledge" data-product="flat"><div class="ph"><img src="img/cities/kaliningrad.webp" alt="" loading="lazy"></div><p class="label">05</p><div><div class="t">Под <b>залог</b></div><div class="s">квартиры или дома</div></div><span class="go-i" aria-hidden="true">→</span></a>
+      <a href="#calc" class="tile t-cards" data-product="cash"><div class="ph"><img src="img/cities/novosibirsk.webp" alt="" loading="lazy"></div><p class="label">06</p><div><div class="t">Кредитные <b>карты</b></div><div class="s">льготный период и лимит</div></div><span class="go-i" aria-hidden="true">→</span></a>
+      <a href="#calc" class="tile t-biz" data-product="cash"><div class="ph"><img src="img/cities/ekaterinburg.webp" alt="" loading="lazy"></div><p class="label">07</p><div><div class="t">Для <b>бизнеса</b></div><div class="s">ИП и ООО</div></div><span class="go-i" aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="sec wrap" id="compare">
+  <div class="sec-head" data-reveal>
+    <h2>Один банк — <span class="light">одно предложение.</span><br><b>Все банки</b> — лучший выбор</h2>
+    <p>Вы видите не одну ставку «от», а реальную переплату по каждому банку — и выбираете осознанно.</p>
+  </div>
+  <div class="vs" data-reveal>
+    <div class="them">
+      <h3>Сайт одного банка</h3>
+      <p>только свои продукты</p>
+      <p>ставка «от», без переплаты</p>
+      <p>несколько заявок — несколько запросов в БКИ</p>
+    </div>
+    <div class="us">
+      <h3>С нами</h3>
+      <p>все банки вашего города</p>
+      <p>полная стоимость кредита и платёж</p>
+      <p>одна анкета — много решений</p>
+    </div>
+  </div>
+  <p class="quote" data-reveal>Сравнивайте <b>переплату</b>, а не рекламную ставку.</p>
+</section>
+
+<section class="sec" id="cities">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>Кредиты в вашем городе — <span class="light">от Калининграда</span> <b>до Владивостока</b></h2>
+      <p>Выберите город — ставки и банки на странице обновятся.</p>
+    </div>
+    <div class="city-tools" data-reveal>
+      <label class="fld"><span>Найти город</span><input type="search" id="citySearch" placeholder="Например, Екатеринбург"></label>
+      <div class="arrows">
+        <button class="arw" type="button" id="railPrev" aria-label="Прокрутить назад"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+        <button class="arw" type="button" id="railNext" aria-label="Прокрутить вперёд"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+    <div class="rail" id="cityList"></div>
+  </div>
+</section>
+</main>
 
 <footer>
-  <svg width="56" height="36" viewBox="90 620 428 274" role="img" aria-label="Логотип"><path fill="#FFFFFF" d="M 94.2422 625.929 L 176.47 625.892 C 193.419 625.892 213.58 625.217 230.011 627.572 C 243.646 629.449 256.93 633.326 269.434 639.077 C 307.083 656.318 328.066 683.83 342.081 721.583 C 344.13 734.977 349.461 770.451 345.462 782.118 C 343.953 782.832 343.76 783.024 342.154 783.434 C 304.513 781.534 252.781 783.13 214.475 783.207 C 157.756 782.379 103.544 728.391 95.9329 673.323 C 93.9499 658.974 94.4375 640.626 94.2422 625.929 z"/><path fill="#B79BD0" d="M 342.081 721.583 C 348.617 689.182 362.295 668.636 389.998 649.62 C 429.215 622.699 467.606 626.009 512.452 626.043 C 512.518 674.836 518.668 715.92 481.068 753.627 C 441.873 792.933 395.559 781.997 345.6 783.827 L 342.154 783.434 C 343.76 783.024 343.953 782.832 345.462 782.118 C 349.461 770.451 344.13 734.977 342.081 721.583 z"/><path fill="#F2C27A" d="M 214.475 783.207 C 252.781 783.13 304.513 781.534 342.154 783.434 L 345.6 783.827 C 348.436 839.309 296.559 887.044 243.43 889.596 C 240.957 887.662 241.809 888.884 240.973 885.685 C 241.754 883.986 243.262 881.747 244.952 881.277 C 276.354 872.557 302.288 852.132 316.168 822.153 C 321.447 810.75 324.713 797.296 328.164 784.061 C 298.362 783.342 268.386 784.284 238.566 784.064 C 230.58 784.006 222.39 784.309 214.475 783.207 z"/></svg>
-  <p>Сервис не является банком и не выдаёт кредиты. Информация о ставках носит справочный характер.</p>
+  <div class="wrap">
+    <p class="foot-big">Кредиты<br>в&nbsp;<b data-city="loc">Москве</b></p>
+    <div class="foot-row">
+      <svg width="56" height="36" viewBox="90 620 428 274" role="img" aria-label="Логотип"><path fill="#FFFFFF" d="M 94.2422 625.929 L 176.47 625.892 C 193.419 625.892 213.58 625.217 230.011 627.572 C 243.646 629.449 256.93 633.326 269.434 639.077 C 307.083 656.318 328.066 683.83 342.081 721.583 C 344.13 734.977 349.461 770.451 345.462 782.118 C 343.953 782.832 343.76 783.024 342.154 783.434 C 304.513 781.534 252.781 783.13 214.475 783.207 C 157.756 782.379 103.544 728.391 95.9329 673.323 C 93.9499 658.974 94.4375 640.626 94.2422 625.929 z"/><path fill="#B79BD0" d="M 342.081 721.583 C 348.617 689.182 362.295 668.636 389.998 649.62 C 429.215 622.699 467.606 626.009 512.452 626.043 C 512.518 674.836 518.668 715.92 481.068 753.627 C 441.873 792.933 395.559 781.997 345.6 783.827 L 342.154 783.434 C 343.76 783.024 343.953 782.832 345.462 782.118 C 349.461 770.451 344.13 734.977 342.081 721.583 z"/><path fill="#F2C27A" d="M 214.475 783.207 C 252.781 783.13 304.513 781.534 342.154 783.434 L 345.6 783.827 C 348.436 839.309 296.559 887.044 243.43 889.596 C 240.957 887.662 241.809 888.884 240.973 885.685 C 241.754 883.986 243.262 881.747 244.952 881.277 C 276.354 872.557 302.288 852.132 316.168 822.153 C 321.447 810.75 324.713 797.296 328.164 784.061 C 298.362 783.342 268.386 784.284 238.566 784.064 C 230.58 784.006 222.39 784.309 214.475 783.207 z"/></svg>
+      <p>Сервис не является банком и не выдаёт кредиты. Информация о ставках носит справочный характер.</p>
+      <nav class="foot-nav" aria-label="Разделы"><a href="#calc">Расчёт</a><a href="#offers">Банки</a><a href="#cities">Города</a></nav>
+    </div>
+  </div>
 </footer>
-</div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
 (function(){
-  // id (= имя фото в img/cities), название, «в ...», исходник Higgsfield, ключи для гео-IP
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $=function(s,r){return (r||document).querySelector(s);}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
+
+  /* ── Города ── */
+  // id (= имя фото в img/cities), название, «в ...», ключи для гео-IP
   var CITIES=[
-    ['moscow','Москва','Москве','151555_cd5a0b3e-12ba-4df5-bb04-fb2881a79b48','moscow|moskva'],
-    ['spb','Санкт-Петербург','Санкт-Петербурге','151522_e0a9f666-4570-4ea6-8866-dec5c5ae3b6d','petersburg|peterburg'],
-    ['novosibirsk','Новосибирск','Новосибирске','151522_7523fd22-a5aa-439a-bf24-3ab2e685b125','novosibirsk'],
-    ['ekaterinburg','Екатеринбург','Екатеринбурге','151555_5bb9ff22-3954-495f-85a4-bf5772ba4410','yekaterinburg|ekaterinburg'],
-    ['kazan','Казань','Казани','151522_713686c2-c45a-483e-a6ec-6156499e2b8f','kazan'],
-    ['nnovgorod','Нижний Новгород','Нижнем Новгороде','151522_379623ad-d716-4241-9253-cbe283014d75','nizhn'],
-    ['krasnoyarsk','Красноярск','Красноярске','151522_92ea26e3-2023-450e-b2a7-3a0da2e07ad4','krasnoyarsk'],
-    ['chelyabinsk','Челябинск','Челябинске','151555_9736bb93-7105-44ff-a46d-8286497d16f2','chelyabinsk'],
-    ['samara','Самара','Самаре','151555_8d03968a-aece-4366-b5b8-e66f94c88310','samara'],
-    ['ufa','Уфа','Уфе','151522_4abfbe52-962c-4266-9ec7-adafc9b8a763','^ufa'],
-    ['rostov','Ростов-на-Дону','Ростове-на-Дону','151522_2b25277e-d532-440e-a801-6a7060455297','rostov'],
-    ['krasnodar','Краснодар','Краснодаре','151522_a0d0013f-3262-406d-be9e-c469c6e55e0b','krasnodar'],
-    ['omsk','Омск','Омске','152048_cc07bc33-491e-40a9-9f84-7dae7cb5e7f0','^omsk'],
-    ['voronezh','Воронеж','Воронеже','152012_af03602e-3ca5-433d-a92a-2b93cebd8672','voronezh'],
-    ['perm','Пермь','Перми','152048_6dae25e6-ec13-4c13-ba55-0f4289ce738b','^perm'],
-    ['volgograd','Волгоград','Волгограде','152012_5cefdd45-ff1f-42e3-9899-a50d96548f5e','volgograd'],
-    ['makhachkala','Махачкала','Махачкале','152012_e48d89d7-0786-4eb1-8e17-882d0a3d79bf','makhachkala|dagestan'],
-    ['saratov','Саратов','Саратове','152012_707ec9e0-4c90-4d73-8727-55c4ae982ac6','saratov'],
-    ['tyumen','Тюмень','Тюмени','152047_5da7e95f-c832-4d11-a41f-87f6daa931a4','tyumen'],
-    ['vladivostok','Владивосток','Владивостоке','152048_22a9dec8-ac91-469c-ada1-e79345698cf3','vladivostok'],
-    ['irkutsk','Иркутск','Иркутске','152111_56e5ea55-3197-496a-b01a-fa7c363f68be','irkutsk'],
-    ['khabarovsk','Хабаровск','Хабаровске','152112_8b97cad7-a20c-4a3f-a150-6b2b21bdc06e','khabarovsk'],
-    ['kaliningrad','Калининград','Калининграде','152111_6048090c-4849-4709-82e6-d4df989da48c','kaliningrad'],
-    ['sochi','Сочи','Сочи','152111_0aba6a96-7474-4686-ba31-dd90dd6d6c72','sochi']
-  ].map(function(c){return {id:c[0],name:c[1],loc:c[2],img:'img/cities/'+c[0]+'.webp',re:new RegExp(c[4],'i')};});
+    ['moscow','Москва','Москве','moscow|moskva'],['spb','Санкт-Петербург','Санкт-Петербурге','petersburg|peterburg'],
+    ['novosibirsk','Новосибирск','Новосибирске','novosibirsk'],['ekaterinburg','Екатеринбург','Екатеринбурге','yekaterinburg|ekaterinburg'],
+    ['kazan','Казань','Казани','kazan'],['nnovgorod','Нижний Новгород','Нижнем Новгороде','nizhn'],
+    ['krasnoyarsk','Красноярск','Красноярске','krasnoyarsk'],['chelyabinsk','Челябинск','Челябинске','chelyabinsk'],
+    ['samara','Самара','Самаре','samara'],['ufa','Уфа','Уфе','^ufa'],['rostov','Ростов-на-Дону','Ростове-на-Дону','rostov'],
+    ['krasnodar','Краснодар','Краснодаре','krasnodar'],['omsk','Омск','Омске','^omsk'],['voronezh','Воронеж','Воронеже','voronezh'],
+    ['perm','Пермь','Перми','^perm'],['volgograd','Волгоград','Волгограде','volgograd'],['makhachkala','Махачкала','Махачкале','makhachkala|dagestan'],
+    ['saratov','Саратов','Саратове','saratov'],['tyumen','Тюмень','Тюмени','tyumen'],['vladivostok','Владивосток','Владивостоке','vladivostok'],
+    ['irkutsk','Иркутск','Иркутске','irkutsk'],['khabarovsk','Хабаровск','Хабаровске','khabarovsk'],
+    ['kaliningrad','Калининград','Калининграде','kaliningrad'],['sochi','Сочи','Сочи','sochi']
+  ].map(function(c){return {id:c[0],name:c[1],loc:c[2],img:'img/cities/'+c[0]+'.webp',re:new RegExp(c[3],'i')};});
 
-  var photo=document.getElementById('heroPhoto');
-  var select=document.getElementById('citySelect');
-  var list=document.getElementById('cityList');
-
-  CITIES.forEach(function(c){
+  var select=$('#citySelect'), rail=$('#cityList'), cityImg=$('#cityTileImg');
+  CITIES.forEach(function(c,i){
     var o=document.createElement('option');o.value=c.id;o.textContent=c.name;select.appendChild(o);
-    var a=document.createElement('a');a.href='#';a.textContent=c.name;a.dataset.id=c.id;
-    a.addEventListener('click',function(e){e.preventDefault();setCity(c.id,true);window.scrollTo({top:0,behavior:'smooth'});});
-    list.appendChild(a);
+    var a=document.createElement('a');a.href='#';a.className='ccard';a.dataset.id=c.id;a.draggable=false;
+    a.innerHTML='<img src="'+c.img+'" alt="" loading="lazy" draggable="false"><span class="num">'+(i<9?'0':'')+(i+1)+'</span><span class="n">'+c.name+'</span><span class="k">Кредиты в '+c.loc+' →</span>';
+    a.addEventListener('click',function(e){e.preventDefault();if(rail.dataset.moved==='1')return;setCity(c.id,true);window.scrollTo({top:0,behavior:reduce?'auto':'smooth'});});
+    rail.appendChild(a);
   });
 
   function setCity(id,remember){
     var c=CITIES.find(function(x){return x.id===id;})||CITIES[0];
-    document.querySelectorAll('[data-city="name"]').forEach(function(el){el.textContent=c.name;});
-    document.querySelectorAll('[data-city="loc"]').forEach(function(el){el.textContent=c.loc;});
+    $$('[data-city="name"]').forEach(function(el){el.textContent=c.name;});
+    $$('[data-city="loc"]').forEach(function(el){el.textContent=c.loc;});
     select.value=c.id;
     document.title='Кредиты в '+c.loc+' — сравнение всех банков';
-    photo.classList.remove('on');
-    var img=new Image();
-    img.onload=function(){photo.src=c.img;photo.classList.add('on');};
-    img.src=c.img;
+    if(cityImg){var im=new Image();im.onload=function(){cityImg.src=c.img;};im.src=c.img;}
+    $$('.ccard',rail).forEach(function(a){a.classList.toggle('cur',a.dataset.id===c.id);});
     if(remember){try{localStorage.setItem('city',c.id);}catch(e){}}
   }
-
   select.addEventListener('change',function(){setCity(select.value,true);});
-  document.getElementById('cityBtn').addEventListener('click',function(){select.focus();select.scrollIntoView({behavior:'smooth',block:'center'});});
-  document.getElementById('citySearch').addEventListener('input',function(e){
+  $('#cityBtn').addEventListener('click',function(){$('#calc').scrollIntoView({behavior:reduce?'auto':'smooth'});setTimeout(function(){select.focus();},reduce?0:700);});
+  $('#citySearch').addEventListener('input',function(e){
     var q=e.target.value.trim().toLowerCase();
-    list.querySelectorAll('a').forEach(function(a){a.style.display=a.textContent.toLowerCase().indexOf(q)>-1?'':'none';});
+    $$('.ccard',rail).forEach(function(a){a.style.display=a.querySelector('.n').textContent.toLowerCase().indexOf(q)>-1?'':'none';});
+    rail.scrollLeft=0;
   });
+  // лента городов: стрелки и перетаскивание мышью
+  var step=function(){var c=$('.ccard',rail);return c?c.getBoundingClientRect().width*2+28:400;};
+  $('#railPrev').addEventListener('click',function(){rail.scrollBy({left:-step(),behavior:reduce?'auto':'smooth'});});
+  $('#railNext').addEventListener('click',function(){rail.scrollBy({left:step(),behavior:reduce?'auto':'smooth'});});
+  (function(){var down=false,sx=0,sl=0;
+    rail.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;down=true;sx=e.clientX;sl=rail.scrollLeft;rail.dataset.moved='0';});
+    window.addEventListener('pointermove',function(e){if(!down)return;var dx=e.clientX-sx;if(Math.abs(dx)>5){rail.dataset.moved='1';rail.classList.add('drag');}rail.scrollLeft=sl-dx;});
+    window.addEventListener('pointerup',function(){if(!down)return;down=false;rail.classList.remove('drag');setTimeout(function(){rail.dataset.moved='0';},50);});
+  })();
 
-  // ── Калькулятор: средние ставки ЦБ (ПСК, IV кв. 2026) ──
+  /* ── Калькулятор: среднерыночная ПСК ЦБ, IV кв. 2026 ── */
   var PSK={ // [среднерыночная, предельная]
     cash:function(a){return a<=100000?[41.578,55.437]:[29.339,39.119];},
     salary:function(a){return a<=300000?[31.079,41.439]:[26.209,34.945];},
@@ -337,41 +571,121 @@ footer p{max-width:640px;line-height:1.6;margin:0}
     autoUsed:function(){return [23.804,31.739];},
     flat:function(){return [23.36,31.147];}
   };
+  var SHORT={cash:'Наличными',salary:'Зарплатным',autoNew:'Автокредит',autoUsed:'Автокредит',flat:'Под залог'};
   var BANKS=[
-    ['Сбербанк','СБ','#21A038','sberbank.ru'],['ВТБ','ВТБ','#0A2896','vtb.ru'],['Альфа-Банк','А','#EF3124','alfabank.ru'],
+    ['Сбербанк','СБ','#1A9F29','sberbank.ru'],['ВТБ','ВТБ','#0A2896','vtb.ru'],['Альфа-Банк','А','#E01F2E','alfabank.ru'],
     ['Т-Банк','Т','#1C1C1C','tbank.ru'],['Газпромбанк','ГПБ','#2B4C9B','gazprombank.ru'],['Совкомбанк','СКБ','#E3404E','sovcombank.ru'],
     ['Россельхозбанк','РСХБ','#00845A','rshb.ru'],['ПСБ','ПСБ','#F26722','psbank.ru'],['МТС Банк','МТС','#E30611','mtsbank.ru'],['Уралсиб','УС','#3D2A7D','uralsib.ru']
   ];
-  var cP=document.getElementById('cProduct'),cA=document.getElementById('cAmount'),cT=document.getElementById('cTerm');
+  var cP=$('#cProduct'),cA=$('#cAmount'),cT=$('#cTerm');
   var rub=function(n){return Math.round(n).toLocaleString('ru-RU')+' ₽';};
   var pct=function(n){return n.toFixed(1).replace('.',',')+'%';};
   var termTxt=function(m){var y=m/12;return y+' '+(y===1?'год':y<5?'года':'лет');};
   function amount(){var v=parseInt(String(cA.value).replace(/\D/g,''),10);return isNaN(v)?0:v;}
   function calc(){
     var a=amount(), m=+cT.value, r=PSK[cP.value](a), avg=r[0], i=avg/100/12;
-    var pay=a? a*i/(1-Math.pow(1+i,-m)) : 0, over=pay*m-a;
-    document.getElementById('oRate').textContent='≈'+pct(avg);
-    document.getElementById('oPay').textContent=a?rub(pay):'—';
-    document.getElementById('oOver').textContent=a?rub(over):'—';
-    document.getElementById('maxRate').textContent=pct(r[1]);
-    document.getElementById('offTitle').textContent=(cP.options[cP.selectedIndex].text)+': '+(a?rub(a):'сумма')+' на '+termTxt(m)+' —';
-    var box=document.getElementById('bankList'), head=box.firstElementChild; box.innerHTML=''; box.appendChild(head);
+    var pay=a? a*i/(1-Math.pow(1+i,-m)) : 0, over=pay*m-a, prod=cP.options[cP.selectedIndex].text;
+    $('#oRate').textContent='≈'+pct(avg);
+    $('#oPay').textContent=a?rub(pay):'—';
+    $('#oOver').textContent=a?rub(over):'—';
+    $('#maxRate').textContent=pct(r[1]);
+    $('#offTitle').textContent=prod+(a?' · '+rub(a):'')+' · '+termTxt(m);
+    $$('[data-rate]').forEach(function(el){el.textContent='≈'+pct(avg);});
+    $$('[data-pay]').forEach(function(el){el.textContent=a?rub(pay)+'/мес':'—';});
+    $('#dProd').textContent=prod;
+    $$('.bc-prod').forEach(function(el){el.textContent=SHORT[cP.value];});
+    var box=$('#bankList'), head=box.firstElementChild; box.innerHTML=''; box.appendChild(head);
     BANKS.forEach(function(b){
       var row=document.createElement('div'); row.className='bank';
       row.innerHTML='<span class="ava" style="background:'+b[2]+'">'+b[1]+'</span>'+
-        '<span class="nm">'+b[0]+'<small>'+cP.options[cP.selectedIndex].text+'</small></span>'+
-        '<span class="v rate">≈ '+pct(avg)+'<small>в среднем по рынку</small></span>'+
+        '<span class="nm">'+b[0]+'<small>'+prod+'</small></span>'+
+        '<span class="v">≈ '+pct(avg)+'<small>в среднем по рынку</small></span>'+
         '<span class="v">'+(a?rub(pay):'—')+'<small>в месяц</small></span>'+
         '<span class="v">'+(a?rub(over):'—')+'<small>переплата</small></span>'+
-        '<a class="go" href="https://www.'+b[3]+'/" target="_blank" rel="noopener">На сайт банка</a>';
+        '<a class="pill pill-line go" href="https://www.'+b[3]+'/" target="_blank" rel="noopener">На сайт банка</a>';
       box.appendChild(row);
     });
   }
   cA.addEventListener('input',function(){var a=amount();cA.value=a?a.toLocaleString('ru-RU'):'';calc();});
   cA.addEventListener('blur',function(){var a=amount();cA.value=a?rub(a):'';});
   cP.addEventListener('change',calc); cT.addEventListener('change',calc);
-  calc();
+  // плитки бенто подставляют вид кредита в калькулятор
+  $$('.tile[data-product]').forEach(function(t){t.addEventListener('click',function(){cP.value=t.dataset.product;calc();});});
 
+  /* ── Слайдер банковских карт ── */
+  var stage=$('#stage'), cards=$$('.bcard',stage), dots=$$('.dot'), n=cards.length, active=0, timer=null, dragging=false;
+  var DECK=[['Альфа-Банк','alfabank.ru'],['Сбербанк','sberbank.ru'],['Т-Банк','tbank.ru']];
+  var POS=[ // активная, следующая, дальняя — каскад вниз-вправо, как веер
+    {t:'translate3d(0,0,0) rotate(-5deg) scale(1)',z:3,f:'none',o:1},
+    {t:'translate3d(16%,20%,-60px) rotate(1deg) scale(.9)',z:2,f:'brightness(.86)',o:1},
+    {t:'translate3d(31%,40%,-120px) rotate(7deg) scale(.8)',z:1,f:'brightness(.72)',o:.96}
+  ];
+  function layout(animInfo){
+    cards.forEach(function(c,i){var rel=(i-active+n)%n,p=POS[rel];
+      c.style.setProperty('--pos',p.t);c.style.zIndex=p.z;c.style.filter=p.f;c.style.opacity=p.o;
+      c.setAttribute('aria-hidden',rel===0?'false':'true');});
+    dots.forEach(function(d,i){d.classList.toggle('on',i===active);d.setAttribute('aria-current',i===active?'true':'false');d.classList.remove('playing');});
+    if(timer&&dots[active]){void dots[active].offsetWidth;dots[active].classList.add('playing');}
+    var b=DECK[active];
+    $('#dIdx').textContent='0'+(active+1);
+    $('#dName').innerHTML='<b>'+b[0]+'</b>';
+    $('#dGo').href='https://'+b[1]+'/';
+    if(animInfo&&window.gsap&&!reduce) gsap.fromTo('.deck-info>*',{y:12,opacity:0},{y:0,opacity:1,duration:.6,stagger:.05,ease:'power3.out',overwrite:true});
+  }
+  function go(i){active=(i+n)%n;layout(true);}
+  function auto(on){clearInterval(timer);timer=null;if(on&&!reduce){timer=setInterval(function(){go(active+1);},5000);}layout(false);}
+  $('#next').addEventListener('click',function(){go(active+1);auto(true);});
+  $('#prev').addEventListener('click',function(){go(active-1);auto(true);});
+  dots.forEach(function(d,i){d.addEventListener('click',function(){go(i);auto(true);});});
+  stage.addEventListener('mouseenter',function(){auto(false);});
+  stage.addEventListener('mouseleave',function(){var c=cards[active];c.style.setProperty('--rx','0deg');c.style.setProperty('--ry','0deg');c.classList.remove('tilting');auto(true);});
+  // лёгкий 3D-наклон активной карты за курсором
+  stage.addEventListener('mousemove',function(e){if(reduce||dragging)return;var r=stage.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5,c=cards[active];
+    cards.forEach(function(o){if(o!==c){o.classList.remove('tilting');o.style.setProperty('--rx','0deg');o.style.setProperty('--ry','0deg');}});
+    c.classList.add('tilting');c.style.setProperty('--ry',(x*10).toFixed(2)+'deg');c.style.setProperty('--rx',(-y*8).toFixed(2)+'deg');});
+  // свайп / перетаскивание
+  var sx=0,dx=0;
+  stage.addEventListener('pointerdown',function(e){dragging=true;sx=e.clientX;dx=0;stage.classList.add('dragging');if(stage.setPointerCapture)stage.setPointerCapture(e.pointerId);});
+  stage.addEventListener('pointermove',function(e){if(!dragging)return;dx=e.clientX-sx;cards[active].style.setProperty('--drag',dx+'px');});
+  function end(){if(!dragging)return;dragging=false;stage.classList.remove('dragging');cards[active].style.setProperty('--drag','0px');
+    if(Math.abs(dx)>50){go(active+(dx<0?1:-1));auto(true);}}
+  stage.addEventListener('pointerup',end);stage.addEventListener('pointercancel',end);
+  $('.deck').addEventListener('keydown',function(e){if(e.key==='ArrowRight'){go(active+1);auto(true);}if(e.key==='ArrowLeft'){go(active-1);auto(true);}});
+
+  /* ── Шапка при скролле ── */
+  var top=$('#top');
+  var onScroll=function(){top.classList.toggle('scrolled',window.scrollY>10);};
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  /* ── Анимации (GSAP + ScrollTrigger) ── */
+  if(window.gsap&&window.ScrollTrigger&&!reduce){
+    gsap.registerPlugin(ScrollTrigger);
+    var tl=gsap.timeline({defaults:{ease:'power4.out'}});
+    tl.from('h1 .ln>span',{yPercent:110,duration:1.1,stagger:.12})
+      .from('[data-hero]',{y:24,opacity:0,duration:.9,stagger:.08},'-=.8')
+      .from('.bcard',{x:160,y:-140,rotation:-24,opacity:0,duration:1.3,stagger:{each:.14,from:'end'},ease:'expo.out',clearProps:'transform,opacity'},.1)
+      .from('.deck-ui',{y:20,opacity:0,duration:.8},'-=.8');
+    // параллакс первого экрана
+    gsap.to('.deck',{yPercent:-8,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+    gsap.to('.vert',{y:-160,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+    // появление блоков
+    $$('[data-reveal]').forEach(function(el){
+      gsap.from(el,{y:50,opacity:0,duration:1.1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%',once:true}});
+    });
+    // строки банков — каскадом
+    ScrollTrigger.create({trigger:'#bankList',start:'top 85%',once:true,onEnter:function(){gsap.from('#bankList .bank:not(.bank-head)',{y:24,opacity:0,duration:.7,stagger:.05,ease:'power3.out',clearProps:'transform,opacity'});}});
+    // тёмная секция «наезжает» и раскрывается
+    gsap.from('.night',{scale:.94,ease:'none',scrollTrigger:{trigger:'.night',start:'top bottom',end:'top 25%',scrub:true}});
+    gsap.from('.tile',{y:60,opacity:0,scale:.94,duration:1,stagger:.07,ease:'power3.out',scrollTrigger:{trigger:'#bento',start:'top 85%',once:true}});
+    $$('.tile .ph').forEach(function(ph){
+      gsap.fromTo(ph,{yPercent:-6},{yPercent:6,ease:'none',scrollTrigger:{trigger:ph.parentNode,start:'top bottom',end:'bottom top',scrub:true}});
+    });
+    // лента городов
+    ScrollTrigger.create({trigger:'#cityList',start:'top 90%',once:true,onEnter:function(){gsap.from('#cityList .ccard',{x:80,opacity:0,duration:.9,stagger:.05,ease:'power3.out',clearProps:'transform,opacity'});}});
+    gsap.from('.foot-big',{yPercent:30,opacity:0,duration:1.2,ease:'power3.out',scrollTrigger:{trigger:'footer',start:'top 88%',once:true}});
+  }
+
+  calc(); auto(true);
   var saved=null;try{saved=localStorage.getItem('city');}catch(e){}
   if(saved){setCity(saved);return;}
   setCity('moscow');
