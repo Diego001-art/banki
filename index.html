@@ -74,7 +74,7 @@ body.menu-open{overflow:hidden}
 .nav a{text-decoration:none;color:var(--ink-2);background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;padding-bottom:2px;transition:background-size .4s var(--ease)}
 .nav a:hover{background-size:100% 1px}
 .top-act{display:flex;align-items:center;gap:8px}
-.city-chip{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line-2);background:transparent;font-size:13px;cursor:pointer;transition:border-color .3s}
+.city-chip{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--line-2);background:#fff;font-size:13px;cursor:pointer;transition:border-color .3s}
 .city-chip:hover{border-color:var(--ink)}
 .top-act .pill{min-height:40px;padding:0 18px}
 
@@ -367,7 +367,6 @@ footer{margin-top:clamp(90px,11vw,160px);background:var(--night);color:#9A9AA2;b
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 22s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
         <span data-city="name">Москва</span>
       </button>
-      <a href="#" class="pill pill-ink">Войти</a>
       <button type="button" class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="mnav"><span></span><span></span></button>
     </div>
   </div>
@@ -378,7 +377,6 @@ footer{margin-top:clamp(90px,11vw,160px);background:var(--night);color:#9A9AA2;b
   </nav>
   <div class="mnav-foot">
     <button type="button" class="pill pill-soft" id="mCity">Город: <span data-city="name">Москва</span></button>
-    <a href="#" class="pill pill-ink">Войти</a>
   </div>
 </div>
 
@@ -505,7 +503,7 @@ footer{margin-top:clamp(90px,11vw,160px);background:var(--night);color:#9A9AA2;b
       <a href="#offers" class="tile t-big"><div class="ph"><img src="img/cities/spb.webp" alt="" loading="lazy"></div><p class="label">В сравнении</p><div><div class="stat">10 банков</div><div class="s">крупнейшие банки России · 24 города</div></div><span class="go-i" aria-hidden="true">→</span></a>
       <a href="#calc" class="tile t-cash" data-product="cash"><div class="ph"><img src="img/cities/sm/sochi.webp" alt="" loading="lazy"></div><p class="label">01</p><div><div class="t">Кредит <b>наличными</b></div><div class="s">ставки, сроки и переплата</div></div><span class="go-i" aria-hidden="true">→</span></a>
       <a href="#calc" class="tile t-mort" data-product="flat"><div class="ph"><img src="img/cities/sm/kazan.webp" alt="" loading="lazy"></div><p class="label">02</p><div><div class="t"><b>Ипотека</b></div><div class="s">новостройки и вторичка</div></div><span class="go-i" aria-hidden="true">→</span></a>
-      <div class="tile t-chance"><span class="ring"></span><span class="ring"></span><p class="label">За минуту</p><div><div class="t">Узнайте <b>шансы</b> на одобрение</div><a href="#" class="pill pill-ink">Проверить бесплатно</a></div></div>
+      <div class="tile t-chance"><span class="ring"></span><span class="ring"></span><p class="label">За минуту</p><div><div class="t">Узнайте <b>платёж</b> и переплату</div><a href="#calc" class="pill pill-ink">Рассчитать бесплатно</a></div></div>
       <a href="#calc" class="tile t-auto" data-product="autoNew"><div class="ph"><img src="img/cities/sm/vladivostok.webp" alt="" loading="lazy"></div><p class="label">03</p><div><div class="t"><b>Авто</b>кредит</div><div class="s">новые и с пробегом</div></div><span class="go-i" aria-hidden="true">→</span></a>
       <a href="#calc" class="tile t-refi" data-product="salary"><div class="ph"><img src="img/cities/sm/perm.webp" alt="" loading="lazy"></div><p class="label">04</p><div><div class="t"><b>Рефинансирование</b></div><div class="s">объедините кредиты в один</div></div><span class="go-i" aria-hidden="true">→</span></a>
       <a href="#calc" class="tile t-pledge" data-product="flat"><div class="ph"><img src="img/cities/sm/kaliningrad.webp" alt="" loading="lazy"></div><p class="label">05</p><div><div class="t">Под <b>залог</b></div><div class="s">квартиры или дома</div></div><span class="go-i" aria-hidden="true">→</span></a>
