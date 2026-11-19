@@ -410,17 +410,6 @@ footer{margin-top:clamp(56px,7vw,96px);background:var(--white);color:var(--ink-2
           </div>
         </div>
       </div>
-        <div class="deck-bar">
-          <div class="deck-info" aria-live="polite"><p class="lbl"><span id="dIdx">01</span> / 03 · ставка ≈29,3% в среднем по рынку</p><p class="deck-name" id="dName">Альфа-Банк</p></div>
-          <div class="deck-ctrl">
-            <div class="dots" id="dots" aria-label="Выбор банка"><button class="dot" type="button" aria-label="Альфа-Банк"><i></i></button><button class="dot" type="button" aria-label="Сбербанк"><i></i></button><button class="dot" type="button" aria-label="Т-Банк"><i></i></button></div>
-            <div class="arrows">
-              <button class="arw" type="button" id="prev" aria-label="Предыдущий банк"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
-              <button class="arw" type="button" id="next" aria-label="Следующий банк"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-            </div>
-            <a class="pill pill-ink deck-go" id="dGo" href="https://alfabank.ru/" target="_blank" rel="noopener">На сайт банка</a>
-          </div>
-        </div>
       </div>
     </div>
 
@@ -753,15 +742,9 @@ document.addEventListener('DOMContentLoaded',function(){
     dots.forEach(function(d,i){d.classList.toggle('on',i===active);d.setAttribute('aria-current',i===active?'true':'false');d.classList.remove('playing');});
     if(timer&&dots[active]){var dd=dots[active];requestAnimationFrame(function(){requestAnimationFrame(function(){dd.classList.add('playing');});});}
     var b=DECK[active];
-    $('#dIdx').textContent='0'+(active+1);
-    $('#dName').textContent=b[0];
-    $('#dGo').href='https://'+b[1]+'/';
-    if(animInfo&&window.gsap&&!reduce) gsap.fromTo('.deck-info>*',{y:12,opacity:0},{y:0,opacity:1,duration:.6,stagger:.05,ease:'power3.out',overwrite:true});
   }
   function go(i){active=(i+n)%n;layout(true);}
   function auto(on){clearInterval(timer);timer=null;if(on&&!reduce){timer=setInterval(function(){go(active+1);},5000);}layout(false);}
-  $('#next').addEventListener('click',function(){go(active+1);auto(true);});
-  $('#prev').addEventListener('click',function(){go(active-1);auto(true);});
   dots.forEach(function(d,i){d.addEventListener('click',function(){go(i);auto(true);});});
   stage.addEventListener('mouseenter',function(){auto(false);});
   stage.addEventListener('mouseleave',function(){var c=cards[active];c.style.setProperty('--rx','0deg');c.style.setProperty('--ry','0deg');c.classList.remove('tilting');auto(true);});
@@ -797,7 +780,6 @@ document.addEventListener('DOMContentLoaded',function(){
       .from('h1 .ln>span',{yPercent:110,duration:1,stagger:.1})
       .from('[data-hero]:not(.deck)',{y:20,opacity:0,duration:.8,stagger:.06},'-=.7')
       .from('.bcard',{x:160,y:-140,rotation:-24,opacity:0,duration:1.3,stagger:{each:.14,from:'end'},ease:'expo.out',clearProps:'transform,opacity'},.1)
-      .from('.deck-bar',{y:20,opacity:0,duration:.8},'-=.9')
       .from('.tile',{y:30,opacity:0,duration:.8,stagger:.05,ease:'power3.out',clearProps:'transform,opacity'},'-=.6');
     gsap.to('.hero-city',{yPercent:10,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
     $$('[data-reveal]').forEach(function(el){gsap.from(el,{y:40,opacity:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%',once:true}});});
