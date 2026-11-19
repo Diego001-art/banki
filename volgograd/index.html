@@ -100,6 +100,63 @@ h1 .city{color:var(--plum)}
 .tile.big img{width:72%;max-width:300px;right:-2%;bottom:-2%}
 .tile.big .pill{position:relative;z-index:1;align-self:flex-start;min-height:44px}
 
+.deck{position:relative}
+.stage{position:relative;height:clamp(300px,34vw,470px);perspective:1400px;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.stage.dragging{cursor:grabbing}
+.bcard{--pos:translate3d(0,0,0);--rx:0deg;--ry:0deg;--drag:0px;position:absolute;left:4%;top:2%;width:68%;aspect-ratio:1.586/1;border-radius:22px;overflow:hidden;color:#fff;transform:translateX(var(--drag)) var(--pos) rotateX(var(--rx)) rotateY(var(--ry));transition:transform .9s var(--ease),filter .9s var(--ease),opacity .9s var(--ease);box-shadow:0 1px 1px rgba(0,0,0,.08),0 24px 48px -24px rgba(14,14,16,.5);will-change:transform}
+.stage.dragging .bcard,.bcard.tilting{transition:filter .9s var(--ease),opacity .9s var(--ease)}
+.bcard::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(115deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,0) 32%,rgba(255,255,255,0) 68%,rgba(255,255,255,.08) 100%);pointer-events:none}
+.bc-art{position:absolute;inset:0;overflow:hidden}
+.bc-in{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:7% 7.5%}
+.bc-row{display:flex;justify-content:space-between;align-items:center}
+.bc-name{font-size:clamp(15px,1.5vw,21px);font-weight:600;letter-spacing:-.01em}
+.bc-chip{width:13%;aspect-ratio:1.3/1;border-radius:7px;background:linear-gradient(135deg,#F6E3B4,#C9A75E 55%,#EED79F);position:relative;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.bc-chip::before{content:"";position:absolute;inset:28% 0;border-top:1px solid rgba(0,0,0,.22);border-bottom:1px solid rgba(0,0,0,.22)}
+.bc-chip::after{content:"";position:absolute;inset:0 38%;border-left:1px solid rgba(0,0,0,.22);border-right:1px solid rgba(0,0,0,.22)}
+.bc-num{font-size:clamp(12px,1.25vw,17px);letter-spacing:.18em;opacity:.92;font-variant-numeric:tabular-nums}
+.bc-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;font-size:clamp(11px,.9vw,12px);letter-spacing:.14em;text-transform:uppercase;opacity:.92}
+.bc-rate{font-size:clamp(15px,1.5vw,21px);letter-spacing:-.01em;text-transform:none;font-weight:600;white-space:nowrap}
+/* Альфа — красная */
+.b-alfa{background:#B5091E}
+.b-alfa .bc-art{background:radial-gradient(70% 90% at 100% 0%,#FF5A4D 0%,rgba(255,90,77,0) 60%),radial-gradient(60% 70% at 0% 100%,#6E0010 0%,rgba(110,0,16,0) 70%),linear-gradient(135deg,#8E0617,#E01F2E 60%,#F2433A)}
+.b-alfa .bc-art::before{content:"";position:absolute;width:120%;height:120%;left:38%;top:-30%;border-radius:50%;border:clamp(18px,2.6vw,38px) solid rgba(255,255,255,.13);transform:rotate(-24deg)}
+.b-alfa .bc-art::after{content:"";position:absolute;width:80%;height:80%;left:52%;top:20%;border-radius:50%;border:clamp(10px,1.4vw,20px) solid rgba(255,220,210,.14)}
+/* Сбер — зелёная */
+.b-sber{background:#0F7A26}
+.b-sber .bc-art{background:radial-gradient(80% 100% at 100% 100%,#7EE08A 0%,rgba(126,224,138,0) 55%),radial-gradient(60% 70% at 0% 0%,#06501A 0%,rgba(6,80,26,0) 70%),linear-gradient(150deg,#0A5A1C,#139A32 55%,#2DBE4E)}
+.b-sber .bc-art::before{content:"";position:absolute;inset:-40% -20% -40% 30%;border-radius:50%;background:repeating-radial-gradient(circle at 70% 60%,rgba(255,255,255,.10) 0 2px,transparent 2px 22px)}
+.b-sber .bc-art::after{content:"";position:absolute;width:70%;height:140%;right:-18%;top:-20%;border-radius:45%;background:linear-gradient(200deg,rgba(255,255,255,.22),rgba(255,255,255,0) 60%);transform:rotate(18deg)}
+/* Т-Банк — чёрно-жёлтая */
+.b-tbank{background:#121212}
+.b-tbank .bc-art{background:radial-gradient(90% 90% at 0% 100%,#2A2A2A 0%,#121212 60%)}
+.b-tbank .bc-art::before{content:"";position:absolute;width:78%;height:150%;right:-22%;top:-30%;background:linear-gradient(160deg,#FFE45C,#FFDD2D 45%,#E8B800);transform:rotate(24deg);border-radius:28px}
+.b-tbank .bc-art::after{content:"";position:absolute;width:30%;height:150%;right:38%;top:-30%;background:rgba(255,221,45,.10);transform:rotate(24deg)}
+.b-tbank .bc-num,.b-tbank .bc-foot,.b-tbank .bc-row svg{text-shadow:0 1px 8px rgba(0,0,0,.35)}
+.b-tbank .bc-rate{color:#121212;background:#FFDD2D;padding:4px 10px;border-radius:999px;text-shadow:none}
+
+.dots{display:flex;gap:6px}
+.dot{position:relative;width:28px;height:3px;border:0;padding:0;border-radius:3px;background:var(--line-2);overflow:hidden;cursor:pointer}
+.dot::before{content:"";position:absolute;inset:-14px 0}
+.dot i{position:absolute;inset:0;background:var(--plum);transform:scaleX(0);transform-origin:left}
+.dot.on i{transform:scaleX(1)}
+.dot.on.playing i{animation:fill 5s linear forwards}
+@keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.arrows{display:flex;gap:6px}
+.arw{width:44px;height:44px;border-radius:50%;border:1px solid var(--line-2);background:#fff;display:grid;place-items:center;cursor:pointer;transition:background .3s var(--ease),color .3s,border-color .3s,transform .3s var(--ease)}
+.arw:hover{background:var(--plum);color:#fff;border-color:var(--plum)}
+.arw:active{transform:scale(.92)}
+/* карусель на первом экране */
+.hero-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center}
+.deck{padding-top:8px}
+.deck-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:18px;padding:14px 16px;border-radius:18px;background:rgba(255,255,255,.86);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.deck-info{min-width:0}
+.deck-info .lbl{margin:0;font-size:12px;color:var(--muted)}
+.deck-name{margin:2px 0 0;font-size:clamp(18px,1.6vw,22px);font-weight:600;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.deck-go{min-height:40px;font-size:14px;flex:none;white-space:nowrap;padding:0 16px}
+@media (min-width:1081px){.hero-top .stage{height:clamp(280px,27vw,390px)}}
+.deck-ctrl{display:flex;align-items:center;gap:14px;flex:none}
+.arw{width:40px;height:40px}
+
 /* ── Секции ───────────────────────────────────── */
 .sec{padding-top:clamp(56px,7vw,96px)}
 .sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px;margin-bottom:24px}
@@ -219,6 +276,9 @@ footer{margin-top:clamp(56px,7vw,96px);background:var(--white);color:var(--ink-2
 
 /* ── Адаптив ──────────────────────────────────── */
 @media (max-width:1080px){
+  .hero-top{grid-template-columns:1fr}
+  .stage{height:clamp(240px,52vw,420px)}
+  .bcard{width:62%;left:6%}
   .nav{display:none}
   .burger{display:block}
   .tiles{grid-template-columns:1fr 1fr 1fr}
@@ -233,6 +293,11 @@ footer{margin-top:clamp(56px,7vw,96px);background:var(--white);color:var(--ink-2
   .hero-city::after{background:linear-gradient(180deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,.92) 45%,#fff 70%)}
 }
 @media (max-width:760px){
+  .stage{height:clamp(210px,66vw,340px)}
+  .bcard{width:76%;left:2%;border-radius:16px}
+  .deck-bar{flex-wrap:wrap}
+  .deck-ctrl{width:100%;justify-content:space-between}
+  .deck-go{flex:1}
   .top-in{min-height:64px}
   .logo svg{width:44px}
   .city-chip{padding:0 12px;font-size:14px}
@@ -261,6 +326,10 @@ footer{margin-top:clamp(56px,7vw,96px);background:var(--white);color:var(--ink-2
   .hero{border-radius:0 0 24px 24px}
 }
 @media (max-width:400px){
+  .bcard{width:82%;left:0}
+  .deck-ctrl{flex-wrap:wrap;gap:10px}
+  .deck-go{flex:1 1 100%}
+  .bc-num{letter-spacing:.12em}
   .wrap{padding-left:16px;padding-right:16px}
   .res{grid-template-columns:1fr}
   .res div+div{padding-left:0;border-left:0;border-top:1px solid rgba(255,255,255,.18);margin-top:12px}
@@ -301,12 +370,58 @@ footer{margin-top:clamp(56px,7vw,96px);background:var(--white);color:var(--ink-2
 <section class="hero" aria-label="Главный экран">
   <div class="hero-city" aria-hidden="true"><img id="heroCityImg" data-city="volgograd" src="../img/cities/volgograd.webp" alt="" fetchpriority="high" decoding="async"></div>
   <div class="wrap hero-in">
+    <div class="hero-top">
+      <div class="hero-txt">
     <p class="label" data-hero>Финансовый маркетплейс · <span data-city="name">Волгоград</span></p>
     <h1><span class="ln"><span>Кредиты всех банков</span></span><span class="ln"><span>в&nbsp;<span class="city" data-city="loc">Волгограде</span></span></span></h1>
     <p class="hero-p" data-hero>Кредиты, карты, ипотека и автокредиты крупных банков вашего города — в одном месте.</p>
     <div class="hero-cta" data-hero>
       <a href="#offers" class="pill pill-ink">Подобрать предложение</a>
       <a href="#calc" class="pill pill-soft">Рассчитать платёж</a>
+    </div>
+      </div>
+      <div class="deck" aria-roledescription="карусель" aria-label="Банки" data-hero>
+      <div class="stage" id="stage">
+        <div class="bcard b-alfa" aria-hidden="true">
+          <div class="bc-art"></div>
+          <div class="bc-in">
+            <div class="bc-row"><span class="bc-name">Альфа-Банк</span><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8.5 7.5a6 6 0 0 1 0 9M12 5a9.5 9.5 0 0 1 0 14M15.5 2.8a13 13 0 0 1 0 18.4"/></svg></div>
+            <div class="bc-chip"></div>
+            <div class="bc-num">•••• •••• •••• 1990</div>
+            <div class="bc-foot"><span class="bc-prod">Наличными</span><span class="bc-rate">≈29,3%</span></div>
+          </div>
+        </div>
+        <div class="bcard b-sber" aria-hidden="true">
+          <div class="bc-art"></div>
+          <div class="bc-in">
+            <div class="bc-row"><span class="bc-name">Сбербанк</span><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8.5 7.5a6 6 0 0 1 0 9M12 5a9.5 9.5 0 0 1 0 14M15.5 2.8a13 13 0 0 1 0 18.4"/></svg></div>
+            <div class="bc-chip"></div>
+            <div class="bc-num">•••• •••• •••• 1841</div>
+            <div class="bc-foot"><span class="bc-prod">Наличными</span><span class="bc-rate">≈29,3%</span></div>
+          </div>
+        </div>
+        <div class="bcard b-tbank" aria-hidden="true">
+          <div class="bc-art"></div>
+          <div class="bc-in">
+            <div class="bc-row"><span class="bc-name">Т-Банк</span><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8.5 7.5a6 6 0 0 1 0 9M12 5a9.5 9.5 0 0 1 0 14M15.5 2.8a13 13 0 0 1 0 18.4"/></svg></div>
+            <div class="bc-chip"></div>
+            <div class="bc-num">•••• •••• •••• 2006</div>
+            <div class="bc-foot"><span class="bc-prod">Наличными</span><span class="bc-rate">≈29,3%</span></div>
+          </div>
+        </div>
+      </div>
+        <div class="deck-bar">
+          <div class="deck-info" aria-live="polite"><p class="lbl"><span id="dIdx">01</span> / 03 · ставка ≈29,3% в среднем по рынку</p><p class="deck-name" id="dName">Альфа-Банк</p></div>
+          <div class="deck-ctrl">
+            <div class="dots" id="dots" aria-label="Выбор банка"><button class="dot" type="button" aria-label="Альфа-Банк"><i></i></button><button class="dot" type="button" aria-label="Сбербанк"><i></i></button><button class="dot" type="button" aria-label="Т-Банк"><i></i></button></div>
+            <div class="arrows">
+              <button class="arw" type="button" id="prev" aria-label="Предыдущий банк"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+              <button class="arw" type="button" id="next" aria-label="Следующий банк"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+            </div>
+            <a class="pill pill-ink deck-go" id="dGo" href="https://alfabank.ru/" target="_blank" rel="noopener">На сайт банка</a>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="tiles-head" data-hero><h2>Кредит под любую задачу</h2></div>
@@ -623,6 +738,47 @@ document.addEventListener('DOMContentLoaded',function(){
   cA.addEventListener('blur',function(){var a=amount();cA.value=a?rub(a):'';});
   cP.addEventListener('change',calc);cT.addEventListener('change',calc);
 
+  /* ── Слайдер банковских карт ── */
+  var stage=$('#stage'), cards=$$('.bcard',stage), dots=$$('.dot'), n=cards.length, active=0, timer=null, dragging=false;
+  var DECK=[['Альфа-Банк','alfabank.ru'],['Сбербанк','sberbank.ru'],['Т-Банк','tbank.ru']];
+  var POS=[ // активная, следующая, дальняя — каскад вниз-вправо, как веер
+    {t:'translate3d(0,0,0) rotate(-5deg) scale(1)',z:3,f:'none',o:1},
+    {t:'translate3d(16%,20%,-60px) rotate(1deg) scale(.9)',z:2,f:'brightness(.86)',o:1},
+    {t:'translate3d(31%,40%,-120px) rotate(7deg) scale(.8)',z:1,f:'brightness(.72)',o:.96}
+  ];
+  function layout(animInfo){
+    cards.forEach(function(c,i){var rel=(i-active+n)%n,p=POS[rel];
+      c.style.setProperty('--pos',p.t);c.style.zIndex=p.z;c.style.filter=p.f;c.style.opacity=p.o;
+      c.setAttribute('aria-hidden',rel===0?'false':'true');});
+    dots.forEach(function(d,i){d.classList.toggle('on',i===active);d.setAttribute('aria-current',i===active?'true':'false');d.classList.remove('playing');});
+    if(timer&&dots[active]){var dd=dots[active];requestAnimationFrame(function(){requestAnimationFrame(function(){dd.classList.add('playing');});});}
+    var b=DECK[active];
+    $('#dIdx').textContent='0'+(active+1);
+    $('#dName').textContent=b[0];
+    $('#dGo').href='https://'+b[1]+'/';
+    if(animInfo&&window.gsap&&!reduce) gsap.fromTo('.deck-info>*',{y:12,opacity:0},{y:0,opacity:1,duration:.6,stagger:.05,ease:'power3.out',overwrite:true});
+  }
+  function go(i){active=(i+n)%n;layout(true);}
+  function auto(on){clearInterval(timer);timer=null;if(on&&!reduce){timer=setInterval(function(){go(active+1);},5000);}layout(false);}
+  $('#next').addEventListener('click',function(){go(active+1);auto(true);});
+  $('#prev').addEventListener('click',function(){go(active-1);auto(true);});
+  dots.forEach(function(d,i){d.addEventListener('click',function(){go(i);auto(true);});});
+  stage.addEventListener('mouseenter',function(){auto(false);});
+  stage.addEventListener('mouseleave',function(){var c=cards[active];c.style.setProperty('--rx','0deg');c.style.setProperty('--ry','0deg');c.classList.remove('tilting');auto(true);});
+  // лёгкий 3D-наклон активной карты за курсором
+  stage.addEventListener('mousemove',function(e){if(reduce||dragging)return;var r=stage.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5,c=cards[active];
+    cards.forEach(function(o){if(o!==c){o.classList.remove('tilting');o.style.setProperty('--rx','0deg');o.style.setProperty('--ry','0deg');}});
+    c.classList.add('tilting');c.style.setProperty('--ry',(x*10).toFixed(2)+'deg');c.style.setProperty('--rx',(-y*8).toFixed(2)+'deg');});
+  // свайп / перетаскивание
+  var sx=0,dx=0;
+  stage.addEventListener('pointerdown',function(e){dragging=true;sx=e.clientX;dx=0;stage.classList.add('dragging');if(stage.setPointerCapture)stage.setPointerCapture(e.pointerId);});
+  stage.addEventListener('pointermove',function(e){if(!dragging)return;dx=e.clientX-sx;cards[active].style.setProperty('--drag',dx+'px');});
+  function end(){if(!dragging)return;dragging=false;stage.classList.remove('dragging');cards[active].style.setProperty('--drag','0px');
+    if(Math.abs(dx)>50){go(active+(dx<0?1:-1));auto(true);}}
+  stage.addEventListener('pointerup',end);stage.addEventListener('pointercancel',end);
+  $('.deck').addEventListener('keydown',function(e){if(e.key==='ArrowRight'){go(active+1);auto(true);}if(e.key==='ArrowLeft'){go(active-1);auto(true);}});
+  auto(true);
+
   /* ── Мобильное меню ── */
   var burger=$('#burger'),mnav=$('#mnav'),topEl=$('#top');
   function menu(open){topEl.classList.toggle('open',open);mnav.classList.toggle('open',open);document.body.classList.toggle('menu-open',open);
@@ -639,7 +795,9 @@ document.addEventListener('DOMContentLoaded',function(){
     gsap.registerPlugin(ScrollTrigger);
     gsap.timeline({defaults:{ease:'power4.out'}})
       .from('h1 .ln>span',{yPercent:110,duration:1,stagger:.1})
-      .from('[data-hero]',{y:20,opacity:0,duration:.8,stagger:.06},'-=.7')
+      .from('[data-hero]:not(.deck)',{y:20,opacity:0,duration:.8,stagger:.06},'-=.7')
+      .from('.bcard',{x:160,y:-140,rotation:-24,opacity:0,duration:1.3,stagger:{each:.14,from:'end'},ease:'expo.out',clearProps:'transform,opacity'},.1)
+      .from('.deck-bar',{y:20,opacity:0,duration:.8},'-=.9')
       .from('.tile',{y:30,opacity:0,duration:.8,stagger:.05,ease:'power3.out',clearProps:'transform,opacity'},'-=.6');
     gsap.to('.hero-city',{yPercent:10,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
     $$('[data-reveal]').forEach(function(el){gsap.from(el,{y:40,opacity:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%',once:true}});});
