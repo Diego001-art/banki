@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Админка — вход</title>
+<link rel="icon" href="../logo-bird.svg" type="image/svg+xml">
+<style>
+:root{--ink:#0E0E10;--ink-2:#2B2B30;--muted:#6E6E76;--line:#E4E4E0;--bg:#F5F5F3;--white:#fff;--gold:#F2C27A;--ok:#1A7F45;--err:#C0322B;--accent:#6B4A8A;
+  --font:"Inter Tight",Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);font-size:15px;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 20px;border-radius:999px;border:1px solid var(--line);background:var(--white);font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;white-space:nowrap}
+.pill:hover{border-color:#C9C9C4}
+.pill.ink{background:var(--ink);border-color:var(--ink);color:#fff}
+.pill.ink:hover{background:#2B2B30}
+.pill:disabled{opacity:.45;cursor:default}
+.pill.sm{min-height:36px;padding:0 14px;font-size:11px}
+.field{display:grid;gap:6px;margin-bottom:16px}
+.field label{font-size:13px;color:var(--muted)}
+.field input,.field textarea{width:100%;min-height:48px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--white);outline:none}
+.field input:focus,.field textarea:focus{border-color:var(--ink)}
+.field small{font-size:12px;color:var(--muted);line-height:1.45}
+.msg{min-height:20px;font-size:13px;margin:4px 0 12px}
+.msg.err{color:var(--err)} .msg.ok{color:var(--ok)}
+a{color:inherit}
+
+/* вход */
+.gate{min-height:100%;display:grid;place-items:center;padding:24px 16px}
+.card{width:100%;max-width:440px;background:var(--white);border:1px solid var(--line);border-radius:28px;padding:clamp(24px,5vw,40px)}
+.card h1{margin:18px 0 6px;font-size:28px;font-weight:600;letter-spacing:-.03em}
+.card p.lead{margin:0 0 24px;color:var(--muted);line-height:1.5}
+.card .pill.ink{width:100%;min-height:52px}
+.steps{margin:0 0 20px;padding-left:20px;color:var(--ink-2);line-height:1.55;font-size:14px}
+.steps li{margin-bottom:6px}
+.steps code{background:#F0F0ED;border-radius:6px;padding:1px 6px;font-size:13px}
+
+/* редактор */
+.app{display:none;height:100%;grid-template-rows:auto auto 1fr}
+.app.on{display:grid}
+.bar{display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--white);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.bar .brand{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:-.02em;margin-right:8px}
+.tabs{display:flex;gap:4px;background:#F0F0ED;border-radius:999px;padding:4px}
+.tabs button{border:0;background:transparent;border-radius:999px;padding:8px 14px;font-size:13px;cursor:pointer;color:var(--ink-2)}
+.tabs button.on{background:var(--white);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.bar .sp{flex:1}
+.status{font-size:13px;color:var(--muted)}
+.status b{color:var(--ink)}
+.hint{padding:8px 16px;font-size:13px;color:var(--muted);background:#FBFBFA;border-bottom:1px solid var(--line);display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.hint .dev{display:flex;gap:4px}
+.view{position:relative;overflow:auto}
+.pane{display:none;height:100%}
+.pane.on{display:block}
+#pPage{background:#E9E9E6;padding:16px;height:100%}
+#pPage.on{display:flex;justify-content:center}
+#frame{border:0;background:#fff;width:100%;height:100%;border-radius:14px;box-shadow:0 10px 30px -18px rgba(0,0,0,.35);transition:width .3s}
+#frame.mob{width:390px}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 16px 60px}
+.wrap h2{font-size:22px;font-weight:600;letter-spacing:-.02em;margin:0 0 6px}
+.wrap p.sub{margin:0 0 22px;color:var(--muted)}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.city{position:relative;border:0;padding:0;font:inherit;border-radius:18px;overflow:hidden;background:#ddd;aspect-ratio:4/3;cursor:pointer;border:2px solid transparent}
+.city img{width:100%;height:100%;object-fit:cover;display:block}
+.city span{position:absolute;left:10px;bottom:10px;background:rgba(14,14,16,.72);color:#fff;border-radius:999px;padding:5px 11px;font-size:13px}
+.city:hover::after{content:"Заменить фото";position:absolute;inset:0;display:grid;place-items:center;background:rgba(14,14,16,.45);color:#fff;font-size:13px;letter-spacing:.1em;text-transform:uppercase}
+.city.chg{outline:3px solid var(--gold);outline-offset:2px}
+.city.chg span{background:var(--gold);color:var(--ink)}
+.box{background:var(--white);border:1px solid var(--line);border-radius:22px;padding:24px;margin-bottom:18px}
+.logo-prev{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+.logo-prev .lp{width:120px;height:72px;border:1px dashed var(--line);border-radius:14px;display:grid;place-items:center;overflow:hidden;background:#FAFAF8}
+.logo-prev .lp img,.logo-prev .lp svg{max-width:90px;max-height:56px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:14px;font-size:14px;box-shadow:0 10px 30px -10px rgba(0,0,0,.4);z-index:9;max-width:calc(100% - 32px);display:none}
+.toast.on{display:block}
+.overlay{position:fixed;inset:0;background:rgba(245,245,243,.86);display:none;place-items:center;z-index:8}
+.overlay.on{display:grid}
+.overlay .card{text-align:center}
+.prog{height:6px;background:#EEE;border-radius:9px;overflow:hidden;margin:16px 0 10px}
+.prog i{display:block;height:100%;width:0;background:var(--ink);transition:width .3s}
+@media (max-width:760px){.bar .brand span{display:none}.hint{display:none}#frame.mob{width:100%}}
+</style>
+</head>
+<body>
+
+<!-- ───── Вход ───── -->
+<section class="gate" id="gate">
+  <div class="card">
+    <svg width="54" height="35" viewBox="90 620 428 274" aria-hidden="true"><path fill="#2A1A33" d="M94.2 625.9 176.5 625.9c17 0 37.1-.7 53.5 1.7 13.6 1.9 26.9 5.8 39.4 11.5 37.6 17.2 58.6 44.8 72.6 82.5 2 13.4 7.4 48.9 3.4 60.5-1.5.7-1.7.9-3.3 1.3-37.6-1.9-89.4-.3-127.7-.2-56.7-.8-110.9-54.8-118.5-109.9-2-14.3-1.5-32.7-1.7-47.4z"/><path fill="#6B4A8A" d="M342.1 721.6c6.5-32.4 20.2-53 47.9-72 39.2-26.9 77.6-23.6 122.5-23.6.1 48.8 6.2 89.9-31.4 127.6-39.2 39.3-85.5 28.4-135.5 30.2l-3.4-.4c1.6-.4 1.8-.6 3.3-1.3 4-11.7-1.3-47.1-3.4-60.5z"/><path fill="#F2C27A" d="M214.5 783.2c38.3-.1 90-1.7 127.7.2l3.4.4c2.8 55.5-49 103.2-102.2 105.8-2.5-1.9-1.6-.7-2.5-3.9.8-1.7 2.3-3.9 4-4.4 31.4-8.7 57.3-29.1 71.2-59.1 5.3-11.4 8.5-24.9 12-38.1-29.8-.7-59.8.2-89.6 0-8 0-16.2.3-24.1-.8z"/></svg>
+
+    <div id="vLogin" hidden>
+      <h1>Вход в админку</h1>
+      <p class="lead">Редактирование текстов и фотографий сайта.</p>
+      <form id="fLogin" autocomplete="on">
+        <input type="text" name="username" value="admin" autocomplete="username" hidden>
+        <div class="field"><label for="lPass">Пароль</label><input id="lPass" type="password" autocomplete="current-password" required></div>
+        <div class="field" id="lTokF" hidden><label for="lTok">Новый ключ GitHub</label><input id="lTok" type="password" placeholder="github_pat_…"><small>Старый ключ истёк или отозван. <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Создайте новый</a> (репозиторий banki, Contents: Read and write) и вставьте сюда.</small></div>
+        <div class="msg" id="lMsg"></div>
+        <button class="pill ink" type="submit">Войти</button>
+      </form>
+    </div>
+
+    <div id="vSetup" hidden>
+      <h1>Первая настройка</h1>
+      <p class="lead">Нужна один раз. Админка сохраняет изменения прямо в репозиторий сайта на GitHub, поэтому ей нужен ключ доступа. Ключ будет зашифрован паролем.</p>
+      <ol class="steps">
+        <li>Откройте <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">создание ключа на GitHub</a>.</li>
+        <li>Название — любое, срок — 1 год.</li>
+        <li><b>Repository access</b> → <i>Only select repositories</i> → <code>banki</code>.</li>
+        <li><b>Permissions</b> → <i>Contents</i> → <code>Read and write</code>.</li>
+        <li>Нажмите <i>Generate token</i>, скопируйте ключ и вставьте ниже.</li>
+      </ol>
+      <form id="fSetup" autocomplete="off">
+        <div class="field"><label for="sTok">Ключ GitHub</label><input id="sTok" type="password" placeholder="github_pat_…" required></div>
+        <div class="field"><label for="sPass">Пароль для входа</label><input id="sPass" type="password" autocomplete="new-password" required minlength="12"><small>Не короче 12 символов. С этим паролем вы будете входить с любого устройства.</small></div>
+        <div class="msg" id="sMsg"></div>
+        <button class="pill ink" type="submit">Сохранить и войти</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ───── Редактор ───── -->
+<div class="app" id="app">
+  <header class="bar">
+    <div class="brand"><svg width="34" height="22" viewBox="90 620 428 274" aria-hidden="true"><path fill="#2A1A33" d="M94.2 625.9 176.5 625.9c17 0 37.1-.7 53.5 1.7 13.6 1.9 26.9 5.8 39.4 11.5 37.6 17.2 58.6 44.8 72.6 82.5 2 13.4 7.4 48.9 3.4 60.5-1.5.7-1.7.9-3.3 1.3-37.6-1.9-89.4-.3-127.7-.2-56.7-.8-110.9-54.8-118.5-109.9-2-14.3-1.5-32.7-1.7-47.4z"/><path fill="#6B4A8A" d="M342.1 721.6c6.5-32.4 20.2-53 47.9-72 39.2-26.9 77.6-23.6 122.5-23.6.1 48.8 6.2 89.9-31.4 127.6-39.2 39.3-85.5 28.4-135.5 30.2l-3.4-.4c1.6-.4 1.8-.6 3.3-1.3 4-11.7-1.3-47.1-3.4-60.5z"/><path fill="#F2C27A" d="M214.5 783.2c38.3-.1 90-1.7 127.7.2l3.4.4c2.8 55.5-49 103.2-102.2 105.8-2.5-1.9-1.6-.7-2.5-3.9.8-1.7 2.3-3.9 4-4.4 31.4-8.7 57.3-29.1 71.2-59.1 5.3-11.4 8.5-24.9 12-38.1-29.8-.7-59.8.2-89.6 0-8 0-16.2.3-24.1-.8z"/></svg><span>Админка</span></div>
+    <nav class="tabs" id="tabs">
+      <button class="on" data-p="pPage">Страница</button>
+      <button data-p="pCities">Фото городов</button>
+      <button data-p="pMeta">Логотип и заголовок</button>
+      <button data-p="pPass">Пароль</button>
+    </nav>
+    <span class="sp"></span>
+    <span class="status" id="status">Загрузка…</span>
+    <button class="pill sm" id="bReset" disabled>Отменить</button>
+    <button class="pill ink sm" id="bPub" disabled>Опубликовать</button>
+    <button class="pill sm" id="bOut" title="Выйти">Выйти</button>
+  </header>
+  <div class="hint" id="hint">
+    <span>Нажмите на текст, чтобы изменить его. Нажмите на фото, чтобы заменить. Изменения попадут на сайт после «Опубликовать».</span>
+    <span class="dev"><button class="pill sm" data-w="">Компьютер</button><button class="pill sm" data-w="mob">Телефон</button></span>
+  </div>
+  <main class="view">
+    <div class="pane on" id="pPage"><iframe id="frame" title="Редактируемая страница"></iframe></div>
+
+    <div class="pane" id="pCities"><div class="wrap">
+      <h2>Фото городов</h2>
+      <p class="sub">Эти фото подставляются на первый экран по городу посетителя. Лучше горизонтальные, от 1600 px в ширину.</p>
+      <div class="cgrid" id="cgrid"></div>
+    </div></div>
+
+    <div class="pane" id="pMeta"><div class="wrap">
+      <h2>Логотип и заголовок</h2>
+      <p class="sub">Логотип в шапке и иконка вкладки браузера. Заголовок и описание — то, что видно во вкладке и в ссылках.</p>
+      <div class="box">
+        <div class="logo-prev"><div class="lp" id="logoPrev"></div><button class="pill" id="bLogo">Загрузить логотип</button></div>
+        <small style="color:var(--muted)">SVG, PNG или WebP с прозрачным фоном.</small>
+      </div>
+      <div class="box">
+        <div class="field"><label for="mTitle">Заголовок вкладки (главная)</label><input id="mTitle"></div>
+        <div class="field"><label for="mDesc">Описание (главная)</label><textarea id="mDesc" rows="3"></textarea><small>У страниц городов заголовок и описание формируются автоматически с названием города.</small></div>
+      </div>
+    </div></div>
+
+    <div class="pane" id="pPass"><div class="wrap" style="max-width:520px">
+      <h2>Смена пароля</h2>
+      <p class="sub">Ключ GitHub перешифруется новым паролем. Старый пароль перестанет работать.</p>
+      <form class="box" id="fPass">
+        <div class="field"><label for="p1">Новый пароль</label><input id="p1" type="password" autocomplete="new-password" minlength="12" required></div>
+        <div class="field"><label for="p2">Ещё раз</label><input id="p2" type="password" autocomplete="new-password" minlength="12" required></div>
+        <div class="msg" id="pMsg"></div>
+        <button class="pill ink" type="submit">Сменить пароль</button>
+      </form>
+      <form class="box" id="fTok">
+        <h2 style="font-size:18px">Новый ключ GitHub</h2>
+        <p class="sub" style="margin-bottom:14px">Если срок старого ключа истёк. Пароль останется прежним.</p>
+        <div class="field"><label for="t1">Ключ</label><input id="t1" type="password" placeholder="github_pat_…" required></div>
+        <div class="msg" id="tMsg"></div>
+        <button class="pill" type="submit">Заменить ключ</button>
+      </form>
+    </div></div>
+  </main>
+</div>
+
+<input type="file" id="file" accept="image/*" hidden>
+<div class="overlay" id="busy"><div class="card"><h1 id="busyT" style="font-size:22px">Публикую…</h1><div class="prog"><i id="busyP"></i></div><p class="lead" id="busyS" style="margin:0">Не закрывайте вкладку.</p></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+'use strict';
+/* ── Настройки ── */
+var OWNER='Diego001-art', REPO='banki', BRANCH='main';
+var API='https://api.github.com/repos/'+OWNER+'/'+REPO;
+var SITE=new URL('../',location.href).href;           // корень сайта
+var VAULT='admin/vault.json', ITER=600000;
+var CITIES=[['moscow','Москва','Москве'],['spb','Санкт-Петербург','Санкт-Петербурге'],['novosibirsk','Новосибирск','Новосибирске'],
+ ['ekaterinburg','Екатеринбург','Екатеринбурге'],['kazan','Казань','Казани'],['nnovgorod','Нижний Новгород','Нижнем Новгороде'],
+ ['krasnoyarsk','Красноярск','Красноярске'],['chelyabinsk','Челябинск','Челябинске'],['samara','Самара','Самаре'],['ufa','Уфа','Уфе'],
+ ['rostov','Ростов-на-Дону','Ростове-на-Дону'],['krasnodar','Краснодар','Краснодаре'],['omsk','Омск','Омске'],['voronezh','Воронеж','Воронеже'],
+ ['perm','Пермь','Перми'],['volgograd','Волгоград','Волгограде'],['makhachkala','Махачкала','Махачкале'],['saratov','Саратов','Саратове'],
+ ['tyumen','Тюмень','Тюмени'],['vladivostok','Владивосток','Владивостоке'],['irkutsk','Иркутск','Иркутске'],['khabarovsk','Хабаровск','Хабаровске'],
+ ['kaliningrad','Калининград','Калининграде'],['sochi','Сочи','Сочи']];
+
+var $=function(s,r){return (r||document).querySelector(s);}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
+var TOKEN=null, VAULT_OBJ=null;
+function toast(t,ms){var e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(function(){e.classList.remove('on');},ms||3500);}
+
+/* ── Шифрование ключа паролем (PBKDF2 + AES-GCM) ── */
+var enc=new TextEncoder(), dec=new TextDecoder();
+function b64(buf){var s='',b=new Uint8Array(buf);for(var i=0;i<b.length;i+=0x8000)s+=String.fromCharCode.apply(null,b.subarray(i,i+0x8000));return btoa(s);}
+function unb64(s){var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;}
+async function keyFrom(pass,salt,iter){
+  var base=await crypto.subtle.importKey('raw',enc.encode(pass),'PBKDF2',false,['deriveKey']);
+  return crypto.subtle.deriveKey({name:'PBKDF2',salt:salt,iterations:iter,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+}
+async function seal(token,pass){
+  var salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
+  var k=await keyFrom(pass,salt,ITER);
+  var ct=await crypto.subtle.encrypt({name:'AES-GCM',iv:iv},k,enc.encode(JSON.stringify({t:token})));
+  return {v:1,kdf:'PBKDF2-SHA256',iter:ITER,salt:b64(salt),iv:b64(iv),ct:b64(ct)};
+}
+async function unseal(v,pass){
+  var k=await keyFrom(pass,unb64(v.salt),v.iter);
+  var pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:unb64(v.iv)},k,unb64(v.ct));
+  return JSON.parse(dec.decode(pt)).t;
+}
+
+/* ── GitHub API ── */
+async function gh(path,opt){
+  opt=opt||{};
+  var r=await fetch(path.indexOf('http')===0?path:API+path,{method:opt.method||'GET',cache:'no-store',
+    headers:Object.assign({'Accept':'application/vnd.github+json','Authorization':'Bearer '+(opt.token||TOKEN),'X-GitHub-Api-Version':'2022-11-28'},opt.body?{'Content-Type':'application/json'}:{}),
+    body:opt.body?JSON.stringify(opt.body):undefined});
+  if(!r.ok){var t='';try{t=(await r.json()).message;}catch(e){}var err=new Error('GitHub '+r.status+(t?': '+t:''));err.status=r.status;throw err;}
+  return r.status===204?null:r.json();
+}
+async function checkToken(tok){
+  var repo=await gh('',{token:tok});
+  if(!repo.permissions||!repo.permissions.push) throw new Error('У ключа нет права записи в репозиторий banki (нужно Contents: Read and write).');
+}
+async function readFile(path){
+  var j=await gh('/contents/'+path.split('/').map(encodeURIComponent).join('/')+'?ref='+BRANCH);
+  return {sha:j.sha,text:dec.decode(unb64(j.content.replace(/\n/g,'')))};
+}
+// Один коммит со многими файлами: [{path, text} | {path, b64}]
+async function commitFiles(files,message,onStep){
+  var ref=await gh('/git/ref/heads/'+BRANCH), head=ref.object.sha;
+  var base=(await gh('/git/commits/'+head)).tree.sha, tree=[], n=0;
+  for(var i=0;i<files.length;i++){
+    var f=files[i];
+    var blob=await gh('/git/blobs',{method:'POST',body:f.b64!=null?{content:f.b64,encoding:'base64'}:{content:f.text,encoding:'utf-8'}});
+    tree.push({path:f.path,mode:'100644',type:'blob',sha:blob.sha});
+    if(onStep)onStep(++n,files.length+2);
+  }
+  var t=await gh('/git/trees',{method:'POST',body:{base_tree:base,tree:tree}});
+  var c=await gh('/git/commits',{method:'POST',body:{message:message,tree:t.sha,parents:[head]}});
+  if(onStep)onStep(files.length+1,files.length+2);
+  await gh('/git/refs/heads/'+BRANCH,{method:'PATCH',body:{sha:c.sha}});
+  if(onStep)onStep(files.length+2,files.length+2);
+  return c.sha;
+}
+
+/* ── Вход ── */
+async function loadVault(){
+  var urls=[SITE+VAULT+'?t='+Date.now(),'https://raw.githubusercontent.com/'+OWNER+'/'+REPO+'/'+BRANCH+'/'+VAULT+'?t='+Date.now()];
+  for(var i=0;i<urls.length;i++){try{var r=await fetch(urls[i],{cache:'no-store'});if(r.ok)return await r.json();}catch(e){}}
+  return null;
+}
+async function boot(){
+  VAULT_OBJ=await loadVault();
+  if(VAULT_OBJ){$('#vLogin').hidden=false;$('#lPass').focus();}
+  else{$('#vSetup').hidden=false;}
+}
+$('#fLogin').addEventListener('submit',async function(e){
+  e.preventDefault();var m=$('#lMsg'),btn=this.querySelector('button');m.className='msg';m.textContent='Проверяю…';btn.disabled=true;
+  try{
+    var pass=$('#lPass').value;
+    try{TOKEN=await unseal(VAULT_OBJ,pass);}catch(x){throw new Error('Неверный пароль');}
+    var nt=$('#lTok').value.trim();
+    if(nt){await checkToken(nt);TOKEN=nt;VAULT_OBJ=await seal(nt,pass);
+      await commitFiles([{path:VAULT,text:JSON.stringify(VAULT_OBJ,null,1)+'\n'}],'Админка: новый ключ (зашифрован)');}
+    else{try{await checkToken(TOKEN);}catch(x){if(x.status===401){$('#lTokF').hidden=false;$('#lTok').focus();throw new Error('Ключ GitHub истёк — вставьте новый.');}throw x;}}
+    m.textContent='';enterApp();
+  }catch(x){m.className='msg err';m.textContent=x.message;btn.disabled=false;}
+});
+$('#fSetup').addEventListener('submit',async function(e){
+  e.preventDefault();var m=$('#sMsg'),btn=this.querySelector('button');m.className='msg';m.textContent='Проверяю ключ…';btn.disabled=true;
+  try{
+    var tok=$('#sTok').value.trim(),pass=$('#sPass').value;
+    if(pass.length<12)throw new Error('Пароль короче 12 символов');
+    await checkToken(tok);TOKEN=tok;
+    m.textContent='Сохраняю…';
+    VAULT_OBJ=await seal(tok,pass);
+    await commitFiles([{path:VAULT,text:JSON.stringify(VAULT_OBJ,null,1)+'\n'}],'Админка: ключ доступа (зашифрован)');
+    $('#sTok').value='';m.textContent='';enterApp();
+  }catch(x){m.className='msg err';m.textContent=x.message;btn.disabled=false;}
+});
+$('#bOut').addEventListener('click',function(){if(dirty()&&!confirm('Есть неопубликованные изменения. Выйти без сохранения?'))return;TOKEN=null;location.reload();});
+
+/* ── Состояние редактора ── */
+var SRC=null, SRC_SHA=null, FDOC=null, ITEMS=[], IMGS=[];
+var newImgs={};        // путь в репо → {b64, url}
+var cityNew={};        // id города → {big:{b64}, sm:{b64}, url}
+var logoNew=null;      // {path, b64, url, ext}
+var metaOrig={t:'',d:''};
+var JS_IDS=[];
+var DYN_SEL='script,style,noscript,svg,select,option,textarea,input,template,[data-city],[data-rate],[data-pay],.bc-prod';
+var DYN_WRAP='#bankList,#cityList,#citySelect,#stage,.calc-out,#mnav';
+
+function isLocked(el){
+  if(el.matches(DYN_SEL)||el.closest('svg'))return true;
+  if(el.id&&JS_IDS.indexOf(el.id)>-1)return true;
+  if(el.closest(DYN_WRAP))return true;
+  return false;
+}
+function ownText(el){for(var n=el.firstChild;n;n=n.nextSibling)if(n.nodeType===3&&n.nodeValue.trim())return true;return false;}
+// одинаковый обход для превью и для исходника — по индексу сопоставляем элементы
+function collect(doc){
+  var texts=[],imgs=[];
+  $$('body *',doc).forEach(function(el){
+    if(el.tagName==='IMG'){if(!isLocked(el)&&!(el.id&&JS_IDS.indexOf(el.id)>-1))imgs.push(el);return;}
+    if(isLocked(el)||!ownText(el))return;
+    for(var p=el.parentElement;p&&p.tagName!=='BODY';p=p.parentElement)if(texts.indexOf(p)>-1)return;
+    texts.push(el);
+  });
+  return {texts:texts,imgs:imgs};
+}
+function clean(html){
+  var t=document.createElement('template');t.innerHTML=html;
+  $$('[contenteditable]',t.content).forEach(function(e){e.removeAttribute('contenteditable');});
+  $$('img[data-newsrc]',t.content).forEach(function(e){e.setAttribute('src',e.getAttribute('data-newsrc'));e.removeAttribute('data-newsrc');});
+  $$('[data-ed],[data-img]',t.content).forEach(function(e){e.removeAttribute('data-ed');e.removeAttribute('data-img');});
+  $$('[style=""]',t.content).forEach(function(e){e.removeAttribute('style');});
+  $$('.chg',t.content).forEach(function(e){e.classList.remove('chg');if(!e.className)e.removeAttribute('class');});
+  return t.innerHTML;
+}
+function dirty(){
+  var n=0;
+  ITEMS.forEach(function(it){if(clean(it.el.innerHTML)!==it.orig)n++;});
+  IMGS.forEach(function(it){if(it.newPath)n++;});
+  n+=Object.keys(cityNew).length+(logoNew?1:0);
+  if($('#mTitle').value!==metaOrig.t)n++;
+  if($('#mDesc').value!==metaOrig.d)n++;
+  return n;
+}
+function refresh(){
+  var n=dirty();
+  $('#bPub').disabled=!n;$('#bReset').disabled=!n;
+  $('#bPub').textContent=n?'Опубликовать ('+n+')':'Опубликовать';
+  $('#status').innerHTML=n?'Изменений: <b>'+n+'</b>':'Всё опубликовано';
+}
+
+async function enterApp(){
+  $('#gate').hidden=true;$('#app').classList.add('on');document.title='Админка';
+  $('#status').textContent='Загружаю страницу…';
+  try{var f=await readFile('index.html');SRC=f.text;SRC_SHA=f.sha;}
+  catch(x){$('#status').textContent='Ошибка: '+x.message;return;}
+  // id, которые заполняет скрипт сайта
+  JS_IDS=[];SRC.replace(/\$\('#([\w-]+)'/g,function(m,id){if(JS_IDS.indexOf(id)<0)JS_IDS.push(id);});
+  buildFrame();buildCities();buildMeta();
+}
+function resetAll(){newImgs={};cityNew={};logoNew=null;buildFrame();buildCities();buildMeta();}
+$('#bReset').addEventListener('click',function(){if(confirm('Отменить все неопубликованные изменения?'))resetAll();});
+
+/* ── Вкладки ── */
+$$('#tabs button').forEach(function(b){b.addEventListener('click',function(){
+  $$('#tabs button').forEach(function(x){x.classList.toggle('on',x===b);});
+  $$('.pane').forEach(function(p){p.classList.toggle('on',p.id===b.dataset.p);});
+  $('#hint').style.visibility=b.dataset.p==='pPage'?'':'hidden';
+});});
+$$('[data-w]').forEach(function(b){b.addEventListener('click',function(){$('#frame').className=b.dataset.w;});});
+
+/* ── Превью страницы с редактированием ── */
+function buildFrame(){
+  var html=SRC.replace(/<script[\s\S]*?<\/script>/gi,'')
+    .replace(/<head>/i,'<head><base href="'+SITE+'" target="_blank">')
+    .replace(/<\/head>/i,'<style id="__ed">'+
+      '[data-ed]{outline:1px dashed transparent;outline-offset:3px;border-radius:2px;cursor:text;transition:outline-color .15s}'+
+      '[data-ed]:hover{outline-color:#6B4A8A}[data-ed]:focus{outline:2px solid #6B4A8A;background:rgba(242,194,122,.18)}'+
+      '[data-ed].chg{outline:2px solid #F2C27A}'+
+      'img[data-img]{cursor:pointer;transition:filter .2s,outline-color .2s;outline:3px solid transparent;outline-offset:-3px}'+
+      'img[data-img]:hover{filter:brightness(.75);outline-color:#6B4A8A}img[data-img].chg{outline-color:#F2C27A}'+
+      '.mnav{display:none!important}</style></head>');
+  var fr=$('#frame');
+  fr.onload=function(){
+    FDOC=fr.contentDocument;
+    var c=collect(FDOC);
+    ITEMS=c.texts.map(function(el,i){
+      el.setAttribute('contenteditable','true');el.setAttribute('data-ed',i);el.spellcheck=true;
+      $$('*',el).forEach(function(k){if(isLocked(k)||k.tagName==='IMG')k.setAttribute('contenteditable','false');});
+      return {el:el,orig:clean(el.innerHTML)};
+    });
+    IMGS=c.imgs.map(function(el,i){el.setAttribute('data-img',i);return {el:el,newPath:null};});
+    // клики: ссылки не уводят со страницы, фото — замена
+    FDOC.addEventListener('click',function(e){
+      var img=e.target.closest&&e.target.closest('img[data-img]');
+      if(!img&&!(e.target.closest&&e.target.closest('[data-ed]')))img=FDOC.elementsFromPoint(e.clientX,e.clientY).filter(function(x){return x.matches('img[data-img]');})[0];
+      if(img){e.preventDefault();pickImage(function(file){replacePageImg(+img.dataset.img,file);});return;}
+      if(e.target.closest&&e.target.closest('a,button'))e.preventDefault();
+    },true);
+    FDOC.addEventListener('submit',function(e){e.preventDefault();},true);
+    FDOC.addEventListener('keydown',function(e){
+      if(e.key==='Enter'&&e.target.closest&&e.target.closest('[data-ed]')){e.preventDefault();if(e.shiftKey)FDOC.execCommand('insertLineBreak');}
+      if(e.key==='Escape'&&FDOC.activeElement)FDOC.activeElement.blur();
+    });
+    FDOC.addEventListener('paste',function(e){
+      if(!(e.target.closest&&e.target.closest('[data-ed]')))return;
+      e.preventDefault();FDOC.execCommand('insertText',false,(e.clipboardData||window.clipboardData).getData('text/plain').replace(/\s*\n\s*/g,' '));
+    });
+    FDOC.addEventListener('input',function(e){
+      var ed=e.target.closest&&e.target.closest('[data-ed]');
+      if(ed){var it=ITEMS[+ed.dataset.ed];ed.classList.toggle('chg',clean(ed.innerHTML)!==it.orig);
+        if(!ed.className)ed.removeAttribute('class');}
+      refresh();
+    });
+    refresh();
+  };
+  fr.srcdoc=html;
+}
+
+/* ── Картинки ── */
+var _pick=null;
+function pickImage(cb){_pick=cb;var f=$('#file');f.value='';f.accept='image/*';f.click();}
+$('#file').addEventListener('change',function(){var f=this.files[0];if(f&&_pick)_pick(f);});
+function loadImg(file){return new Promise(function(res,rej){var u=URL.createObjectURL(file),i=new Image();i.onload=function(){res(i);};i.onerror=function(){rej(new Error('Не удалось открыть изображение'));};i.src=u;});}
+// → {b64, ext, url}; WebP, если браузер умеет, иначе JPEG
+async function encode(img,maxW,q){
+  var w=Math.min(maxW,img.naturalWidth),h=Math.round(img.naturalHeight*w/img.naturalWidth);
+  var c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
+  var blob=await new Promise(function(r){c.toBlob(r,'image/webp',q||.82);});
+  if(!blob||blob.type!=='image/webp')blob=await new Promise(function(r){c.toBlob(r,'image/jpeg',q||.85);});
+  var buf=await blob.arrayBuffer();
+  return {b64:b64(buf),ext:blob.type==='image/webp'?'webp':'jpg',url:URL.createObjectURL(blob),w:w,h:h};
+}
+function stamp(){return new Date().toISOString().replace(/\D/g,'').slice(2,14)+Math.random().toString(36).slice(2,5);}
+async function replacePageImg(i,file){
+  try{
+    var e=await encode(await loadImg(file),1600);
+    var it=IMGS[i],path='img/custom/'+stamp()+'.'+e.ext;
+    newImgs[path]={b64:e.b64};it.newPath=path;
+    it.el.removeAttribute('srcset');it.el.setAttribute('data-newsrc',path);it.el.src=e.url;it.el.classList.add('chg');
+    refresh();toast('Фото заменено. Не забудьте опубликовать.');
+  }catch(x){toast(x.message);}
+}
+
+/* ── Фото городов ── */
+function buildCities(){
+  var g=$('#cgrid');g.innerHTML='';
+  CITIES.forEach(function(c){
+    var a=document.createElement('button');a.type='button';a.className='city'+(cityNew[c[0]]?' chg':'');
+    a.innerHTML='<img alt="" loading="lazy" src="'+(cityNew[c[0]]?cityNew[c[0]].url:SITE+'img/cities/sm/'+c[0]+'.webp?t='+Date.now())+'"><span>'+c[1]+'</span>';
+    a.addEventListener('click',function(){pickImage(async function(file){
+      try{var img=await loadImg(file);var big=await encode(img,2048,.8),sm=await encode(img,640,.8);
+        cityNew[c[0]]={big:big,sm:sm,url:sm.url};buildCities();refresh();toast(c[1]+': фото заменено. Не забудьте опубликовать.');}
+      catch(x){toast(x.message);}
+    });});
+    g.appendChild(a);
+  });
+}
+
+/* ── Логотип, заголовок ── */
+function buildMeta(){
+  var d=new DOMParser().parseFromString(SRC,'text/html');
+  metaOrig.t=d.title;var md=d.querySelector('meta[name="description"]');metaOrig.d=md?md.getAttribute('content'):'';
+  $('#mTitle').value=metaOrig.t;$('#mDesc').value=metaOrig.d;
+  var l=d.querySelector('a.logo');$('#logoPrev').innerHTML='';
+  if(logoNew){$('#logoPrev').innerHTML='<img alt="" src="'+logoNew.url+'">';}
+  else if(l){var x=l.querySelector('svg,img');if(x){x=x.cloneNode(true);if(x.tagName==='IMG')x.src=new URL(x.getAttribute('src'),SITE).href;$('#logoPrev').appendChild(x);}}
+}
+['#mTitle','#mDesc'].forEach(function(s){$(s).addEventListener('input',refresh);});
+$('#bLogo').addEventListener('click',function(){
+  var f=$('#file');_pick=async function(file){
+    try{
+      if(file.type==='image/svg+xml'||/\.svg$/i.test(file.name)){
+        var txt=await file.text();if(!/<svg[\s>]/i.test(txt)||/<script|on\w+\s*=|javascript:/i.test(txt))throw new Error('Этот SVG не подходит: в нём есть скрипты или он повреждён.');
+        logoNew={ext:'svg',b64:b64(enc.encode(txt)),url:URL.createObjectURL(new Blob([txt],{type:'image/svg+xml'}))};
+      }else{
+        var img=await loadImg(file),c=document.createElement('canvas'),w=Math.min(400,img.naturalWidth),h=Math.round(img.naturalHeight*w/img.naturalWidth);
+        c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
+        var blob=await new Promise(function(r){c.toBlob(r,'image/png');});
+        logoNew={ext:'png',b64:b64(await blob.arrayBuffer()),url:URL.createObjectURL(blob)};
+      }
+      logoNew.path='img/custom/logo-'+stamp()+'.'+logoNew.ext;
+      buildMeta();refresh();toast('Логотип загружен. Не забудьте опубликовать.');
+    }catch(x){toast(x.message);}
+  };
+  f.value='';f.accept='image/svg+xml,image/png,image/webp';f.click();
+});
+
+/* ── Сборка index.html из правок ── */
+function buildIndex(){
+  var d=new DOMParser().parseFromString(SRC,'text/html');
+  var c=collect(d);
+  if(c.texts.length!==ITEMS.length||c.imgs.length!==IMGS.length)throw new Error('Структура страницы изменилась — обновите админку.');
+  ITEMS.forEach(function(it,i){
+    var h=clean(it.el.innerHTML);
+    if(h!==it.orig)c.texts[i].innerHTML=h;
+  });
+  IMGS.forEach(function(it,i){
+    if(!it.newPath)return;var o=c.imgs[i];o.setAttribute('src',it.newPath);o.removeAttribute('srcset');o.removeAttribute('sizes');
+  });
+  if($('#mTitle').value!==metaOrig.t)d.title=$('#mTitle').value;
+  if($('#mDesc').value!==metaOrig.d){var md=d.querySelector('meta[name="description"]');if(md)md.setAttribute('content',$('#mDesc').value);}
+  if(logoNew){
+    $$('a.logo',d).forEach(function(a){var x=a.querySelector('svg,img');var im=d.createElement('img');im.setAttribute('src',logoNew.path);im.setAttribute('alt','Логотип');
+      if(x)x.replaceWith(im);else a.prepend(im);});
+    var ic=d.querySelector('link[rel="icon"]');if(ic){ic.setAttribute('href',logoNew.path);ic.setAttribute('type',logoNew.ext==='svg'?'image/svg+xml':'image/png');}
+    var st=d.querySelector('style');
+    if(st&&st.textContent.indexOf('.logo img{')<0)st.textContent+='\n.logo img{display:block;width:54px;height:35px;object-fit:contain;transition:transform .6s var(--ease)}.logo:hover img{transform:rotate(-6deg)}\n@media (max-width:760px){.logo img{width:44px;height:30px}}\n';
+  }
+  return '<!doctype html>\n'+d.documentElement.outerHTML+'\n';
+}
+/* Страницы городов /<id>/index.html — та же логика, что и при первой сборке */
+function buildCity(tpl,c){
+  var cid=c[0],name=c[1],loc=c[2],s=tpl;
+  var one=function(re,to){if(!re.test(s))throw new Error('Шаблон города: не найдено '+re);s=s.replace(re,to);};
+  one(/<html lang="ru">/,'<html lang="ru" data-city="'+cid+'" data-root="../">');
+  one(/<title>[\s\S]*?<\/title>/,'<title>Кредиты в '+loc+' — сравнение всех банков</title>');
+  s=s.replace(/(<meta name="description" content=")[^"]*(")/,function(m,a,b){return a+'Кредиты в '+loc+': сравните ставки, платёж и переплату по наличным, ипотеке, автокредитам и картам крупных банков.'+b;});
+  s=s.replace('href="logo-bird.svg"','href="../logo-bird.svg"');
+  one(/<a class="logo" href="\.\/"/,'<a class="logo" href="../"');
+  s=s.replace(/<img id="heroCityImg"[^>]*>/,function(t){return t.replace(/moscow/g,cid);});
+  s=s.replace(/<img id="cityTileImg"[^>]*>/,function(t){return t.replace(/moscow/g,cid);});
+  s=s.split(' src="img/').join(' src="../img/').split(' srcset="img/').join(' srcset="../img/').split(', img/cities/').join(', ../img/cities/').split(' href="img/').join(' href="../img/');
+  s=s.replace(/(data-city="name"[^>]*>)Москва</g,function(m,g){return g+name+'<';}).replace(/(data-city="loc"[^>]*>)Москве</g,function(m,g){return g+loc+'<';});
+  return s;
+}
+window.__adm={buildCity:buildCity,CITIES:CITIES,diff:function(){return ITEMS.map(function(it,i){var h=clean(it.el.innerHTML);return h!==it.orig?[i,it.orig.slice(0,150),h.slice(0,150)]:null;}).filter(Boolean);}};
+
+/* ── Публикация ── */
+function busy(on,t,s){$('#busy').classList.toggle('on',on);if(t)$('#busyT').textContent=t;if(s!=null)$('#busyS').textContent=s;}
+$('#bPub').addEventListener('click',async function(){
+  if(!dirty())return;
+  busy(true,'Публикую…','Не закрывайте вкладку.');$('#busyP').style.width='3%';
+  try{
+    var cur=await readFile('index.html');
+    if(cur.sha!==SRC_SHA&&!confirm('Страницу кто-то изменил после того, как вы открыли админку. Перезаписать его изменения?')){busy(false);return;}
+    var idx=buildIndex(),files=[{path:'index.html',text:idx}];
+    CITIES.forEach(function(c){files.push({path:c[0]+'/index.html',text:buildCity(idx,c)});});
+    Object.keys(newImgs).forEach(function(p){files.push({path:p,b64:newImgs[p].b64});});
+    Object.keys(cityNew).forEach(function(id){files.push({path:'img/cities/'+id+'.webp',b64:cityNew[id].big.b64},{path:'img/cities/sm/'+id+'.webp',b64:cityNew[id].sm.b64});});
+    if(logoNew)files.push({path:logoNew.path,b64:logoNew.b64});
+    var n=dirty();
+    await commitFiles(files,'Админка: '+n+' '+(n%10===1&&n%100!==11?'изменение':n%10>=2&&n%10<=4&&(n%100<10||n%100>=20)?'изменения':'изменений'),function(i,t){$('#busyP').style.width=Math.round(i/t*100)+'%';});
+    var f=await readFile('index.html');SRC=f.text;SRC_SHA=f.sha;
+    busy(true,'Готово','Сайт обновится примерно через минуту. Если видите старую версию — обновите страницу с Shift.');
+    setTimeout(function(){busy(false);},3500);
+    resetAll();
+  }catch(x){busy(false);alert('Не удалось опубликовать: '+x.message);}
+});
+window.addEventListener('beforeunload',function(e){if(TOKEN&&dirty()){e.preventDefault();e.returnValue='';}});
+
+/* ── Пароль и ключ ── */
+$('#fPass').addEventListener('submit',async function(e){
+  e.preventDefault();var m=$('#pMsg');m.className='msg';
+  if($('#p1').value!==$('#p2').value){m.className='msg err';m.textContent='Пароли не совпадают';return;}
+  if($('#p1').value.length<12){m.className='msg err';m.textContent='Пароль короче 12 символов';return;}
+  try{m.textContent='Сохраняю…';VAULT_OBJ=await seal(TOKEN,$('#p1').value);
+    await commitFiles([{path:VAULT,text:JSON.stringify(VAULT_OBJ,null,1)+'\n'}],'Админка: смена пароля');
+    m.className='msg ok';m.textContent='Пароль изменён. Новый пароль заработает примерно через минуту.';this.reset();
+  }catch(x){m.className='msg err';m.textContent=x.message;}
+});
+$('#fTok').addEventListener('submit',async function(e){
+  e.preventDefault();var m=$('#tMsg'),tok=$('#t1').value.trim();m.className='msg';
+  var pass=prompt('Введите текущий пароль, чтобы зашифровать новый ключ');if(!pass)return;
+  try{m.textContent='Проверяю…';await unseal(VAULT_OBJ,pass);}catch(x){m.className='msg err';m.textContent='Неверный пароль';return;}
+  try{await checkToken(tok);VAULT_OBJ=await seal(tok,pass);TOKEN=tok;
+    await commitFiles([{path:VAULT,text:JSON.stringify(VAULT_OBJ,null,1)+'\n'}],'Админка: новый ключ (зашифрован)');
+    m.className='msg ok';m.textContent='Ключ заменён.';this.reset();
+  }catch(x){m.className='msg err';m.textContent=x.message;}
+});
+
+boot();
+})();
+</script>
+</body>
+</html>
