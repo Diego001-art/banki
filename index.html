@@ -572,6 +572,12 @@ document.addEventListener('DOMContentLoaded',function(){
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
   var $=function(s,r){return (r||document).querySelector(s);}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
 
+  /* ── Адреса: корень сайта (для страниц городов /kazan/ и т.п.) ── */
+  var BASE=new URL(document.documentElement.getAttribute('data-root')||'./',location.href).href;
+  // относительные пути картинок фиксируем до смены адреса через history API
+  $$('img[src]').forEach(function(i){i.setAttribute('src',i.src);});
+  $$('a.logo').forEach(function(a){a.setAttribute('href',BASE);});
+
   /* ── Города ── */
   // id (= имя фото в img/cities), название, «в ...», ключи для гео-IP
   var CITIES=[
@@ -585,12 +591,12 @@ document.addEventListener('DOMContentLoaded',function(){
     ['saratov','Саратов','Саратове','saratov'],['tyumen','Тюмень','Тюмени','tyumen'],['vladivostok','Владивосток','Владивостоке','vladivostok'],
     ['irkutsk','Иркутск','Иркутске','irkutsk'],['khabarovsk','Хабаровск','Хабаровске','khabarovsk'],
     ['kaliningrad','Калининград','Калининграде','kaliningrad'],['sochi','Сочи','Сочи','sochi']
-  ].map(function(c){return {id:c[0],name:c[1],loc:c[2],img:'img/cities/sm/'+c[0]+'.webp',re:new RegExp(c[3],'i')};});
+  ].map(function(c){return {id:c[0],name:c[1],loc:c[2],img:BASE+'img/cities/sm/'+c[0]+'.webp',re:new RegExp(c[3],'i')};});
 
   var select=$('#citySelect'), rail=$('#cityList'), cityImg=$('#cityTileImg');
   CITIES.forEach(function(c,i){
     var o=document.createElement('option');o.value=c.id;o.textContent=c.name;select.appendChild(o);
-    var a=document.createElement('a');a.href='?city='+c.id;a.className='ccard';a.dataset.id=c.id;a.draggable=false;
+    var a=document.createElement('a');a.href=BASE+c.id+'/';a.className='ccard';a.dataset.id=c.id;a.draggable=false;
     a.innerHTML='<img src="'+c.img+'" alt="" loading="lazy" draggable="false"><span class="num">'+(i<9?'0':'')+(i+1)+'</span><span class="n">'+c.name+'</span><span class="k">Кредиты в '+c.loc+' →</span>';
     a.addEventListener('click',function(e){e.preventDefault();if(rail.dataset.moved==='1')return;setCity(c.id,true);window.scrollTo({top:0,behavior:reduce?'auto':'smooth'});});
     rail.appendChild(a);
@@ -604,13 +610,13 @@ document.addEventListener('DOMContentLoaded',function(){
     document.title='Кредиты в '+c.loc+' — сравнение всех банков';
     if(cityImg){var im=new Image();im.onload=function(){cityImg.src=c.img;};im.src=c.img;}
     var hi=$('#heroCityImg');
-    if(hi&&hi.dataset.city!==c.id){hi.dataset.city=c.id;var ss='img/cities/sm/'+c.id+'.webp 640w, img/cities/'+c.id+'.webp 2048w',pre=new Image();
-      pre.sizes=hi.sizes;pre.srcset=ss;pre.src='img/cities/sm/'+c.id+'.webp';hi.style.opacity=0;
-      var swap=function(){if(hi.dataset.city!==c.id)return;hi.srcset=ss;hi.src='img/cities/sm/'+c.id+'.webp';hi.style.opacity=1;};
+    if(hi&&hi.dataset.city!==c.id){hi.dataset.city=c.id;var ss=BASE+'img/cities/sm/'+c.id+'.webp 640w, '+BASE+'img/cities/'+c.id+'.webp 2048w',pre=new Image();
+      pre.sizes=hi.sizes;pre.srcset=ss;pre.src=BASE+'img/cities/sm/'+c.id+'.webp';hi.style.opacity=0;
+      var swap=function(){if(hi.dataset.city!==c.id)return;hi.srcset=ss;hi.src=BASE+'img/cities/sm/'+c.id+'.webp';hi.style.opacity=1;};
       if(pre.complete)setTimeout(swap,reduce?0:250);else{pre.onload=swap;pre.onerror=swap;}}
     $$('.ccard',rail).forEach(function(a){a.classList.toggle('cur',a.dataset.id===c.id);});
     if(remember){try{localStorage.setItem('city',c.id);}catch(e){}
-      try{history.replaceState(null,'',location.pathname+'?city='+c.id);}catch(e){}}
+      var url=BASE+c.id+'/';if(location.href.split(/[?#]/)[0]!==url){try{history.pushState({city:c.id},'',url);}catch(e){}}}
   }
   select.addEventListener('change',function(){setCity(select.value,true);});
   $('#cityBtn').addEventListener('click',function(){$('#calc').scrollIntoView({behavior:reduce?'auto':'smooth'});setTimeout(function(){select.focus();},reduce?0:700);});
@@ -767,8 +773,15 @@ document.addEventListener('DOMContentLoaded',function(){
 
   calc(); auto(true);
   var saved=null;try{saved=localStorage.getItem('city');}catch(e){}
+  var isCity=function(id){return CITIES.some(function(c){return c.id===id;});};
+  // назад/вперёд в браузере — город из адреса
+  window.addEventListener('popstate',function(){var m=location.pathname.match(/\/([a-z]+)\/?$/);var id=m&&isCity(m[1])?m[1]:(document.documentElement.getAttribute('data-city')||'moscow');setCity(id);});
+  // страница города: /kazan/
+  var pageCity=document.documentElement.getAttribute('data-city');
+  if(pageCity&&isCity(pageCity)){setCity(pageCity);return;}
+  // старые ссылки ?city=kazan → /kazan/
   var qp=(location.search.match(/[?&]city=([a-z]+)/)||[])[1];
-  if(qp&&CITIES.some(function(c){return c.id===qp;})){setCity(qp);return;} // ссылка вида ?city=kazan
+  if(qp&&isCity(qp)){location.replace(BASE+qp+'/');return;}
   if(saved&&CITIES.some(function(c){return c.id===saved;})){setCity(saved);return;}
   setCity('moscow'); // по умолчанию и для иностранных IP — Москва
   // Город по IP: ipapi.co, запасной — ipwho.is. Не Россия или город не из списка — Москва.
