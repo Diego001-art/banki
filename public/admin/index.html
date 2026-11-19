@@ -1,0 +1,773 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Админка — вход</title>
+<link rel="icon" href="../logo-bird.svg" type="image/svg+xml">
+<style>
+:root{--ink:#16161A;--ink-2:#34343C;--muted:#70707A;--line:#E6E6EA;--line-2:#D6D6DC;--bg:#F4F4F6;--white:#fff;--gold:#F2C27A;--ok:#1A7F45;--err:#C0322B;--warn:#8A5A00;--plum:#4B2E63;--soft:#F3F1F6;
+  --font:"Onest",Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);font-size:15px;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--plum)}
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:var(--white);font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;text-decoration:none;color:var(--ink)}
+.pill:hover{border-color:var(--line-2)}
+.pill.ink{background:var(--plum);border-color:var(--plum);color:#fff}
+.pill.ink:hover{background:#6B4A8A}
+.pill.danger{color:var(--err)}
+.pill:disabled{opacity:.45;cursor:default}
+.pill.sm{min-height:32px;padding:0 10px;font-size:13px}
+.field{display:grid;gap:5px;margin-bottom:12px;align-content:start}
+.field>label,.lbl{font-size:13px;color:var(--muted)}
+.inp,.field input:not([type=checkbox]):not([type=radio]),.field textarea,.field select{width:100%;min-height:40px;padding:8px 11px;border:1px solid var(--line);border-radius:10px;background:var(--white);outline:none}
+.inp:focus,.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--plum)}
+.field small{font-size:12px;color:var(--muted);line-height:1.45}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.msg{min-height:18px;font-size:13px;margin:4px 0 10px}
+.msg.err{color:var(--err)} .msg.ok{color:var(--ok)}
+/* вход */
+.gate{min-height:100%;display:grid;place-items:center;padding:24px 16px}
+.card{width:100%;max-width:460px;background:var(--white);border:1px solid var(--line);border-radius:22px;padding:clamp(22px,5vw,36px)}
+.card h1{margin:14px 0 6px;font-size:24px}
+.card p.lead{margin:0 0 18px;color:var(--muted);line-height:1.5}
+.card .pill.ink{width:100%;min-height:48px}
+.steps{margin:0 0 18px;padding-left:20px;line-height:1.55;font-size:14px}
+.steps code{background:var(--bg);border-radius:6px;padding:1px 6px}
+/* каркас */
+.app{display:none;height:100%;grid-template-rows:auto 1fr}
+.app.on{display:grid}
+.bar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--white);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.brand{font-weight:700;margin-right:6px}
+.tabs{display:flex;gap:4px;background:var(--bg);border-radius:12px;padding:4px;overflow-x:auto;max-width:100%}
+.tabs button{border:0;background:transparent;border-radius:9px;padding:7px 11px;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap}
+.tabs button.on{background:var(--white);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.sp{flex:1}
+.status{font-size:13px;color:var(--muted)}
+.view{overflow:auto}
+.pane{display:none;min-height:100%}
+.pane.on{display:block}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 16px 80px}
+.wrap h2{font-size:21px;margin:0 0 4px}
+.sub{margin:0 0 18px;color:var(--muted);line-height:1.5}
+.box{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px}
+.box h3{margin:0 0 12px;font-size:16px}
+.split{display:grid;grid-template-columns:300px minmax(0,1fr);gap:16px;align-items:start}
+.list{display:grid;gap:6px}
+.li{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--white);border:1px solid var(--line);cursor:pointer;text-align:left;width:100%}
+.li:hover{border-color:var(--line-2)}
+.li.on{border-color:var(--plum);box-shadow:inset 0 0 0 1px var(--plum)}
+.li small{display:block;color:var(--muted);font-size:12px}
+.sw{flex:none;width:34px;height:22px;border-radius:5px;background:linear-gradient(135deg,var(--c1),var(--c2))}
+.badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:12px;font-weight:600;background:var(--bg);color:var(--muted)}
+.badge.pub{background:#DDF3E5;color:var(--ok)}
+.badge.rev{background:#FCEBCF;color:var(--warn)}
+.gate-box{margin:10px 0 14px;padding:10px 12px;border-radius:12px;font-size:13px;line-height:1.5}
+.gate-box.bad{background:#FCEBCF;color:var(--warn)}
+.gate-box.good{background:#DDF3E5;color:var(--ok)}
+.prod{border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:8px;cursor:pointer;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.prod:hover{border-color:var(--line-2)}
+.tree{border:1px solid var(--line);border-radius:12px;padding:8px 10px;max-height:420px;overflow:auto;background:#FCFCFD}
+.tree details{margin:2px 0}
+.tree summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:6px;padding:3px 0}
+.tree summary::-webkit-details-marker{display:none}
+.tree summary::before{content:"▸";width:12px;color:var(--muted)}
+.tree details[open]>summary::before{content:"▾"}
+.tree .kids{padding-left:22px}
+.tree label{display:flex;align-items:center;gap:6px;padding:3px 0;cursor:pointer}
+.tree .cnt{color:var(--muted);font-size:12px}
+.chk{display:flex;align-items:center;gap:8px;margin:6px 0;cursor:pointer}
+.srcrow{display:grid;grid-template-columns:2fr 2fr 140px 36px;gap:8px;margin-bottom:6px}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.city{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:12px}
+.city h4{margin:0 0 8px;font-size:15px}
+.ph{display:grid;grid-template-columns:1.6fr 1fr;gap:8px}
+.ph button{position:relative;border:0;padding:0;border-radius:10px;overflow:hidden;background:#ddd;aspect-ratio:4/3;cursor:pointer}
+.ph button.tall{aspect-ratio:3/4}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph span{position:absolute;left:6px;bottom:6px;background:rgba(22,22,26,.72);color:#fff;border-radius:6px;padding:2px 7px;font-size:11px}
+.ph button.chg{outline:3px solid var(--gold);outline-offset:-3px}
+.frame-wrap{background:#E9E9EE;padding:12px;height:calc(100vh - 120px)}
+.frame-wrap iframe{border:0;width:100%;height:100%;border-radius:12px;background:#fff}
+.frame-wrap.mob iframe{width:390px;display:block;margin:0 auto}
+.hint{padding:8px 16px;font-size:13px;color:var(--muted);background:#FBFBFC;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 16px;border-radius:12px;font-size:14px;z-index:9;max-width:calc(100% - 32px);display:none}
+.toast.on{display:block}
+.overlay{position:fixed;inset:0;background:rgba(244,244,246,.88);display:none;place-items:center;z-index:8;padding:16px}
+.overlay.on{display:grid}
+.overlay .card{text-align:center}
+.prog{height:6px;background:#EEE;border-radius:9px;overflow:hidden;margin:14px 0 10px}
+.prog i{display:block;height:100%;width:0;background:var(--plum);transition:width .3s}
+.err-list{text-align:left;font-size:13px;color:var(--err);max-height:240px;overflow:auto;margin:10px 0 0;padding-left:18px}
+@media (max-width:860px){.split{grid-template-columns:1fr}.row2,.row3{grid-template-columns:1fr}.srcrow{grid-template-columns:1fr}.frame-wrap.mob iframe{width:100%}}
+</style>
+</head>
+<body>
+
+<section class="gate" id="gate">
+  <div class="card">
+    <div id="vLogin" hidden>
+      <h1>Вход в админку</h1>
+      <p class="lead">Банки, продукты, регионы, города и тексты сайта.</p>
+      <form id="fLogin">
+        <input type="text" name="username" value="admin" autocomplete="username" hidden>
+        <div class="field"><label for="lPass">Пароль</label><input id="lPass" type="password" autocomplete="current-password" required></div>
+        <div class="field" id="lTokF" hidden><label for="lTok">Новый ключ GitHub</label><input id="lTok" type="password" placeholder="github_pat_…"><small>Старый ключ истёк или отозван. Создайте новый (см. шаги первой настройки) и вставьте сюда.</small></div>
+        <div class="msg" id="lMsg"></div>
+        <button class="pill ink" type="submit">Войти</button>
+      </form>
+    </div>
+    <div id="vSetup" hidden>
+      <h1>Первая настройка</h1>
+      <p class="lead">Нужна один раз. Админка сохраняет изменения в репозиторий сайта на GitHub, после чего сайт пересобирается автоматически. Ключ доступа будет зашифрован паролем.</p>
+      <ol class="steps">
+        <li>Откройте <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">создание ключа на GitHub</a>.</li>
+        <li>Срок — 1 год. <b>Repository access</b> → <i>Only select repositories</i> → <code>banki</code>.</li>
+        <li><b>Permissions</b> → <i>Contents</i>: <code>Read and write</code>; <i>Actions</i>: <code>Read-only</code> (чтобы видеть статус сборки).</li>
+        <li><i>Generate token</i>, скопируйте ключ и вставьте ниже.</li>
+      </ol>
+      <form id="fSetup" autocomplete="off">
+        <div class="field"><label for="sTok">Ключ GitHub</label><input id="sTok" type="password" placeholder="github_pat_…" required></div>
+        <div class="field"><label for="sPass">Пароль для входа</label><input id="sPass" type="password" autocomplete="new-password" required minlength="12"><small>Не короче 12 символов.</small></div>
+        <div class="msg" id="sMsg"></div>
+        <button class="pill ink" type="submit">Сохранить и войти</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="app" id="app">
+  <header class="bar">
+    <span class="brand">Админка</span>
+    <nav class="tabs" id="tabs">
+      <button class="on" data-p="pPage">Тексты и фото</button>
+      <button data-p="pBanks">Банки и продукты</button>
+      <button data-p="pRegions">Регионы</button>
+      <button data-p="pCities">Города</button>
+      <button data-p="pSettings">Настройки</button>
+      <button data-p="pPass">Пароль</button>
+    </nav>
+    <span class="sp"></span>
+    <span class="status" id="status">Загрузка…</span>
+    <button class="pill sm" id="bReset" disabled>Отменить</button>
+    <button class="pill ink sm" id="bPub" disabled>Опубликовать</button>
+    <button class="pill sm" id="bOut">Выйти</button>
+  </header>
+  <main class="view">
+
+    <div class="pane on" id="pPage">
+      <div class="hint">
+        <span>Нажмите на текст, чтобы изменить. Нажмите на картинку или логотип, чтобы заменить.</span>
+        <select class="inp" id="pgSel" style="width:auto;min-height:34px"><option value="/">Главная</option><option value="city">Страница города</option></select>
+        <button class="pill sm" data-w="">Компьютер</button><button class="pill sm" data-w="mob">Телефон</button>
+      </div>
+      <div class="frame-wrap" id="fw"><iframe id="frame" title="Редактируемая страница"></iframe></div>
+    </div>
+
+    <div class="pane" id="pBanks"><div class="wrap">
+      <h2>Банки и продукты</h2>
+      <p class="sub">Карточка банка → продукт → условия, источник и где не показывать. На сайте показываются только продукты, прошедшие проверку (зелёная плашка).</p>
+      <div class="split">
+        <div><div class="list" id="bankList"></div><button class="pill" id="bAddBank" style="margin-top:10px;width:100%">+ Банк</button></div>
+        <div id="bankEdit"><div class="box"><p class="sub" style="margin:0">Выберите банк слева.</p></div></div>
+      </div>
+    </div></div>
+
+    <div class="pane" id="pRegions"><div class="wrap">
+      <h2>Регионы</h2>
+      <p class="sub">Выберите федеральный округ, регион или город и отметьте продукты, которые там не показывать. Скрытие на уровне округа действует на все его регионы и города.</p>
+      <div class="split">
+        <div class="tree" id="rgTree"></div>
+        <div id="rgEdit"><div class="box"><p class="sub" style="margin:0">Выберите округ, регион или город слева.</p></div></div>
+      </div>
+    </div></div>
+
+    <div class="pane" id="pCities"><div class="wrap">
+      <h2>Города</h2>
+      <p class="sub">Большое фото — фон первого экрана. Маленькое — карточка в списке городов. Лучше горизонтальное фото от 1600 px и вертикальное от 600 px.</p>
+      <div class="cgrid" id="cityGrid"></div>
+    </div></div>
+
+    <div class="pane" id="pSettings"><div class="wrap" style="max-width:820px" id="setBox"></div></div>
+
+    <div class="pane" id="pPass"><div class="wrap" style="max-width:520px">
+      <h2>Смена пароля</h2>
+      <p class="sub">Ключ GitHub перешифруется новым паролем.</p>
+      <form class="box" id="fPass">
+        <div class="field"><label for="p1">Новый пароль</label><input id="p1" type="password" autocomplete="new-password" minlength="12" required></div>
+        <div class="field"><label for="p2">Ещё раз</label><input id="p2" type="password" autocomplete="new-password" minlength="12" required></div>
+        <div class="msg" id="pMsg"></div>
+        <button class="pill ink" type="submit">Сменить пароль</button>
+      </form>
+    </div></div>
+  </main>
+</div>
+
+<input type="file" id="file" accept="image/*" hidden>
+<div class="overlay" id="busy"><div class="card"><h1 id="busyT" style="font-size:20px">Публикую…</h1><div class="prog"><i id="busyP"></i></div><p class="lead" id="busyS" style="margin:0">Не закрывайте вкладку.</p><ul class="err-list" id="busyE"></ul><button class="pill" id="busyX" hidden style="margin-top:12px">Закрыть</button></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+"use strict";
+var OWNER = "Diego001-art", REPO = "banki", BRANCH = "main";
+var API = "https://api.github.com/repos/" + OWNER + "/" + REPO;
+var SITE = new URL("../", location.href).href.replace(/\/$/, "");
+var VAULT = "public/admin/vault.json", ITER = 600000;
+var FILES = { site: "data/site.json", lenders: "data/lenders.json", products: "data/products.json", regions: "data/regions.json", cities: "data/cities.json", types: "data/product-types.json", texts: "content/texts.json" };
+
+var $ = function (s, r) { return (r || document).querySelector(s); }, $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+var esc = function (t) { return String(t == null ? "" : t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+function toast(t, ms) { var e = $("#toast"); e.textContent = t; e.classList.add("on"); clearTimeout(e._t); e._t = setTimeout(function () { e.classList.remove("on"); }, ms || 3500); }
+var TOKEN = null, VAULT_OBJ = null;
+var today = function () { return new Date().toISOString().slice(0, 10); };
+
+/* ── шифрование ключа ── */
+var enc = new TextEncoder(), dec = new TextDecoder();
+function b64(buf) { var s = "", b = new Uint8Array(buf); for (var i = 0; i < b.length; i += 0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000)); return btoa(s); }
+function unb64(s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
+async function keyFrom(pass, salt, iter) {
+  var base = await crypto.subtle.importKey("raw", enc.encode(pass), "PBKDF2", false, ["deriveKey"]);
+  return crypto.subtle.deriveKey({ name: "PBKDF2", salt: salt, iterations: iter, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+}
+async function seal(token, pass) {
+  var salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+  var k = await keyFrom(pass, salt, ITER);
+  var ct = await crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, k, enc.encode(JSON.stringify({ t: token })));
+  return { v: 1, kdf: "PBKDF2-SHA256", iter: ITER, salt: b64(salt), iv: b64(iv), ct: b64(ct) };
+}
+async function unseal(v, pass) {
+  var k = await keyFrom(pass, unb64(v.salt), v.iter);
+  var pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv: unb64(v.iv) }, k, unb64(v.ct));
+  return JSON.parse(dec.decode(pt)).t;
+}
+
+/* ── GitHub API ── */
+async function gh(path, opt) {
+  opt = opt || {};
+  var r = await fetch(path.indexOf("http") === 0 ? path : API + path, { method: opt.method || "GET", cache: "no-store",
+    headers: Object.assign({ Accept: "application/vnd.github+json", Authorization: "Bearer " + (opt.token || TOKEN), "X-GitHub-Api-Version": "2022-11-28" }, opt.body ? { "Content-Type": "application/json" } : {}),
+    body: opt.body ? JSON.stringify(opt.body) : undefined });
+  if (!r.ok) { var t = ""; try { t = (await r.json()).message; } catch (e) {} var err = new Error("GitHub " + r.status + (t ? ": " + t : "")); err.status = r.status; throw err; }
+  return r.status === 204 ? null : r.json();
+}
+async function checkToken(tok) {
+  var repo = await gh("", { token: tok });
+  if (!repo.permissions || !repo.permissions.push) throw new Error("У ключа нет права записи в репозиторий banki (Contents: Read and write).");
+}
+async function readFile(path) {
+  var j = await gh("/contents/" + path.split("/").map(encodeURIComponent).join("/") + "?ref=" + BRANCH);
+  return { sha: j.sha, text: dec.decode(unb64(j.content.replace(/\n/g, ""))) };
+}
+async function commitFiles(files, message, onStep) {
+  var ref = await gh("/git/ref/heads/" + BRANCH), head = ref.object.sha;
+  var base = (await gh("/git/commits/" + head)).tree.sha, tree = [], n = 0;
+  for (var i = 0; i < files.length; i++) {
+    var f = files[i];
+    var blob = await gh("/git/blobs", { method: "POST", body: f.b64 != null ? { content: f.b64, encoding: "base64" } : { content: f.text, encoding: "utf-8" } });
+    tree.push({ path: f.path, mode: "100644", type: "blob", sha: blob.sha });
+    if (onStep) onStep(++n, files.length + 2);
+  }
+  var t = await gh("/git/trees", { method: "POST", body: { base_tree: base, tree: tree } });
+  var c = await gh("/git/commits", { method: "POST", body: { message: message, tree: t.sha, parents: [head] } });
+  await gh("/git/refs/heads/" + BRANCH, { method: "PATCH", body: { sha: c.sha } });
+  if (onStep) onStep(files.length + 2, files.length + 2);
+  return c.sha;
+}
+
+/* ── вход ── */
+async function loadVault() {
+  var urls = [SITE + "/admin/vault.json?t=" + Date.now(), "https://raw.githubusercontent.com/" + OWNER + "/" + REPO + "/" + BRANCH + "/" + VAULT + "?t=" + Date.now()];
+  for (var i = 0; i < urls.length; i++) { try { var r = await fetch(urls[i], { cache: "no-store" }); if (r.ok) return await r.json(); } catch (e) {} }
+  return null;
+}
+async function saveVault(msg) { await commitFiles([{ path: VAULT, text: JSON.stringify(VAULT_OBJ, null, 1) + "\n" }], msg); }
+$("#fLogin").addEventListener("submit", async function (e) {
+  e.preventDefault(); var m = $("#lMsg"), btn = this.querySelector("button"); m.className = "msg"; m.textContent = "Проверяю…"; btn.disabled = true;
+  try {
+    var pass = $("#lPass").value;
+    try { TOKEN = await unseal(VAULT_OBJ, pass); } catch (x) { throw new Error("Неверный пароль"); }
+    var nt = $("#lTok").value.trim();
+    if (nt) { await checkToken(nt); TOKEN = nt; VAULT_OBJ = await seal(nt, pass); await saveVault("Админка: новый ключ (зашифрован)"); }
+    else { try { await checkToken(TOKEN); } catch (x) { if (x.status === 401) { $("#lTokF").hidden = false; $("#lTok").focus(); throw new Error("Ключ GitHub истёк — вставьте новый."); } throw x; } }
+    m.textContent = ""; enterApp();
+  } catch (x) { m.className = "msg err"; m.textContent = x.message; btn.disabled = false; }
+});
+$("#fSetup").addEventListener("submit", async function (e) {
+  e.preventDefault(); var m = $("#sMsg"), btn = this.querySelector("button"); m.className = "msg"; m.textContent = "Проверяю ключ…"; btn.disabled = true;
+  try {
+    var tok = $("#sTok").value.trim(), pass = $("#sPass").value;
+    if (pass.length < 12) throw new Error("Пароль короче 12 символов");
+    await checkToken(tok); TOKEN = tok; m.textContent = "Сохраняю…";
+    VAULT_OBJ = await seal(tok, pass); await saveVault("Админка: ключ доступа (зашифрован)");
+    $("#sTok").value = ""; m.textContent = ""; enterApp();
+  } catch (x) { m.className = "msg err"; m.textContent = x.message; btn.disabled = false; }
+});
+$("#fPass").addEventListener("submit", async function (e) {
+  e.preventDefault(); var m = $("#pMsg"); m.className = "msg";
+  if ($("#p1").value !== $("#p2").value) { m.className = "msg err"; m.textContent = "Пароли не совпадают"; return; }
+  if ($("#p1").value.length < 12) { m.className = "msg err"; m.textContent = "Пароль короче 12 символов"; return; }
+  try { m.textContent = "Сохраняю…"; VAULT_OBJ = await seal(TOKEN, $("#p1").value); await saveVault("Админка: смена пароля"); m.className = "msg ok"; m.textContent = "Пароль изменён."; this.reset(); }
+  catch (x) { m.className = "msg err"; m.textContent = x.message; }
+});
+$("#bOut").addEventListener("click", function () { if (dirtyCount() && !confirm("Есть неопубликованные изменения. Выйти?")) return; TOKEN = null; location.reload(); });
+
+/* ── данные ── */
+var D = {}, ORIG = {}, SHA = {}, IMG = {}; // IMG: путь в репозитории → base64
+var canon = function (o) { return JSON.stringify(o, null, 2) + "\n"; };
+async function loadAll() {
+  var keys = Object.keys(FILES);
+  var res = await Promise.all(keys.map(function (k) { return readFile(FILES[k]); }));
+  keys.forEach(function (k, i) { D[k] = JSON.parse(res[i].text); ORIG[k] = canon(D[k]); SHA[k] = res[i].sha; });
+}
+function changed() { return Object.keys(FILES).filter(function (k) { return canon(D[k]) !== ORIG[k]; }); }
+function dirtyCount() { return changed().length + Object.keys(IMG).length; }
+function refresh() {
+  var n = dirtyCount();
+  $("#bPub").disabled = !n; $("#bReset").disabled = !n;
+  $("#bPub").textContent = n ? "Опубликовать (" + n + ")" : "Опубликовать";
+  $("#status").innerHTML = n ? "Изменено: <b>" + n + "</b>" : "Всё опубликовано";
+}
+var regionsOf = function (dId) { return D.regions.regions.filter(function (r) { return r.districtId === dId; }); };
+var citiesOf = function (rId) { return D.cities.filter(function (c) { return c.regionId === rId; }); };
+var regionById = function (id) { return D.regions.regions.filter(function (r) { return r.id === id; })[0]; };
+var lenderById = function (id) { return D.lenders.filter(function (l) { return l.id === id; })[0]; };
+var typeName = function (id) { var t = D.types.filter(function (t) { return t.id === id; })[0]; return t ? t.one : id; };
+
+/* ── публикационный шлюз (как src/lib/eligibility.ts) ── */
+function hasConditions(p) { return ["amountMin","amountMax","termMin","termMax","rateMin","rateMax","pskMin","pskMax","gracePeriodDays","downPaymentMin","cashback","depositRate"].some(function (k) { return p[k] != null; }) || !!p.fee; }
+function productBlockers(p) {
+  var l = lenderById(p.lenderId), r = [];
+  if (p.status !== "published") r.push("статус не «Опубликован»");
+  if (!l) r.push("нет банка"); else if (l.status !== "published") r.push("банк не опубликован");
+  if (!p.sourceUrl) r.push("нет источника");
+  if (!p.checkedAt) r.push("нет даты проверки");
+  if (!p.validUntil) r.push("нет срока актуальности"); else if (p.validUntil < today()) r.push("истёк срок актуальности");
+  if (!p.approvedBy) r.push("не указано, кто подтвердил");
+  if (!hasConditions(p)) r.push("нет ни одного условия");
+  if ((p.rateMin != null || p.rateMax != null) && p.pskMin == null && p.pskMax == null) r.push("ставка без ПСК");
+  if (p.affiliateUrl && !p.disclosure) r.push("партнёрская ссылка без раскрытия");
+  return r;
+}
+function lenderBlockers(l) {
+  var r = [];
+  if (l.status !== "published") r.push("статус не «Опубликован»");
+  if (!l.checkedAt) r.push("нет даты проверки");
+  if (!l.approvedBy) r.push("не указано, кто подтвердил");
+  if (!l.sources.length) r.push("нет официальных источников");
+  return r;
+}
+function cityBlockers(c) {
+  var r = [];
+  if (c.indexStatus !== "published") r.push("статус не «Опубликован»");
+  if (!c.editor) r.push("нет редактора");
+  if (!c.reviewedAt) r.push("нет даты проверки");
+  if (!c.searchEvidence) r.push("нет подтверждения спроса");
+  if (!c.localFacts.length) r.push("нет локальных фактов с источниками");
+  return r;
+}
+function validate() {
+  var e = [], seen = {};
+  D.products.forEach(function (p) {
+    if (seen[p.id]) e.push("Повтор id продукта: " + p.id); seen[p.id] = 1;
+    if (p.status === "published") { var b = productBlockers(p); if (b.length) e.push("«" + p.productName + "» (" + (lenderById(p.lenderId) || {}).name + "): " + b.join(", ")); }
+    [["amountMin","amountMax","Сумма"],["termMin","termMax","Срок"],["rateMin","rateMax","Ставка"],["pskMin","pskMax","ПСК"]].forEach(function (k) { if (p[k[0]] != null && p[k[1]] != null && p[k[0]] > p[k[1]]) e.push("«" + p.productName + "»: " + k[2] + " от больше, чем до"); });
+  });
+  seen = {};
+  D.lenders.forEach(function (l) { if (seen[l.id]) e.push("Повтор id банка: " + l.id); seen[l.id] = 1; if (l.status === "published") { var b = lenderBlockers(l); if (b.length) e.push("Банк «" + l.name + "»: " + b.join(", ")); } });
+  D.cities.forEach(function (c) { if (c.indexable) { var b = cityBlockers(c); if (b.length) e.push("Город " + c.name + " отмечен для индексации, но: " + b.join(", ")); } });
+  var o = D.site.operator;
+  if (D.site.indexing && (!o.name || !o.inn || !o.ogrn || !o.email)) e.push("Индексация включена, но не заполнены реквизиты оператора");
+  if (D.site.indexing && D.site.mode !== "production") e.push("Индексация включена в режиме «Предпросмотр»");
+  if (D.site.commercial.affiliateLinks && !D.site.commercial.disclosure) e.push("Включены партнёрские ссылки без текста раскрытия");
+  return e;
+}
+
+/* ── вкладки ── */
+$$("#tabs button").forEach(function (b) { b.addEventListener("click", function () {
+  $$("#tabs button").forEach(function (x) { x.classList.toggle("on", x === b); });
+  $$(".pane").forEach(function (p) { p.classList.toggle("on", p.id === b.dataset.p); });
+}); });
+async function enterApp() {
+  $("#gate").hidden = true; $("#app").classList.add("on"); document.title = "Админка";
+  $("#status").textContent = "Загружаю данные…";
+  try { await loadAll(); } catch (x) { $("#status").textContent = "Ошибка: " + x.message; return; }
+  renderAll(); refresh();
+}
+function renderAll() { buildFrame(); renderBanks(); renderTree(); renderCities(); renderSettings(); }
+$("#bReset").addEventListener("click", function () {
+  if (!confirm("Отменить все неопубликованные изменения?")) return;
+  Object.keys(FILES).forEach(function (k) { D[k] = JSON.parse(ORIG[k]); }); IMG = {}; CUR_B = null; CUR_P = null; RG = null; renderAll(); refresh();
+});
+
+/* ── картинки ── */
+var _pick = null;
+function pickImage(cb, accept) { _pick = cb; var f = $("#file"); f.value = ""; f.accept = accept || "image/*"; f.click(); }
+$("#file").addEventListener("change", function () { var f = this.files[0]; if (f && _pick) _pick(f); });
+function loadImg(file) { return new Promise(function (res, rej) { var i = new Image(); i.onload = function () { res(i); }; i.onerror = function () { rej(new Error("Не удалось открыть изображение")); }; i.src = URL.createObjectURL(file); }); }
+async function encode(img, maxW, q) {
+  var w = Math.min(maxW, img.naturalWidth), h = Math.round(img.naturalHeight * w / img.naturalWidth);
+  var c = document.createElement("canvas"); c.width = w; c.height = h; c.getContext("2d").drawImage(img, 0, 0, w, h);
+  var blob = await new Promise(function (r) { c.toBlob(r, "image/webp", q || 0.82); });
+  if (!blob || blob.type !== "image/webp") blob = await new Promise(function (r) { c.toBlob(r, "image/jpeg", q || 0.85); });
+  return { b64: b64(await blob.arrayBuffer()), ext: blob.type === "image/webp" ? "webp" : "jpg", url: URL.createObjectURL(blob) };
+}
+var stamp = function () { return new Date().toISOString().replace(/\D/g, "").slice(2, 14) + Math.random().toString(36).slice(2, 5); };
+/** Загружает картинку → {path относительно public, url для превью} */
+async function uploadImage(file, maxW, prefix) {
+  if (/\.svg$/i.test(file.name) || file.type === "image/svg+xml") {
+    var txt = await file.text();
+    if (!/<svg[\s>]/i.test(txt) || /<script|on\w+\s*=|javascript:/i.test(txt)) throw new Error("Этот SVG не подходит: в нём скрипты или он повреждён.");
+    var p = "img/custom/" + prefix + stamp() + ".svg"; IMG["public/" + p] = b64(enc.encode(txt));
+    return { path: p, url: URL.createObjectURL(new Blob([txt], { type: "image/svg+xml" })) };
+  }
+  var e = await encode(await loadImg(file), maxW);
+  var path = "img/custom/" + prefix + stamp() + "." + e.ext; IMG["public/" + path] = e.b64;
+  return { path: path, url: e.url };
+}
+
+/* ── тексты и фото на странице ── */
+function pagePath() {
+  if ($("#pgSel").value !== "city") return "/";
+  var c = D.cities[0], r = regionById(c.regionId);
+  return "/goroda/" + r.slug + "/" + c.slug + "/";
+}
+$("#pgSel").addEventListener("change", buildFrame);
+$$("[data-w]").forEach(function (b) { b.addEventListener("click", function () { $("#fw").className = "frame-wrap " + b.dataset.w; }); });
+function buildFrame() {
+  var fr = $("#frame");
+  fr.onload = function () {
+    var doc = fr.contentDocument; if (!doc) return;
+    var st = doc.createElement("style");
+    st.textContent = "[data-t]{outline:1px dashed transparent;outline-offset:3px;cursor:text}[data-t]:hover{outline-color:#6B4A8A}[data-t]:focus{outline:2px solid #6B4A8A;background:rgba(242,194,122,.18)}[data-t].chg{outline:2px solid #F2C27A}[data-i]{cursor:pointer}[data-i]:hover{filter:brightness(.8)}img[data-i].chg,[data-i].chg{outline:3px solid #F2C27A}";
+    doc.head.appendChild(st);
+    $$("[data-t]", doc).forEach(function (el) {
+      var k = el.getAttribute("data-t"); if (D.texts[k] == null) return;
+      el.textContent = D.texts[k];
+      try { el.contentEditable = "plaintext-only"; } catch (e) { el.contentEditable = "true"; }
+      if (el.contentEditable !== "plaintext-only") el.contentEditable = "true";
+      el.classList.toggle("chg", D.texts[k] !== JSON.parse(ORIG.texts)[k]);
+    });
+    doc.addEventListener("click", function (e) {
+      var t = e.target.closest && e.target.closest("[data-t]");
+      if (t) { e.preventDefault(); e.stopPropagation(); return; }
+      var im = e.target.closest && e.target.closest("[data-i]");
+      if (im) {
+        e.preventDefault(); e.stopPropagation();
+        var k = im.getAttribute("data-i"), logo = k === "logo";
+        pickImage(async function (file) {
+          try {
+            var up = await uploadImage(file, logo ? 400 : 1200, logo ? "logo-" : "");
+            D.texts[k] = up.path; im.classList.add("chg");
+            if (im.tagName === "IMG") { im.removeAttribute("srcset"); im.src = up.url; } else im.innerHTML = '<img src="' + up.url + '" alt="" style="width:54px;height:35px;object-fit:contain">';
+            refresh(); toast("Картинка заменена. Не забудьте опубликовать.");
+          } catch (x) { toast(x.message); }
+        }, logo ? "image/svg+xml,image/png,image/webp" : "image/*");
+        return;
+      }
+      if (e.target.closest && e.target.closest("a")) e.preventDefault();
+    }, true);
+    doc.addEventListener("keydown", function (e) { if (e.key === "Enter" && e.target.closest && e.target.closest("[data-t]")) e.preventDefault(); });
+    doc.addEventListener("input", function (e) {
+      var el = e.target.closest && e.target.closest("[data-t]"); if (!el) return;
+      var k = el.getAttribute("data-t"), v = el.textContent.replace(/\s+/g, " ").trim();
+      D.texts[k] = v;
+      $$('[data-t="' + k + '"]', doc).forEach(function (x) { if (x !== el) x.textContent = v; x.classList.toggle("chg", v !== JSON.parse(ORIG.texts)[k]); });
+      refresh();
+    });
+  };
+  fr.src = SITE + pagePath() + "?admin=" + Date.now();
+}
+
+/* ── банки и продукты ── */
+var CUR_B = null, CUR_P = null;
+function badge(st) { return '<span class="badge ' + (st === "published" ? "pub" : st === "review" ? "rev" : "") + '">' + ({ draft: "Черновик", review: "На проверке", published: "Опубликован", archived: "Архив" }[st] || st) + "</span>"; }
+function renderBanks() {
+  var box = $("#bankList"); box.innerHTML = "";
+  D.lenders.forEach(function (l) {
+    var n = D.products.filter(function (p) { return p.lenderId === l.id; }).length;
+    var ok = D.products.filter(function (p) { return p.lenderId === l.id && !productBlockers(p).length; }).length;
+    var b = document.createElement("button"); b.type = "button"; b.className = "li" + (CUR_B === l.id ? " on" : "");
+    b.innerHTML = '<span class="sw" style="--c1:' + esc(l.colors.c1) + ";--c2:" + esc(l.colors.c2) + '"></span><span style="flex:1"><b>' + esc(l.name) + "</b><small>продуктов: " + n + ", на сайте: " + ok + "</small></span>" + badge(l.status);
+    b.addEventListener("click", function () { CUR_B = l.id; CUR_P = null; renderBanks(); renderBank(); });
+    box.appendChild(b);
+  });
+  if (CUR_B) renderBank();
+}
+function fld(label, html, hint) { return '<div class="field"><label>' + label + "</label>" + html + (hint ? "<small>" + hint + "</small>" : "") + "</div>"; }
+function inp(key, val, type, attrs) { return '<input data-k="' + key + '" type="' + (type || "text") + '" value="' + esc(val == null ? "" : val) + '"' + (attrs || "") + ">"; }
+function sel(key, val, opts) { return '<select data-k="' + key + '">' + opts.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === val ? " selected" : "") + ">" + o[1] + "</option>"; }).join("") + "</select>"; }
+var STATUS = [["draft", "Черновик"], ["review", "На проверке"], ["published", "Опубликован"], ["archived", "Архив"]];
+/** Привязка полей формы к объекту: data-k="поле", числа — data-num */
+function bind(root, obj, after) {
+  $$("[data-k]", root).forEach(function (el) {
+    el.addEventListener(el.tagName === "SELECT" || el.type === "checkbox" || el.type === "date" ? "change" : "input", function () {
+      var k = el.getAttribute("data-k"), v;
+      if (el.type === "checkbox") v = el.checked;
+      else if (el.hasAttribute("data-num")) v = el.value.trim() === "" ? null : Number(String(el.value).replace(",", "."));
+      else if (el.hasAttribute("data-list")) v = el.value.split("\n").map(function (s) { return s.trim(); }).filter(Boolean);
+      else v = el.value.trim() === "" ? null : el.value.trim();
+      if (el.hasAttribute("data-num") && v != null && isNaN(v)) return;
+      obj[k] = v; refresh(); if (after) after(k);
+    });
+  });
+}
+function sourcesEditor(list, onChange) {
+  var w = document.createElement("div");
+  function draw() {
+    w.innerHTML = list.map(function (s, i) { return '<div class="srcrow"><input class="inp" data-i="' + i + '" data-f="url" placeholder="https://…" value="' + esc(s.url) + '"><input class="inp" data-i="' + i + '" data-f="title" placeholder="Название" value="' + esc(s.title) + '"><input class="inp" type="date" data-i="' + i + '" data-f="checkedAt" value="' + esc(s.checkedAt) + '"><button type="button" class="pill sm danger" data-del="' + i + '">×</button></div>'; }).join("") + '<button type="button" class="pill sm" data-add>+ Источник</button>';
+    $$("input", w).forEach(function (el) { el.addEventListener("input", function () { list[+el.dataset.i][el.dataset.f] = el.value.trim(); onChange(); }); });
+    $$("[data-del]", w).forEach(function (b) { b.addEventListener("click", function () { list.splice(+b.dataset.del, 1); draw(); onChange(); }); });
+    $("[data-add]", w).addEventListener("click", function () { list.push({ url: "", title: "", checkedAt: today() }); draw(); onChange(); });
+  }
+  draw(); return w;
+}
+function gateBox(blockers) { return '<div class="gate-box ' + (blockers.length ? "bad" : "good") + '">' + (blockers.length ? "Не показывается на сайте: " + esc(blockers.join("; ")) : "Проходит проверку — показывается на сайте") + "</div>"; }
+function renderBank() {
+  var l = lenderById(CUR_B), box = $("#bankEdit"); if (!l) { box.innerHTML = ""; return; }
+  if (CUR_P) return renderProduct();
+  var prods = D.products.filter(function (p) { return p.lenderId === l.id; });
+  box.innerHTML = '<div class="box"><h3>' + esc(l.name) + "</h3>" + gateBox(lenderBlockers(l)).replace("показывается на сайте", "банк проверен") +
+    '<div class="row2">' + fld("Название", inp("name", l.name)) + fld("Официальный сайт", inp("officialUrl", l.officialUrl, "url")) + "</div>" +
+    '<div class="row2">' + fld("Полное наименование", inp("legalName", l.legalName)) + fld("Лицензия Банка России", inp("cbrLicense", l.cbrLicense)) + "</div>" +
+    '<div class="row3">' + fld("Цвет 1", inp("c1", l.colors.c1, "color")) + fld("Цвет 2", inp("c2", l.colors.c2, "color")) + fld("Партнёрство", sel("partnership", l.partnership, [["none", "Нет"], ["affiliate", "Партнёрская программа"], ["contract", "Договор"]])) + "</div>" +
+    '<div class="row3">' + fld("Статус", sel("status", l.status, STATUS)) + fld("Проверено", inp("checkedAt", l.checkedAt, "date")) + fld("Кто подтвердил", inp("approvedBy", l.approvedBy)) + "</div>" +
+    fld("Логотип", '<div style="display:flex;gap:8px;align-items:center"><span id="lgPrev">' + (l.logo ? '<img src="' + esc(SITE + "/" + l.logo) + '" style="height:32px">' : '<span class="sub" style="margin:0">нет — карточка в цветах банка</span>') + '</span><button type="button" class="pill sm" id="lgUp">Загрузить</button>' + (l.logo ? '<button type="button" class="pill sm danger" id="lgDel">Убрать</button>' : "") + "</div>", "Используйте логотип только с разрешения банка (ТЗ, раздел 1).") +
+    '<div class="field"><label>Официальные источники (страницы банка)</label><div id="lSrc"></div></div>' +
+    fld("Заметки редакции", '<textarea data-k="notes" rows="2">' + esc(l.notes || "") + "</textarea>") +
+    '</div><div class="box"><h3>Продукты</h3><div id="pl"></div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">' +
+    D.types.map(function (t) { return '<button type="button" class="pill sm" data-addp="' + t.id + '">+ ' + esc(t.one) + "</button>"; }).join("") + "</div></div>";
+  bind(box, l, function (k) {
+    if (k === "officialUrl" && l.officialUrl) l.domain = l.officialUrl.replace(/^https?:\/\/(www\.)?/, "").replace(/\/.*$/, "");
+    if (k === "status" || k === "checkedAt" || k === "approvedBy") renderBanks();
+  });
+  $$('[data-k="c1"],[data-k="c2"]', box).forEach(function (el) { el.addEventListener("input", function () { l.colors[el.dataset.k] = el.value.toUpperCase(); delete l[el.dataset.k]; refresh(); }); });
+  $("#lSrc").appendChild(sourcesEditor(l.sources, refresh));
+  $("#lgUp").addEventListener("click", function () { pickImage(async function (f) { try { var up = await uploadImage(f, 400, "logo-" + l.id + "-"); l.logo = up.path; $("#lgPrev").innerHTML = '<img src="' + up.url + '" style="height:32px">'; refresh(); } catch (x) { toast(x.message); } }, "image/svg+xml,image/png,image/webp"); });
+  if ($("#lgDel")) $("#lgDel").addEventListener("click", function () { l.logo = null; refresh(); renderBank(); });
+  var pl = $("#pl");
+  pl.innerHTML = prods.length ? "" : '<p class="sub" style="margin:0">Продуктов нет.</p>';
+  prods.forEach(function (p) {
+    var b = productBlockers(p), d = document.createElement("div"); d.className = "prod";
+    d.innerHTML = "<span><b>" + esc(p.productName) + "</b> · " + esc(typeName(p.productType)) + '<br><small class="sub">' + (b.length ? "не на сайте: " + esc(b.slice(0, 3).join(", ")) + (b.length > 3 ? "…" : "") : "на сайте") + "</small></span>" + badge(p.status);
+    d.addEventListener("click", function () { CUR_P = p.id; renderProduct(); });
+    pl.appendChild(d);
+  });
+  $$("[data-addp]", box).forEach(function (btn) { btn.addEventListener("click", function () {
+    var t = btn.dataset.addp, id = l.id + "-" + t + "-" + stamp().slice(-5);
+    D.products.push({ id: id, lenderId: l.id, productName: typeName(t), productType: t, url: null, affiliateUrl: null, amountMin: null, amountMax: null, termMin: null, termMax: null, rateMin: null, rateMax: null, pskMin: null, pskMax: null, gracePeriodDays: null, downPaymentMin: null, cashback: null, depositRate: null, fee: null, eligibility: [], conditions: null, tags: [], regionIds: ["*"], hidden: { districts: [], regions: [], cities: [] }, sourceUrl: null, checkedAt: null, validUntil: null, status: "draft", disclosure: null, approvedBy: null, sortOrder: 0 });
+    CUR_P = id; refresh(); renderBanks();
+  }); });
+}
+$("#bAddBank").addEventListener("click", function () {
+  var name = prompt("Название банка"); if (!name) return;
+  var url = prompt("Официальный сайт (https://…)", "https://"); if (!url) return;
+  var id = name.toLowerCase().replace(/[^a-zа-яё0-9]+/gi, "-").replace(/[а-яё]/g, function (c) { return "abvgdeejzijklmnoprstufhccss_y_eua"["абвгдеёжзийклмнопрстуфхцчшщъыьэюя".indexOf(c)] || ""; }).replace(/[^a-z0-9-]/g, "").replace(/^-+|-+$/g, "") || "bank" + stamp().slice(-4);
+  if (lenderById(id)) id += "-" + stamp().slice(-3);
+  D.lenders.push({ id: id, slug: id, name: name, legalName: null, cbrLicense: null, officialUrl: url, domain: url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/.*$/, ""), colors: { c1: "#4B2E63", c2: "#2A1A33" }, logo: null, partnership: "none", status: "draft", checkedAt: null, approvedBy: null, sources: [], notes: null });
+  CUR_B = id; CUR_P = null; refresh(); renderBanks();
+});
+
+/* дерево регионов для продукта: где не показывать */
+function hideTree(h) {
+  var w = document.createElement("div"); w.className = "tree";
+  function draw() {
+    w.innerHTML = D.regions.districts.map(function (d) {
+      var dOn = h.districts.indexOf(d.id) > -1;
+      return "<details" + (dOn || regionsOf(d.id).some(function (r) { return h.regions.indexOf(r.id) > -1 || citiesOf(r.id).some(function (c) { return h.cities.indexOf(c.id) > -1; }); }) ? " open" : "") + '><summary><label onclick="event.stopPropagation()"><input type="checkbox" data-l="districts" data-id="' + d.id + '"' + (dOn ? " checked" : "") + "> " + esc(d.name) + "</label></summary><div class=\"kids\">" +
+        regionsOf(d.id).map(function (r) {
+          var rOn = dOn || h.regions.indexOf(r.id) > -1, cs = citiesOf(r.id);
+          return "<details" + (cs.some(function (c) { return h.cities.indexOf(c.id) > -1; }) ? " open" : "") + '><summary><label onclick="event.stopPropagation()"><input type="checkbox" data-l="regions" data-id="' + r.id + '"' + (rOn ? " checked" : "") + (dOn ? " disabled" : "") + "> " + esc(r.name) + ' <span class="cnt">' + cs.length + "</span></label></summary><div class=\"kids\">" +
+            cs.map(function (c) { var cOn = rOn || h.cities.indexOf(c.id) > -1; return '<label><input type="checkbox" data-l="cities" data-id="' + c.id + '"' + (cOn ? " checked" : "") + (rOn ? " disabled" : "") + "> " + esc(c.name) + "</label>"; }).join("") + "</div></details>";
+        }).join("") + "</div></details>";
+    }).join("");
+    $$("input", w).forEach(function (el) { el.addEventListener("change", function () {
+      var arr = h[el.dataset.l], i = arr.indexOf(el.dataset.id);
+      if (el.checked && i < 0) arr.push(el.dataset.id); if (!el.checked && i > -1) arr.splice(i, 1);
+      refresh(); draw();
+    }); });
+  }
+  draw(); return w;
+}
+function availEditor(p) {
+  var w = document.createElement("div");
+  function draw() {
+    var all = p.regionIds.indexOf("*") > -1;
+    w.innerHTML = '<label class="chk"><input type="radio" name="av" value="all"' + (all ? " checked" : "") + "> Вся Россия</label><label class=\"chk\"><input type=\"radio\" name=\"av\" value=\"list\"" + (all ? "" : " checked") + "> Только выбранные регионы</label>" +
+      (all ? "" : '<div class="tree">' + D.regions.districts.map(function (d) { return "<b style=\"display:block;margin:6px 0 2px\">" + esc(d.short) + "</b>" + regionsOf(d.id).map(function (r) { return '<label><input type="checkbox" data-r="' + r.id + '"' + (p.regionIds.indexOf(r.id) > -1 ? " checked" : "") + "> " + esc(r.name) + "</label>"; }).join(""); }).join("") + "</div>");
+    $$('input[name="av"]', w).forEach(function (el) { el.addEventListener("change", function () { p.regionIds = el.value === "all" ? ["*"] : []; if (!p.regionIds.length) p.regionIds = [D.regions.regions[0].id]; refresh(); draw(); }); });
+    $$("input[data-r]", w).forEach(function (el) { el.addEventListener("change", function () {
+      var i = p.regionIds.indexOf(el.dataset.r); if (el.checked && i < 0) p.regionIds.push(el.dataset.r); if (!el.checked && i > -1) p.regionIds.splice(i, 1);
+      if (!p.regionIds.length) { el.checked = true; p.regionIds.push(el.dataset.r); toast("Нужен хотя бы один регион"); } refresh();
+    }); });
+  }
+  draw(); return w;
+}
+function renderProduct() {
+  var p = D.products.filter(function (x) { return x.id === CUR_P; })[0], box = $("#bankEdit"), l = lenderById(CUR_B);
+  if (!p) { CUR_P = null; return renderBank(); }
+  var t = p.productType, credit = ["cash", "auto", "refi", "pledge", "mortgage"].indexOf(t) > -1;
+  var N = function (k, label, hint) { return fld(label, inp(k, p[k], "text", ' data-num inputmode="decimal"'), hint); };
+  box.innerHTML = '<div class="box"><button type="button" class="pill sm" id="back">← ' + esc(l.name) + '</button><h3 style="margin-top:12px">' + esc(p.productName) + '</h3><div id="pGate"></div>' +
+    '<div class="row2">' + fld("Название продукта", inp("productName", p.productName)) + fld("Вид", sel("productType", t, D.types.map(function (x) { return [x.id, x.one]; }))) + "</div>" +
+    '<div class="row2">' + fld("Страница продукта на сайте банка", inp("url", p.url, "url")) + fld("Партнёрская ссылка", inp("affiliateUrl", p.affiliateUrl, "url"), "Если указана — нужен текст раскрытия ниже") + "</div>" +
+    "<h3>Условия</h3>" +
+    (credit || t === "card" ? '<div class="row2">' + N("amountMin", t === "card" ? "Лимит от, ₽" : "Сумма от, ₽") + N("amountMax", t === "card" ? "Лимит до, ₽" : "Сумма до, ₽") + "</div>" : "") +
+    (credit ? '<div class="row2">' + N("termMin", "Срок от, мес.") + N("termMax", "Срок до, мес.") + "</div>" : "") +
+    (t !== "debit" ? '<div class="row2">' + N("rateMin", "Ставка от, % годовых") + N("rateMax", "Ставка до, % годовых") + "</div>" +
+      '<div class="row2">' + N("pskMin", "ПСК от, % годовых") + N("pskMax", "ПСК до, % годовых", "Обязательна, если указана ставка") + "</div>" : "") +
+    (t === "card" ? '<div class="row2">' + N("gracePeriodDays", "Льготный период, дней") + fld("Обслуживание", inp("fee", p.fee)) + "</div>" : "") +
+    (t === "mortgage" ? N("downPaymentMin", "Первый взнос от, %") : "") +
+    (t === "debit" ? '<div class="row3">' + N("cashback", "Кешбэк до, %") + N("depositRate", "Процент на остаток до, %") + fld("Обслуживание", inp("fee", p.fee)) + "</div>" : "") +
+    (t !== "card" && t !== "debit" ? fld("Комиссии", inp("fee", p.fee)) : "") +
+    fld("Требования к заёмщику (по строке)", '<textarea data-k="eligibility" data-list rows="3">' + esc(p.eligibility.join("\n")) + "</textarea>") +
+    fld("Прочие условия", '<textarea data-k="conditions" rows="2">' + esc(p.conditions || "") + "</textarea>") +
+    fld("Метки в карточке (по строке)", '<textarea data-k="tags" data-list rows="2">' + esc(p.tags.join("\n")) + "</textarea>", "Без «лучший», «гарантированно», «одобрим» и подобного") +
+    "<h3>Проверка</h3>" +
+    fld("Первичный источник (страница банка с условиями)", inp("sourceUrl", p.sourceUrl, "url")) +
+    '<div class="row3">' + fld("Проверено", inp("checkedAt", p.checkedAt, "date")) + fld("Актуально до", inp("validUntil", p.validUntil, "date")) + fld("Кто подтвердил", inp("approvedBy", p.approvedBy)) + "</div>" +
+    '<div class="row2">' + fld("Статус", sel("status", p.status, STATUS)) + fld("Порядок в списке", inp("sortOrder", p.sortOrder, "text", ' data-num inputmode="numeric"'), "Меньше — выше") + "</div>" +
+    fld("Раскрытие (реклама / партнёрская ссылка)", '<textarea data-k="disclosure" rows="2">' + esc(p.disclosure || "") + "</textarea>") +
+    "<h3>Где доступен</h3><div id=\"pAv\"></div>" +
+    "<h3>Где не показывать</h3><p class=\"sub\" style=\"margin:0 0 8px\">Отметьте федеральный округ целиком или раскройте его и выберите регионы и города.</p><div id=\"pHide\"></div>" +
+    '<div style="margin-top:14px"><button type="button" class="pill danger" id="pDel">Удалить продукт</button></div></div>';
+  function gate() { $("#pGate").innerHTML = gateBox(productBlockers(p)); }
+  gate();
+  bind(box, p, function (k) { if (k === "sortOrder" && p.sortOrder == null) p.sortOrder = 0; if (k === "productType") renderProduct(); else gate(); });
+  $("#pAv").appendChild(availEditor(p));
+  $("#pHide").appendChild(hideTree(p.hidden));
+  $("#back").addEventListener("click", function () { CUR_P = null; renderBanks(); });
+  $("#pDel").addEventListener("click", function () { if (!confirm("Удалить продукт «" + p.productName + "»?")) return; D.products.splice(D.products.indexOf(p), 1); CUR_P = null; refresh(); renderBanks(); });
+}
+
+/* ── регионы: массовое скрытие ── */
+var RG = null; // {level:'districts'|'regions'|'cities', id}
+function renderTree() {
+  var w = $("#rgTree");
+  w.innerHTML = D.regions.districts.map(function (d) {
+    return '<details open><summary><a href="#" data-lv="districts" data-id="' + d.id + '">' + esc(d.name) + "</a></summary><div class=\"kids\">" +
+      regionsOf(d.id).map(function (r) { var cs = citiesOf(r.id); return "<details><summary><a href=\"#\" data-lv=\"regions\" data-id=\"" + r.id + "\">" + esc(r.name) + '</a> <span class="cnt">' + cs.length + "</span></summary><div class=\"kids\">" + cs.map(function (c) { return '<div><a href="#" data-lv="cities" data-id="' + c.id + '">' + esc(c.name) + "</a></div>"; }).join("") + "</div></details>"; }).join("") + "</div></details>";
+  }).join("");
+  $$("a[data-lv]", w).forEach(function (a) { a.addEventListener("click", function (e) { e.preventDefault(); RG = { level: a.dataset.lv, id: a.dataset.id }; renderRg(); }); });
+  if (RG) renderRg();
+}
+function renderRg() {
+  var box = $("#rgEdit"), name;
+  if (RG.level === "districts") name = D.regions.districts.filter(function (d) { return d.id === RG.id; })[0].name;
+  else if (RG.level === "regions") name = regionById(RG.id).name;
+  else name = D.cities.filter(function (c) { return c.id === RG.id; })[0].name;
+  box.innerHTML = '<div class="box"><h3>' + esc(name) + '</h3><p class="sub">Отмеченные продукты не показываются здесь. Кнопки ниже — для всех продуктов сразу.</p><div style="display:flex;gap:8px;margin-bottom:12px"><button type="button" class="pill sm" id="rgAll">Скрыть все</button><button type="button" class="pill sm" id="rgNone">Показать все</button></div><div id="rgList"></div></div>';
+  var list = $("#rgList");
+  D.lenders.forEach(function (l) {
+    var ps = D.products.filter(function (p) { return p.lenderId === l.id; }); if (!ps.length) return;
+    var g = document.createElement("div"); g.style.marginBottom = "10px";
+    g.innerHTML = "<b>" + esc(l.name) + "</b>" + ps.map(function (p) { return '<label class="chk"><input type="checkbox" data-p="' + p.id + '"' + (p.hidden[RG.level].indexOf(RG.id) > -1 ? " checked" : "") + "> " + esc(p.productName) + " · " + esc(typeName(p.productType)) + "</label>"; }).join("");
+    list.appendChild(g);
+  });
+  function setHide(p, on) { var a = p.hidden[RG.level], i = a.indexOf(RG.id); if (on && i < 0) a.push(RG.id); if (!on && i > -1) a.splice(i, 1); }
+  $$("input[data-p]", list).forEach(function (el) { el.addEventListener("change", function () { setHide(D.products.filter(function (p) { return p.id === el.dataset.p; })[0], el.checked); refresh(); }); });
+  $("#rgAll").addEventListener("click", function () { D.products.forEach(function (p) { setHide(p, true); }); refresh(); renderRg(); });
+  $("#rgNone").addEventListener("click", function () { D.products.forEach(function (p) { setHide(p, false); }); refresh(); renderRg(); });
+}
+
+/* ── города ── */
+function renderCities() {
+  var g = $("#cityGrid"); g.innerHTML = "";
+  var orig = JSON.parse(ORIG.cities);
+  D.cities.forEach(function (c, i) {
+    var o = orig[i] || {}, d = document.createElement("div"); d.className = "city";
+    var src = function (p) { return IMG["public/" + p] ? "data:image/webp;base64," + IMG["public/" + p] : SITE + "/" + p + "?t=" + Date.now(); };
+    d.innerHTML = "<h4>" + esc(c.name) + "</h4>" +
+      '<div class="ph"><button type="button" data-ph="banner" class="' + (c.banner !== o.banner ? "chg" : "") + '"><img loading="lazy" src="' + esc(src(c.banner)) + '" alt=""><span>Баннер</span></button><button type="button" class="tall ' + (c.thumb !== o.thumb ? "chg" : "") + '" data-ph="thumb"><img loading="lazy" src="' + esc(src(c.thumb)) + '" alt=""><span>В списке</span></button></div>' +
+      '<details style="margin-top:8px"><summary class="sub" style="margin:0;cursor:pointer">Название и публикация</summary><div style="margin-top:8px">' +
+      '<div class="row2">' + fld("Название", inp("name", c.name)) + fld("Где? (в Казани)", inp("nameIn", c.nameIn)) + "</div>" +
+      '<div class="row2">' + fld("Статус", sel("indexStatus", c.indexStatus, [["draft", "Черновик"], ["review", "На проверке"], ["published", "Опубликован"], ["noindex", "Без индексации"], ["archived", "Архив"]])) + fld("Редактор", inp("editor", c.editor)) + "</div>" +
+      '<div class="row2">' + fld("Проверено", inp("reviewedAt", c.reviewedAt, "date")) + fld("Подтверждение спроса", inp("searchEvidence", c.searchEvidence), "Например, данные Вордстата с датой") + "</div>" +
+      '<label class="chk"><input type="checkbox" data-k="indexable"' + (c.indexable ? " checked" : "") + "> Разрешить индексацию (после проверки)</label>" +
+      '<p class="sub" style="font-size:12px;margin:6px 0 0">' + esc(cityBlockers(c).length ? "Шлюз: " + cityBlockers(c).join("; ") : "Шлюз пройден") + "</p></div></details>";
+    bind(d, c, function () {});
+    $$("[data-ph]", d).forEach(function (b) { b.addEventListener("click", function () {
+      var kind = b.dataset.ph;
+      pickImage(async function (file) {
+        try {
+          var img = await loadImg(file), e = await encode(img, kind === "banner" ? 2048 : 720, 0.8);
+          var path = "img/cities/" + (kind === "banner" ? "" : "sm/") + c.id + "-" + stamp() + "." + e.ext;
+          IMG["public/" + path] = e.b64; c[kind] = path; refresh(); renderCities(); toast(c.name + ": фото заменено. Не забудьте опубликовать.");
+        } catch (x) { toast(x.message); }
+      });
+    }); });
+    g.appendChild(d);
+  });
+}
+
+/* ── настройки ── */
+function renderSettings() {
+  var s = D.site, o = s.operator, box = $("#setBox");
+  box.innerHTML = "<h2>Настройки</h2><p class=\"sub\">Реквизиты оператора выводятся в раскрытиях на всех страницах. Пустые поля показываются как «будет указано».</p>" +
+    '<div class="box"><h3>Оператор сайта</h3><div class="row3">' + fld("Форма", sel("type", o.type || "", [["", "—"], ["ООО", "ООО"], ["ИП", "ИП"], ["АО", "АО"], ["ПАО", "ПАО"]])) + fld("Наименование / ФИО", inp("name", o.name)) + fld("ИНН", inp("inn", o.inn)) + "</div>" +
+    '<div class="row3">' + fld("ОГРН / ОГРНИП", inp("ogrn", o.ogrn)) + fld("E-mail", inp("email", o.email, "email")) + fld("Телефон", inp("phone", o.phone)) + "</div>" +
+    fld("Адрес", inp("address", o.address)) + '<div class="row2">' + fld("Ответственный за персональные данные", inp("pdResponsible", o.pdResponsible)) + fld("E-mail для обращений по ПДн", inp("pdEmail", o.pdEmail, "email")) + "</div></div>" +
+    '<div class="box"><h3>Коммерческая модель</h3>' + fld("Как зарабатывает сайт", '<textarea data-k="model" rows="2">' + esc(s.commercial.model || "") + "</textarea>") +
+    '<label class="chk"><input type="checkbox" data-k="affiliateLinks"' + (s.commercial.affiliateLinks ? " checked" : "") + "> На сайте есть партнёрские ссылки</label>" + fld("Текст раскрытия", '<textarea data-k="disclosure" rows="2">' + esc(s.commercial.disclosure || "") + "</textarea>") + "</div>" +
+    '<div class="box"><h3>Сайт</h3>' + fld("Условия проверены (общая дата в раскрытии)", inp("conditionsCheckedAt", s.conditionsCheckedAt, "date")) +
+    '<label class="chk"><input type="checkbox" data-k="geoLookup"' + (s.geoLookup ? " checked" : "") + "> Определять город по IP (ipapi.co, ipwho.is — требует правовой оценки)</label>" +
+    fld("Режим", sel("mode", s.mode, [["preview", "Предпросмотр — видны непроверенные банки"], ["production", "Боевой — только проверенное"]])) +
+    '<label class="chk"><input type="checkbox" data-k="indexing"' + (s.indexing ? " checked" : "") + "> Открыть сайт для поисковиков</label><small class=\"sub\">Включать только после заполнения реквизитов, юридической проверки и перехода на боевой режим. Публикация не пройдёт, если условия не выполнены.</small></div>";
+  bind($(".box", box), o);
+  var boxes = $$(".box", box);
+  bind(boxes[1], s.commercial);
+  bind(boxes[2], s);
+}
+
+/* ── публикация ── */
+function busy(on, t, s) { $("#busy").classList.toggle("on", on); if (t) $("#busyT").textContent = t; if (s != null) $("#busyS").textContent = s; }
+$("#busyX").addEventListener("click", function () { busy(false); });
+$("#bPub").addEventListener("click", async function () {
+  var errs = validate(); $("#busyE").innerHTML = ""; $("#busyX").hidden = true;
+  if (errs.length) { busy(true, "Публикация невозможна", "Исправьте:"); $("#busyE").innerHTML = errs.map(function (e) { return "<li>" + esc(e) + "</li>"; }).join(""); $("#busyX").hidden = false; return; }
+  busy(true, "Публикую…", "Не закрывайте вкладку."); $("#busyP").style.width = "4%";
+  try {
+    // защита от перезаписи чужих изменений
+    for (var k of changed()) { var cur = await readFile(FILES[k]); if (cur.sha !== SHA[k] && !confirm("Файл " + FILES[k] + " изменился после загрузки админки. Перезаписать?")) { busy(false); return; } }
+    var files = changed().map(function (k) { return { path: FILES[k], text: canon(D[k]) }; });
+    Object.keys(IMG).forEach(function (p) { files.push({ path: p, b64: IMG[p] }); });
+    var sha = await commitFiles(files, "Админка: " + files.map(function (f) { return f.path.split("/").pop(); }).join(", "), function (i, t) { $("#busyP").style.width = Math.round(i / t * 60) + "%"; });
+    Object.keys(FILES).forEach(function (k) { ORIG[k] = canon(D[k]); }); IMG = {};
+    await loadAll().catch(function () {}); refresh();
+    busy(true, "Сохранено. Сайт собирается…", "Обычно 1–2 минуты.");
+    watchBuild(sha);
+  } catch (x) { busy(true, "Не удалось опубликовать", x.message); $("#busyX").hidden = false; }
+});
+async function watchBuild(sha) {
+  var t0 = Date.now();
+  while (Date.now() - t0 < 8 * 60 * 1000) {
+    await new Promise(function (r) { setTimeout(r, 6000); });
+    var runs;
+    try { runs = await gh("/actions/runs?head_sha=" + sha + "&per_page=5"); }
+    catch (x) { busy(true, "Сохранено", "Сайт обновится примерно через 2 минуты. Статус сборки: github.com/" + OWNER + "/" + REPO + "/actions"); $("#busyX").hidden = false; return; }
+    var r = (runs.workflow_runs || [])[0];
+    if (!r) { $("#busyP").style.width = "65%"; continue; }
+    $("#busyP").style.width = r.status === "completed" ? "100%" : "80%";
+    if (r.status === "completed") {
+      if (r.conclusion === "success") { busy(true, "Готово", "Изменения на сайте. Если видите старую версию — обновите страницу."); setTimeout(function () { busy(false); buildFrame(); renderCities(); }, 3000); }
+      else { busy(true, "Сборка не прошла", "Изменения сохранены в репозитории, но сайт не обновлён. Подробности: " + r.html_url); $("#busyX").hidden = false; }
+      return;
+    }
+  }
+  busy(true, "Сборка идёт дольше обычного", "Проверьте статус: github.com/" + OWNER + "/" + REPO + "/actions"); $("#busyX").hidden = false;
+}
+window.addEventListener("beforeunload", function (e) { if (TOKEN && dirtyCount()) { e.preventDefault(); e.returnValue = ""; } });
+
+(async function boot() {
+  VAULT_OBJ = await loadVault();
+  if (VAULT_OBJ) { $("#vLogin").hidden = false; $("#lPass").focus(); } else $("#vSetup").hidden = false;
+})();
+})();
+</script>
+</body>
+</html>

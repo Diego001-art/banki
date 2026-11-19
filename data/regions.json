@@ -1,0 +1,184 @@
+{
+  "districts": [
+    {
+      "id": "cfo",
+      "short": "ЦФО",
+      "name": "Центральный федеральный округ"
+    },
+    {
+      "id": "szfo",
+      "short": "СЗФО",
+      "name": "Северо-Западный федеральный округ"
+    },
+    {
+      "id": "yufo",
+      "short": "ЮФО",
+      "name": "Южный федеральный округ"
+    },
+    {
+      "id": "skfo",
+      "short": "СКФО",
+      "name": "Северо-Кавказский федеральный округ"
+    },
+    {
+      "id": "pfo",
+      "short": "ПФО",
+      "name": "Приволжский федеральный округ"
+    },
+    {
+      "id": "ufo",
+      "short": "УФО",
+      "name": "Уральский федеральный округ"
+    },
+    {
+      "id": "sfo",
+      "short": "СФО",
+      "name": "Сибирский федеральный округ"
+    },
+    {
+      "id": "dfo",
+      "short": "ДФО",
+      "name": "Дальневосточный федеральный округ"
+    }
+  ],
+  "regions": [
+    {
+      "id": "msk",
+      "slug": "moskva",
+      "name": "Москва",
+      "districtId": "cfo"
+    },
+    {
+      "id": "vrn",
+      "slug": "voronezhskaya-oblast",
+      "name": "Воронежская область",
+      "districtId": "cfo"
+    },
+    {
+      "id": "spb",
+      "slug": "sankt-peterburg",
+      "name": "Санкт-Петербург",
+      "districtId": "szfo"
+    },
+    {
+      "id": "kgd",
+      "slug": "kaliningradskaya-oblast",
+      "name": "Калининградская область",
+      "districtId": "szfo"
+    },
+    {
+      "id": "tat",
+      "slug": "tatarstan",
+      "name": "Республика Татарстан",
+      "districtId": "pfo"
+    },
+    {
+      "id": "nnv",
+      "slug": "nizhegorodskaya-oblast",
+      "name": "Нижегородская область",
+      "districtId": "pfo"
+    },
+    {
+      "id": "sam",
+      "slug": "samarskaya-oblast",
+      "name": "Самарская область",
+      "districtId": "pfo"
+    },
+    {
+      "id": "bash",
+      "slug": "bashkortostan",
+      "name": "Республика Башкортостан",
+      "districtId": "pfo"
+    },
+    {
+      "id": "perm",
+      "slug": "permskiy-kray",
+      "name": "Пермский край",
+      "districtId": "pfo"
+    },
+    {
+      "id": "sar",
+      "slug": "saratovskaya-oblast",
+      "name": "Саратовская область",
+      "districtId": "pfo"
+    },
+    {
+      "id": "svr",
+      "slug": "sverdlovskaya-oblast",
+      "name": "Свердловская область",
+      "districtId": "ufo"
+    },
+    {
+      "id": "chel",
+      "slug": "chelyabinskaya-oblast",
+      "name": "Челябинская область",
+      "districtId": "ufo"
+    },
+    {
+      "id": "tyu",
+      "slug": "tyumenskaya-oblast",
+      "name": "Тюменская область",
+      "districtId": "ufo"
+    },
+    {
+      "id": "nsk",
+      "slug": "novosibirskaya-oblast",
+      "name": "Новосибирская область",
+      "districtId": "sfo"
+    },
+    {
+      "id": "krsk",
+      "slug": "krasnoyarskiy-kray",
+      "name": "Красноярский край",
+      "districtId": "sfo"
+    },
+    {
+      "id": "omsk",
+      "slug": "omskaya-oblast",
+      "name": "Омская область",
+      "districtId": "sfo"
+    },
+    {
+      "id": "irk",
+      "slug": "irkutskaya-oblast",
+      "name": "Иркутская область",
+      "districtId": "sfo"
+    },
+    {
+      "id": "ros",
+      "slug": "rostovskaya-oblast",
+      "name": "Ростовская область",
+      "districtId": "yufo"
+    },
+    {
+      "id": "krd",
+      "slug": "krasnodarskiy-kray",
+      "name": "Краснодарский край",
+      "districtId": "yufo"
+    },
+    {
+      "id": "vlg",
+      "slug": "volgogradskaya-oblast",
+      "name": "Волгоградская область",
+      "districtId": "yufo"
+    },
+    {
+      "id": "dag",
+      "slug": "dagestan",
+      "name": "Республика Дагестан",
+      "districtId": "skfo"
+    },
+    {
+      "id": "prim",
+      "slug": "primorskiy-kray",
+      "name": "Приморский край",
+      "districtId": "dfo"
+    },
+    {
+      "id": "khab",
+      "slug": "khabarovskiy-kray",
+      "name": "Хабаровский край",
+      "districtId": "dfo"
+    }
+  ]
+}

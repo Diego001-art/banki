@@ -1,0 +1,75 @@
+{
+  "siteName": "Добро Свобода",
+  "siteUrl": "https://diego001-art.github.io/banki",
+  "mode": "preview",
+  "indexing": false,
+  "geoLookup": true,
+  "operator": {
+    "type": null,
+    "name": null,
+    "inn": null,
+    "ogrn": null,
+    "address": null,
+    "email": null,
+    "phone": null,
+    "pdResponsible": null,
+    "pdEmail": null
+  },
+  "commercial": {
+    "model": null,
+    "affiliateLinks": false,
+    "disclosure": null
+  },
+  "conditionsCheckedAt": null,
+  "calculator": {
+    "source": "Банк России, среднерыночные значения ПСК, IV квартал 2026 г. (опубликовано 14.08.2026)",
+    "sourceUrl": "https://www.cbr.ru/statistics/bank_sector/psk/",
+    "rates": {
+      "cash": [
+        [
+          100000,
+          41.578,
+          55.437
+        ],
+        [
+          null,
+          29.339,
+          39.119
+        ]
+      ],
+      "salary": [
+        [
+          300000,
+          31.079,
+          41.439
+        ],
+        [
+          null,
+          26.209,
+          34.945
+        ]
+      ],
+      "autoNew": [
+        [
+          null,
+          19.508,
+          26.011
+        ]
+      ],
+      "autoUsed": [
+        [
+          null,
+          23.804,
+          31.739
+        ]
+      ],
+      "flat": [
+        [
+          null,
+          23.36,
+          31.147
+        ]
+      ]
+    }
+  }
+}

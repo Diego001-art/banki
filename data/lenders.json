@@ -1,0 +1,402 @@
+[
+  {
+    "id": "sber",
+    "slug": "sber",
+    "name": "Сбербанк",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.sberbank.ru/",
+    "domain": "sberbank.ru",
+    "colors": {
+      "c1": "#21A038",
+      "c2": "#0B6E2A"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  },
+  {
+    "id": "vtb",
+    "slug": "vtb",
+    "name": "ВТБ",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.vtb.ru/",
+    "domain": "vtb.ru",
+    "colors": {
+      "c1": "#0A2896",
+      "c2": "#06155C"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  },
+  {
+    "id": "alfa",
+    "slug": "alfa",
+    "name": "Альфа-Банк",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.alfabank.ru/",
+    "domain": "alfabank.ru",
+    "colors": {
+      "c1": "#EF3124",
+      "c2": "#A8160E"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  },
+  {
+    "id": "tbank",
+    "slug": "tbank",
+    "name": "Т-Банк",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.tbank.ru/",
+    "domain": "tbank.ru",
+    "colors": {
+      "c1": "#2B2B2B",
+      "c2": "#0E0E10"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  },
+  {
+    "id": "gpb",
+    "slug": "gpb",
+    "name": "Газпромбанк",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.gazprombank.ru/",
+    "domain": "gazprombank.ru",
+    "colors": {
+      "c1": "#2B4C9B",
+      "c2": "#14285C"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  },
+  {
+    "id": "sovcom",
+    "slug": "sovcom",
+    "name": "Совкомбанк",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.sovcombank.ru/",
+    "domain": "sovcombank.ru",
+    "colors": {
+      "c1": "#E3404E",
+      "c2": "#9E1E2B"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  },
+  {
+    "id": "rshb",
+    "slug": "rshb",
+    "name": "Россельхозбанк",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.rshb.ru/",
+    "domain": "rshb.ru",
+    "colors": {
+      "c1": "#00845A",
+      "c2": "#004D34"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  },
+  {
+    "id": "psb",
+    "slug": "psb",
+    "name": "ПСБ",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.psbank.ru/",
+    "domain": "psbank.ru",
+    "colors": {
+      "c1": "#F26722",
+      "c2": "#B2410B"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  },
+  {
+    "id": "mts",
+    "slug": "mts",
+    "name": "МТС Банк",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.mtsbank.ru/",
+    "domain": "mtsbank.ru",
+    "colors": {
+      "c1": "#E30611",
+      "c2": "#8F0309"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  },
+  {
+    "id": "uralsib",
+    "slug": "uralsib",
+    "name": "Уралсиб",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.uralsib.ru/",
+    "domain": "uralsib.ru",
+    "colors": {
+      "c1": "#3D2A7D",
+      "c2": "#1E1442"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  },
+  {
+    "id": "raif",
+    "slug": "raif",
+    "name": "Райффайзенбанк",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.raiffeisen.ru/",
+    "domain": "raiffeisen.ru",
+    "colors": {
+      "c1": "#3A3A3A",
+      "c2": "#111111"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  },
+  {
+    "id": "domrf",
+    "slug": "domrf",
+    "name": "Банк ДОМ.РФ",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.domrfbank.ru/",
+    "domain": "domrfbank.ru",
+    "colors": {
+      "c1": "#1F4BB5",
+      "c2": "#0F2A6E"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  },
+  {
+    "id": "rencredit",
+    "slug": "rencredit",
+    "name": "Ренессанс Банк",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.rencredit.ru/",
+    "domain": "rencredit.ru",
+    "colors": {
+      "c1": "#5B2A86",
+      "c2": "#2F1349"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  },
+  {
+    "id": "home",
+    "slug": "home",
+    "name": "Хоум Банк",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.homebank.ru/",
+    "domain": "homebank.ru",
+    "colors": {
+      "c1": "#D7262C",
+      "c2": "#8C1216"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  },
+  {
+    "id": "otp",
+    "slug": "otp",
+    "name": "ОТП Банк",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.otpbank.ru/",
+    "domain": "otpbank.ru",
+    "colors": {
+      "c1": "#52AE30",
+      "c2": "#2D6E16"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  },
+  {
+    "id": "mkb",
+    "slug": "mkb",
+    "name": "МКБ",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.mkb.ru/",
+    "domain": "mkb.ru",
+    "colors": {
+      "c1": "#C8102E",
+      "c2": "#7A0A1C"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  },
+  {
+    "id": "bspb",
+    "slug": "bspb",
+    "name": "Банк «Санкт-Петербург»",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.bspb.ru/",
+    "domain": "bspb.ru",
+    "colors": {
+      "c1": "#E1261C",
+      "c2": "#8F120B"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  },
+  {
+    "id": "akbars",
+    "slug": "akbars",
+    "name": "Ак Барс Банк",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.akbars.ru/",
+    "domain": "akbars.ru",
+    "colors": {
+      "c1": "#00A15F",
+      "c2": "#005E37"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  },
+  {
+    "id": "locko",
+    "slug": "locko",
+    "name": "Локо-Банк",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.lockobank.ru/",
+    "domain": "lockobank.ru",
+    "colors": {
+      "c1": "#0B4EA2",
+      "c2": "#062C5E"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  },
+  {
+    "id": "absolut",
+    "slug": "absolut",
+    "name": "Абсолют Банк",
+    "legalName": null,
+    "cbrLicense": null,
+    "officialUrl": "https://www.absolutbank.ru/",
+    "domain": "absolutbank.ru",
+    "colors": {
+      "c1": "#F28C00",
+      "c2": "#A85E00"
+    },
+    "logo": null,
+    "partnership": "none",
+    "status": "draft",
+    "checkedAt": null,
+    "approvedBy": null,
+    "sources": [],
+    "notes": "Наименование и сайт требуют подтверждения права использования (ТЗ, раздел 1)."
+  }
+]
