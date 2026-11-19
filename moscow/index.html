@@ -11,6 +11,7 @@
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap"></noscript>
 <meta name="theme-color" content="#F5F5F3">
+<meta name="robots" content="noindex, nofollow">
 <style>
 /* ── Токены ───────────────────────────────────── */
 :root{
@@ -181,19 +182,37 @@ h2 b{font-weight:600}
 .calc-note{position:relative;margin:0;font-size:12px;color:#9A9AA2;line-height:1.5}
 .calc-note a{color:#fff}
 
-/* список банков */
-.banks{margin-top:22px;background:var(--white);border-radius:28px;padding:8px clamp(16px,2.6vw,36px)}
-.bank{display:grid;grid-template-columns:44px minmax(150px,1.4fr) repeat(3,minmax(100px,1fr)) auto;gap:16px;align-items:center;padding:18px 0;border-bottom:1px solid var(--line)}
-.bank:last-child{border-bottom:0}
-.bank-head{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding:16px 0}
-.bank .ava{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:600;font-size:13px;color:#fff;transition:transform .4s var(--ease)}
-.bank:hover .ava{transform:scale(1.08) rotate(-6deg)}
-.bank .nm{font-weight:500;font-size:16px}
-.bank .nm small{display:block;font-weight:400;font-size:12px;color:var(--muted);margin-top:2px}
-.bank .v{font-weight:500;font-size:16px;font-variant-numeric:tabular-nums}
-.bank .v small{display:block;font-weight:400;font-size:11px;color:var(--muted)}
-.bank .go{min-height:40px;padding:0 16px;font-size:11px}
+/* список предложений банков */
+.offers-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;margin:34px 4px 16px}
+.offers-bar .sort{display:inline-flex;align-items:center;gap:6px;font-size:17px;font-weight:500}
+.offers-bar .off-title{font-size:14px;color:var(--muted)}
+.offers-bar .off-count{margin-left:auto;font-size:13px;color:var(--muted)}
+.olist{display:grid;gap:14px}
+.oc{background:var(--white);border:1px solid var(--line);border-radius:24px;padding:clamp(18px,2.2vw,28px);transition:border-color .3s var(--ease),box-shadow .4s var(--ease),transform .4s var(--ease)}
+.oc:hover{border-color:var(--line-2);box-shadow:0 18px 40px -26px rgba(14,14,16,.35);transform:translateY(-2px)}
+.oc.top{border-color:var(--ink)}
+.oc-main{display:grid;grid-template-columns:120px minmax(160px,1.3fr) repeat(3,minmax(110px,1fr)) minmax(190px,auto);gap:clamp(14px,2vw,28px);align-items:center}
+.oc-thumb{position:relative;width:120px;aspect-ratio:1.586/1;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;box-shadow:0 8px 18px -10px rgba(14,14,16,.5);transition:transform .5s var(--ease)}
+.oc:hover .oc-thumb{transform:rotate(-4deg) scale(1.04)}
+.oc-thumb::before{content:"";position:absolute;width:120%;height:120%;right:-60%;top:-40%;border-radius:50%;border:10px solid rgba(255,255,255,.14)}
+.oc-thumb b{position:absolute;left:10px;top:8px;font-size:11px;font-weight:600;letter-spacing:.01em;max-width:90px;line-height:1.15}
+.oc-thumb i{position:absolute;left:10px;bottom:10px;width:18px;height:13px;border-radius:3px;background:linear-gradient(135deg,#F6E3B4,#C9A75E)}
+.oc-id h3{margin:0;font-size:clamp(18px,1.5vw,22px);font-weight:600;letter-spacing:-.02em}
+.oc-id p{margin:4px 0 0;font-size:14px;color:var(--muted)}
+.oc-id .oc-sub{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2);margin-top:8px}
+.oc-m span{display:block;font-size:13px;color:var(--muted)}
+.oc-m b{display:block;margin-top:4px;font-size:clamp(18px,1.6vw,22px);font-weight:500;letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.oc-mets{display:contents}
+.oc[hidden]{display:none}
+.oc-go{justify-self:end;width:100%;min-height:52px;font-size:12px}
+.oc-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.oc-tags span{display:inline-flex;align-items:center;min-height:30px;padding:0 12px;border-radius:999px;background:#F0F0ED;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2)}
+.oc-tags span.hl{background:var(--gold);color:var(--ink)}
+.more-wrap{display:flex;justify-content:center;margin-top:22px}
+.more-wrap .pill{min-width:240px;min-height:52px}
+.more-wrap[hidden]{display:none}
 .src{margin:14px 4px 0;font-size:12px;color:var(--muted)}
+@media (max-width:1180px) and (min-width:761px){.oc-main{grid-template-columns:110px minmax(0,1fr) auto}.oc-thumb{width:110px}.oc-mets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;grid-column:1/-1;grid-row:2}.oc-go{grid-column:3;grid-row:1;width:auto}}
 
 /* ── Тёмная бенто-секция ─────────────────────── */
 .night{margin-top:clamp(90px,11vw,160px);background:var(--night);color:#fff;border-radius:36px;padding:clamp(56px,7vw,110px) 0;overflow:hidden}
@@ -318,12 +337,13 @@ footer{margin-top:clamp(90px,11vw,160px);background:var(--night);color:#9A9AA2;b
   .deck-ui{flex-direction:column;align-items:stretch}
   .deck-ctrl{justify-content:space-between}
   .calc-in{grid-template-columns:1fr}
-  .bank-head{display:none}
-  .bank{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-  .bank .ava{grid-column:1;grid-row:1}
-  .bank .nm{grid-column:1/4;grid-row:1;padding-left:58px;align-self:center}
-  .bank .v{font-size:15px}
-  .bank .go{grid-column:1/-1}
+  .offers-bar .off-count{margin-left:0;width:100%}
+  .oc-main{grid-template-columns:96px minmax(0,1fr);gap:14px 16px}
+  .oc-thumb{width:96px;border-radius:10px}
+  .oc-mets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;grid-column:1/-1;padding-top:14px;border-top:1px solid var(--line)}
+  .oc-m span{font-size:11px}
+  .oc-m b{font-size:15px;white-space:normal}
+  .oc-go{grid-column:1/-1}
   .bento{grid-template-columns:1fr;grid-auto-rows:190px;grid-template-areas:"city" "big" "cash" "mort" "auto" "refi" "chance" "pledge" "cards" "biz"}
   .night{border-radius:26px}
   .vs{grid-template-columns:1fr}
@@ -485,9 +505,9 @@ footer{margin-top:clamp(90px,11vw,160px);background:var(--night);color:#9A9AA2;b
   </div>
 
   <div id="offers" style="scroll-margin-top:90px">
-    <div class="banks" id="bankList" data-reveal>
-      <div class="bank bank-head"><span></span><span id="offTitle">Банки</span><span>Ставка ≈</span><span>Платёж ≈</span><span>Переплата ≈</span><span></span></div>
-    </div>
+    <div class="offers-bar" data-reveal><span class="sort">Предложения банков</span><span class="off-title" id="offTitle"></span><span class="off-count" id="offCount"></span></div>
+    <div class="olist" id="bankList"></div>
+    <div class="more-wrap" id="moreWrap"><button type="button" class="pill pill-line" id="moreBtn">Показать ещё</button></div>
     <p class="src">Ставки примерные: среднерыночная полная стоимость кредита по данным Банка России для договоров IV квартала 2026 г. (опубликовано 14.08.2026). Точную ставку банк назначит после заявки.</p>
   </div>
 </section>
@@ -644,11 +664,16 @@ document.addEventListener('DOMContentLoaded',function(){
     flat:function(){return [23.36,31.147];}
   };
   var SHORT={cash:'Наличными',salary:'Зарплатным',autoNew:'Автокредит',autoUsed:'Автокредит',flat:'Под залог'};
-  var BANKS=[
-    ['Сбербанк','СБ','#1A9F29','sberbank.ru'],['ВТБ','ВТБ','#0A2896','vtb.ru'],['Альфа-Банк','А','#E01F2E','alfabank.ru'],
-    ['Т-Банк','Т','#1C1C1C','tbank.ru'],['Газпромбанк','ГПБ','#2B4C9B','gazprombank.ru'],['Совкомбанк','СКБ','#E3404E','sovcombank.ru'],
-    ['Россельхозбанк','РСХБ','#00845A','rshb.ru'],['ПСБ','ПСБ','#F26722','psbank.ru'],['МТС Банк','МТС','#E30611','mtsbank.ru'],['Уралсиб','УС','#3D2A7D','uralsib.ru']
+  var BANKS=[ // [название, цвет 1, цвет 2, сайт]
+    ['Сбербанк','#21A038','#0B6E2A','sberbank.ru'],['ВТБ','#0A2896','#06155C','vtb.ru'],['Альфа-Банк','#EF3124','#A8160E','alfabank.ru'],
+    ['Т-Банк','#2B2B2B','#0E0E10','tbank.ru'],['Газпромбанк','#2B4C9B','#14285C','gazprombank.ru'],['Совкомбанк','#E3404E','#9E1E2B','sovcombank.ru'],
+    ['Россельхозбанк','#00845A','#004D34','rshb.ru'],['ПСБ','#F26722','#B2410B','psbank.ru'],['МТС Банк','#E30611','#8F0309','mtsbank.ru'],
+    ['Уралсиб','#3D2A7D','#1E1442','uralsib.ru'],['Райффайзенбанк','#3A3A3A','#111111','raiffeisen.ru'],['Банк ДОМ.РФ','#1F4BB5','#0F2A6E','domrfbank.ru'],
+    ['Ренессанс Банк','#5B2A86','#2F1349','rencredit.ru'],['Хоум Банк','#D7262C','#8C1216','homebank.ru'],['ОТП Банк','#52AE30','#2D6E16','otpbank.ru'],
+    ['МКБ','#C8102E','#7A0A1C','mkb.ru'],['Банк «Санкт-Петербург»','#E1261C','#8F120B','bspb.ru'],['Ак Барс Банк','#00A15F','#005E37','akbars.ru'],
+    ['Локо-Банк','#0B4EA2','#062C5E','lockobank.ru'],['Абсолют Банк','#F28C00','#A85E00','absolutbank.ru']
   ];
+  var SHOW=10, shown=SHOW;
   var cP=$('#cProduct'),cA=$('#cAmount'),cT=$('#cTerm');
   var rub=function(n){return Math.round(n).toLocaleString('ru-RU')+' ₽';};
   var pct=function(n){return n.toFixed(1).replace('.',',')+'%';};
@@ -669,21 +694,37 @@ document.addEventListener('DOMContentLoaded',function(){
     $$('[data-pay]').forEach(function(el){el.textContent=a?rub(pay)+'/мес':'—';});
     $('#dProd').textContent=prod;
     $$('.bc-prod').forEach(function(el){el.textContent=SHORT[cP.value];});
-    var box=$('#bankList'), head=box.firstElementChild; box.innerHTML=''; box.appendChild(head);
-    BANKS.forEach(function(b){
-      var row=document.createElement('div'); row.className='bank';
-      row.innerHTML='<span class="ava" style="background:'+b[2]+'">'+b[1]+'</span>'+
-        '<span class="nm">'+b[0]+'<small>'+prod+'</small></span>'+
-        '<span class="v">≈ '+pct(avg)+'<small>в среднем по рынку</small></span>'+
-        '<span class="v">'+(a?rub(pay):'—')+'<small>в месяц</small></span>'+
-        '<span class="v">'+(a?rub(over):'—')+'<small>переплата</small></span>'+
-        '<a class="pill pill-line go" href="https://www.'+b[3]+'/" target="_blank" rel="noopener">На сайт банка</a>';
+    var box=$('#bankList'); box.innerHTML='';
+    var esc=function(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+    BANKS.forEach(function(b,n){
+      var row=document.createElement('article'); row.className='oc'; if(n>=shown) row.hidden=true;
+      row.innerHTML='<div class="oc-main">'+
+        '<span class="oc-thumb" style="--c1:'+b[1]+';--c2:'+b[2]+'" aria-hidden="true"><b>'+esc(b[0])+'</b><i></i></span>'+
+        '<div class="oc-id"><h3>'+esc(b[0])+'</h3><p>'+esc(prod)+'</p></div>'+
+        '<div class="oc-mets">'+
+          '<div class="oc-m"><span>Ставка ≈</span><b>'+pct(avg)+'</b></div>'+
+          '<div class="oc-m"><span>Платёж в месяц</span><b>'+(a?rub(pay):'—')+'</b></div>'+
+          '<div class="oc-m"><span>Переплата</span><b>'+(a?rub(over):'—')+'</b></div>'+
+        '</div>'+
+        '<a class="pill pill-ink oc-go" href="https://www.'+b[3]+'/" target="_blank" rel="noopener">Перейти на сайт</a>'+
+        '</div>'+
+        '<div class="oc-tags"><span class="hl">'+esc(SHORT[cP.value])+'</span>'+(a?'<span>'+rub(a)+'</span>':'')+'<span>'+termTxt(m)+'</span><span>ПСК по данным ЦБ</span></div>';
       box.appendChild(row);
     });
+    var rest=BANKS.length-shown;
+    $('#moreWrap').hidden=rest<=0;
+    $('#moreBtn').textContent='Показать ещё '+Math.min(rest,SHOW);
+    $('#offCount').textContent='Показано '+Math.min(shown,BANKS.length)+' из '+BANKS.length;
   }
   cA.addEventListener('input',function(){var a=amount();cA.value=a?a.toLocaleString('ru-RU'):'';calc();});
   cA.addEventListener('blur',function(){var a=amount();cA.value=a?rub(a):'';});
   cP.addEventListener('change',calc); cT.addEventListener('change',calc);
+  $('#moreBtn').addEventListener('click',function(){
+    var from=shown; shown+=SHOW; calc();
+    var fresh=$$('#bankList .oc').slice(from,shown);
+    if(fresh[0]) fresh[0].querySelector('.oc-go').focus({preventScroll:true});
+    if(window.gsap&&!reduce) gsap.from(fresh,{y:20,opacity:0,duration:.6,stagger:.05,ease:'power3.out',clearProps:'transform,opacity'});
+  });
   // плитки бенто подставляют вид кредита в калькулятор
   $$('.tile[data-product]').forEach(function(t){t.addEventListener('click',function(){cP.value=t.dataset.product;calc();});});
 
@@ -759,7 +800,7 @@ document.addEventListener('DOMContentLoaded',function(){
       gsap.from(el,{y:50,opacity:0,duration:1.1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%',once:true}});
     });
     // строки банков — каскадом
-    ScrollTrigger.create({trigger:'#bankList',start:'top 85%',once:true,onEnter:function(){gsap.from('#bankList .bank:not(.bank-head)',{y:24,opacity:0,duration:.7,stagger:.05,ease:'power3.out',clearProps:'transform,opacity'});}});
+    ScrollTrigger.create({trigger:'#bankList',start:'top 85%',once:true,onEnter:function(){gsap.from('#bankList .oc:not([hidden])',{y:24,opacity:0,duration:.7,stagger:.05,ease:'power3.out',clearProps:'transform,opacity'});}});
     // тёмная секция «наезжает» и раскрывается
     gsap.from('.night',{scale:.94,transformOrigin:'50% 0%',ease:'none',scrollTrigger:{trigger:'.night',start:'top bottom',end:'top 25%',scrub:true}});
     gsap.from('.tile',{y:60,opacity:0,scale:.94,duration:1,stagger:.07,ease:'power3.out',scrollTrigger:{trigger:'#bento',start:'top 85%',once:true}});
