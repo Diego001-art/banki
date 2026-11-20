@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PageHero } from "@/components/Hero";
 import { Shell } from "@/components/Shell";
@@ -20,16 +21,16 @@ export default function Cities() {
           return (
             <section className="dist" key={d.id} id={d.id}>
               <h2>{d.name}</h2>
-              {rs.map((r) => (
-                <div key={r.id}>
-                  <h3><a href={href("/goroda/" + r.slug + "/")}>{r.name}</a></h3>
-                  <div className="ggrid">
+              <div className="ggrid">
+                {rs.map((r) => (
+                  <Fragment key={r.id}>
+                    <h3><a href={href("/goroda/" + r.slug + "/")}>{r.name}</a></h3>
                     {live.filter((c) => c.regionId === r.id).map((c) => (
                       <a key={c.id} href={href(cityPath(c))} className="ccard"><img src={asset(c.thumb)} alt="" loading="lazy" /><span className="n">{c.name}</span><span className="k">Кредиты в {c.nameIn}</span></a>
                     ))}
-                  </div>
-                </div>
-              ))}
+                  </Fragment>
+                ))}
+              </div>
             </section>
           );
         })}
