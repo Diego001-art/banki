@@ -15,9 +15,10 @@ export function Footer() {
             ))}
           </ul></div>
           <div><h4>Города</h4><ul className="foot-cities">
-            {cities.filter((c) => c.indexStatus !== "archived").map((c) => (
+            {cities.filter((c) => c.indexStatus !== "archived").slice(0, 13).map((c) => (
               <li key={c.id}><a href={href(cityPath(c))}>{c.name}</a></li>
             ))}
+            <li><a href={href("/goroda/")}>Показать все</a></li>
           </ul></div>
           <div><h4>Сервис</h4><ul>
             <li><a href={href("/kredity/")}>Каталог</a></li>
