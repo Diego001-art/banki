@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { PageHero } from "@/components/Hero";
 import { Shell } from "@/components/Shell";
@@ -11,6 +10,7 @@ export const metadata = pageMeta({ title: "Города — кредиты ба�
 
 export default function Cities() {
   const live = cities.filter((c) => c.indexStatus !== "archived");
+  const regionById = new Map(regions.map((r) => [r.id, r]));
   return (
     <Shell cityName={defaultCity().name}>
       <PageHero crumbs={<Breadcrumbs items={[{ name: "Главная", path: "/" }, { name: "Города", path: "/goroda/" }]} />} title="Города" text="Предложения показываются только там, где банк подтвердил доступность продукта." />
@@ -18,17 +18,14 @@ export default function Cities() {
         {districts.map((d) => {
           const rs = regions.filter((r) => r.districtId === d.id && live.some((c) => c.regionId === r.id));
           if (!rs.length) return null;
+          const rids = new Set(rs.map((r) => r.id));
+          const dCities = live.filter((c) => rids.has(c.regionId));
           return (
             <section className="dist" key={d.id} id={d.id}>
               <h2>{d.name}</h2>
               <div className="ggrid">
-                {rs.map((r) => (
-                  <Fragment key={r.id}>
-                    <h3><a href={href("/goroda/" + r.slug + "/")}>{r.name}</a></h3>
-                    {live.filter((c) => c.regionId === r.id).map((c) => (
-                      <a key={c.id} href={href(cityPath(c))} className="ccard"><img src={asset(c.thumb)} alt="" loading="lazy" /><span className="n">{c.name}</span><span className="k">Кредиты в {c.nameIn}</span></a>
-                    ))}
-                  </Fragment>
+                {dCities.map((c) => (
+                  <a key={c.id} href={href(cityPath(c))} className="ccard"><img src={asset(c.thumb)} alt="" loading="lazy" /><span className="greg">{regionById.get(c.regionId)?.name}</span><span className="n">{c.name}</span><span className="k">Кредиты в {c.nameIn}</span></a>
                 ))}
               </div>
             </section>
