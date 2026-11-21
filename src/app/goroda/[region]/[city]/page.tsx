@@ -7,7 +7,7 @@ import { Offers } from "@/components/Offers";
 import { Shell } from "@/components/Shell";
 import { cities, cityPath, districtOf, offersInCity, regionOf, regions, site, t } from "@/lib/content";
 import { cityBlockers, isCityIndexable } from "@/lib/eligibility";
-import { dateRu } from "@/lib/format";
+import { dateRu, plural } from "@/lib/format";
 import { pageMeta } from "@/lib/seo";
 
 type P = { params: Promise<{ region: string; city: string }> };
@@ -26,11 +26,35 @@ export async function generateMetadata({ params }: P) {
   const { region, city } = await params;
   const c = find(region, city);
   if (!c) return {};
+  const r = regionOf(c);
+  const offers = offersInCity(c).length;
+  // Заголовок и описание строятся из реальных, вычисляемых по данным города
+  // значений (регион, число опубликованных предложений, дата проверки), а не
+  // из «спина» шаблонного текста — чтобы страницы разных городов не были
+  // идентичны за вычётом названия.
+  const title =
+    offers > 0
+      ? t("city.title") + " в " + c.nameIn + ", " + r.name + " — " + offers + " " + plural(offers, "предложение", "предложения", "предложений")
+      : t("city.title") + " в " + c.nameIn + " — сравнение условий банков";
+  const description =
+    offers > 0
+      ? "Сравниваем " +
+        offers +
+        " " +
+        plural(offers, "опубликованное предложение", "опубликованных предложения", "опубликованных предложений") +
+        " банков, доступных в " +
+        c.nameIn +
+        " (" +
+        r.name +
+        "): ставка, ПСК, сумма, срок" +
+        (c.reviewedAt ? ", дата проверки " + dateRu(c.reviewedAt) : "") +
+        "."
+      : "Опубликованные условия кредитов банков, которые обслуживают " + c.name + ": ставка, ПСК, сумма, срок и дата проверки.";
   return pageMeta({
-    title: t("city.title") + " в " + c.nameIn + " — сравнение условий банков",
-    description: "Опубликованные условия кредитов банков, которые обслуживают " + c.name + ": ставка, ПСК, сумма, срок и дата проверки.",
+    title,
+    description,
     path: cityPath(c),
-    indexable: isCityIndexable(c, offersInCity(c).length, site),
+    indexable: isCityIndexable(c, offers, site),
   });
 }
 
@@ -54,7 +78,10 @@ export default async function CityPage({ params }: P) {
           <div className="panel about" data-reveal>
             <h2>Кредиты в {c.nameIn}: что важно знать</h2>
             <div className="about-txt">
-              <p>{c.name} — {r.name}, {d.name}. Показываем только те продукты, для которых банк указал доступность в этом регионе, а редакция проверила условия по первичному источнику.</p>
+              <p>
+                {c.name} — {r.name}, {d.name}. Показываем только те продукты, для которых банк указал доступность в этом регионе, а редакция проверила условия по первичному источнику.
+                {offers > 0 ? <> Сейчас для {c.nameIn} опубликовано {offers} {plural(offers, "предложение", "предложения", "предложений")}.</> : null}
+              </p>
               {c.localFacts.length ? (
                 <ul>{c.localFacts.map((f, i) => <li key={i}>{f.text} <a href={f.source.url} target="_blank" rel="noopener nofollow">{f.source.title}</a>, {dateRu(f.source.checkedAt)}</li>)}</ul>
               ) : (
