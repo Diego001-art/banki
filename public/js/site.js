@@ -251,7 +251,8 @@
 
     /* ── Начальный город ── */
     if (!CAT) return;
-    if (PAGE_CITY && isCity(PAGE_CITY)) { setCity(PAGE_CITY); return; }
+    // страница города запоминает город: со страницы Петербурга ссылки на продукты откроются для Петербурга
+    if (PAGE_CITY && isCity(PAGE_CITY)) { setCity(PAGE_CITY, true); return; }
     if (!$("[data-city]")) return; // на странице нет блоков, зависящих от города
     var saved = null;
     try { saved = localStorage.getItem("city"); } catch (e) {}
