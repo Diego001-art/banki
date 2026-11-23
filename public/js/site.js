@@ -56,10 +56,20 @@
       if (scroll) offers.scrollIntoView({ behavior: smooth });
       return true;
     }
+    // страница отдельного продукта (/kredity/<вид>/): вкладки ведут на страницы других продуктов
+    var PRODUCT_PAGE = !!(CAT && offers && CAT.types.some(function (t) {
+      return location.pathname.replace(/\/+$/, "/").slice(-("/kredity/" + t.slug + "/").length) === "/kredity/" + t.slug + "/";
+    }));
     if (offers) {
       $("#offTabs").addEventListener("click", function (e) {
         var b = e.target.closest("[data-type]");
-        if (b) setType(b.getAttribute("data-type"));
+        if (!b) return;
+        var id = b.getAttribute("data-type");
+        if (PRODUCT_PAGE && id !== TYPE) {
+          var t = CAT.types.filter(function (x) { return x.id === id; })[0];
+          if (t) { location.href = CAT.base + "/kredity/" + t.slug + "/"; return; }
+        }
+        setType(id);
       });
       $("#moreBtn").addEventListener("click", function () {
         var from = shown; shown += CAT.pageSize; renderOffers();
@@ -68,13 +78,7 @@
         if (window.gsap && !reduce) gsap.from(fresh, { y: 20, opacity: 0, duration: 0.5, stagger: 0.04, ease: "power3.out", clearProps: "transform,opacity" });
       });
       $("#bankFilterX").addEventListener("click", function () { BANK = null; shown = CAT.pageSize; renderOffers(); renderBanks(); });
-      // плитки, меню и подвал на странице с предложениями переключают вид продукта
-      $$("a[data-type]").forEach(function (a) {
-        a.addEventListener("click", function (e) {
-          if (e.metaKey || e.ctrlKey || e.shiftKey) return;
-          if (setType(a.getAttribute("data-type"), true)) e.preventDefault();
-        });
-      });
+      // плитки, меню и подвал — обычные ссылки: каждый продукт открывается своей страницей
     }
     var grid = $("#bankGrid");
     if (grid) grid.addEventListener("click", function (e) {
