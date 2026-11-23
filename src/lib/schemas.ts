@@ -184,6 +184,38 @@ export const AuthorsSchema = z.array(
 
 export const TextsSchema = z.record(z.string());
 
+/** Раздел текста страницы: абзацы, маркированный список или шаги. {city} — название города в предложном падеже. */
+const PageSectionSchema = z
+  .object({ h2: z.string().min(1), text: z.array(z.string().min(1)).optional(), list: z.array(z.string().min(1)).optional(), steps: z.array(z.string().min(1)).optional() })
+  .refine((s) => s.text?.length || s.list?.length || s.steps?.length, "у раздела нет текста");
+const FaqSchema = z.array(z.object({ q: z.string().min(1), a: z.string().min(1) }));
+
+export const ProductPageSchema = z.object({
+  seoTitle: z.string().min(10).max(80),
+  description: z.string().min(50).max(200),
+  h1: z.string().min(1),
+  lead: z.string().min(1),
+  sections: z.array(PageSectionSchema).min(1),
+  faq: FaqSchema,
+});
+export const ProductPagesSchema = z.record(ProductTypeIdSchema, ProductPageSchema);
+
+const ListBlockSchema = z.object({ h2: z.string().min(1), items: z.array(z.string().min(1)).min(1) });
+export const CityPageSchema = z.object({
+  seoTitle: z.string().min(10),
+  description: z.string().min(50),
+  h2: z.string().min(1),
+  intro: z.string().min(1),
+  steps: ListBlockSchema,
+  products: z.object({ h2: z.string().min(1) }),
+  requirements: ListBlockSchema,
+  nearby: z.object({ h2: z.string().min(1) }),
+  faq: FaqSchema,
+});
+export type ProductPage = z.infer<typeof ProductPageSchema>;
+export type PageSection = z.infer<typeof PageSectionSchema>;
+export type CityPage = z.infer<typeof CityPageSchema>;
+
 export type Site = z.infer<typeof SiteSchema>;
 export type ProductType = z.infer<typeof ProductTypeSchema>;
 export type Regions = z.infer<typeof RegionsSchema>;

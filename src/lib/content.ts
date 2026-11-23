@@ -5,8 +5,8 @@ import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
 import {
-  AuthorsSchema, CitySchema, GuideSchema, LenderSchema, ProductSchema, ProductTypeSchema, RegionsSchema, SiteSchema, TextsSchema,
-  type City, type Guide, type Lender, type Product, type ProductType, type Region, type Site,
+  AuthorsSchema, CityPageSchema, CitySchema, GuideSchema, LenderSchema, ProductPagesSchema, ProductSchema, ProductTypeSchema, RegionsSchema, SiteSchema, TextsSchema,
+  type City, type CityPage, type Guide, type Lender, type Product, type ProductPage, type ProductType, type Region, type Site,
 } from "./schemas";
 import { availableIn, isLenderVisible, isProductPublishable, today } from "./eligibility";
 import { metrics } from "./format";
@@ -36,6 +36,11 @@ export const guides: Guide[] = fs
   .filter((f) => f.endsWith(".json"))
   .sort()
   .map((f) => load("content/guides/" + f, GuideSchema));
+
+const productPages = load("content/product-pages.json", ProductPagesSchema);
+for (const ty of types) if (!productPages[ty.id]) throw new Error("content/product-pages.json: нет текста для " + ty.id);
+export const productPage = (id: string): ProductPage => productPages[id as keyof typeof productPages]!;
+export const cityPage: CityPage = load("content/city-page.json", CityPageSchema);
 
 export const t = (key: string) => {
   const v = texts[key];
