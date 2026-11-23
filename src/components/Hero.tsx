@@ -24,7 +24,7 @@ export function Hero({ cityId, cityIn, banner, title, titleKey, textKey, top }: 
         <div className="hero-top">
           <div className="hero-txt">
             {top}
-            <h1><span className="ln"><span data-t={titleKey}>{title}</span></span><span className="ln"><span>{t("hero.titleIn")}&nbsp;<span className="city" data-city="loc" suppressHydrationWarning>{cityIn}</span></span></span></h1>
+            <h1><span className="ln"><span data-t={titleKey}>{title}</span></span>{" "}<span className="ln"><span>{t("hero.titleIn")}&nbsp;<span className="city" data-city="loc" suppressHydrationWarning>{cityIn}</span></span></span></h1>
             <p className="hero-p" data-hero data-t={textKey}>{t(textKey)}</p>
             <div className="hero-cta" data-hero>
               <a href="#offers" className="pill pill-ink" data-t="hero.cta1">{t("hero.cta1")}</a>
