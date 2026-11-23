@@ -1,4 +1,7 @@
 import type { Metadata, Viewport } from "next";
+import { createHash } from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
 import "@fontsource/onest/cyrillic-400.css";
 import "@fontsource/onest/cyrillic-500.css";
 import "@fontsource/onest/cyrillic-600.css";
@@ -23,6 +26,12 @@ export const metadata: Metadata = {
   robots: site.indexing ? undefined : { index: false, follow: false },
 };
 
+/** Адрес скрипта из public/ с версией по содержимому: после выкладки браузер берёт свежий файл, а не старый из кэша. */
+function versioned(file: string) {
+  const hash = createHash("sha1").update(fs.readFileSync(path.join(process.cwd(), "public", file))).digest("hex").slice(0, 10);
+  return asset(file) + "?v=" + hash;
+}
+
 export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover", themeColor: "#FFFFFF" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -35,8 +44,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteInit />
         <script defer src={asset("vendor/gsap.min.js")} />
         <script defer src={asset("vendor/ScrollTrigger.min.js")} />
-        <script defer src={asset("js/offers-render.js")} />
-        <script defer src={asset("js/site.js")} />
+        <script defer src={versioned("js/offers-render.js")} />
+        <script defer src={versioned("js/site.js")} />
       </body>
     </html>
   );
