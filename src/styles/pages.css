@@ -40,3 +40,26 @@ a.bt{text-decoration:none;color:inherit}
 .badge{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:6px;background:#FCEBCF;color:#6B4510;font-size:12px;font-weight:600;vertical-align:middle}
 .redir{min-height:60vh;display:grid;place-items:center;text-align:center;padding:40px 16px}
 .bt small{overflow-wrap:anywhere}
+
+/* Текст страниц продуктов и городов: шаги, списки, вопросы */
+.txt-steps,.txt-list,.txt-links,.txt-cards{margin:0;padding:0;list-style:none;display:grid;gap:12px;font-size:17px;line-height:1.6;color:var(--ink-2)}
+.txt-steps{counter-reset:step}
+.txt-steps li{counter-increment:step;position:relative;padding-left:44px}
+.txt-steps li::before{content:counter(step);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--soft);color:var(--plum);font-size:14px;font-weight:600}
+.txt-list li{position:relative;padding-left:22px}
+.txt-list li::before{content:"";position:absolute;left:4px;top:.68em;width:7px;height:7px;border-radius:50%;background:var(--plum-2)}
+.txt-links{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px 16px}
+.txt-links a,.txt-cards a{color:var(--plum);text-decoration-thickness:1px;text-underline-offset:3px}
+.txt-cards li{display:grid;gap:2px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.txt-cards li:last-child{border-bottom:0;padding-bottom:0}
+.txt-cards span{font-size:15px;color:var(--muted)}
+.about-txt p+.txt-list,.about-txt p+.txt-steps{margin-top:14px}
+.faq{display:grid}
+.faq details{border-bottom:1px solid var(--line);padding:14px 0}
+.faq details:first-child{padding-top:0}
+.faq details:last-child{border-bottom:0;padding-bottom:0}
+.faq summary{cursor:pointer;font-size:17px;font-weight:600;color:var(--ink);list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex:none;color:var(--plum);font-weight:500;font-size:22px;line-height:1}
+.faq details[open] summary::after{content:"−"}
+.faq details p{margin:10px 0 0}
