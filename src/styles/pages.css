@@ -63,3 +63,10 @@ a.bt{text-decoration:none;color:inherit}
 .faq summary::after{content:"+";flex:none;color:var(--plum);font-weight:500;font-size:22px;line-height:1}
 .faq details[open] summary::after{content:"−"}
 .faq details p{margin:10px 0 0}
+
+/* Главная: плитки вверху, блок с заголовком над калькулятором */
+.hero-tiles .hero-in{padding-top:clamp(8px,2vw,20px)}
+.hero-tiles .tiles-head{margin-top:clamp(12px,2vw,24px)}
+.hero.hero-mid{width:calc(100% - 2*var(--gut));max-width:calc(1280px - 2*var(--gut));margin:clamp(56px,7vw,96px) auto 0;border-radius:28px;padding-bottom:clamp(28px,4vw,56px)}
+.hero-mid .wrap{padding:0 clamp(18px,3vw,36px)}
+.hero-mid .hero-in{padding-top:clamp(28px,4vw,56px)}
