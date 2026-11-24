@@ -1,6 +1,6 @@
-import { CatalogData, About, BanksGrid, CitiesRail } from "@/components/Sections";
+import { CatalogData, BanksGrid, CitiesRail } from "@/components/Sections";
 import { Calculator } from "@/components/Calculator";
-import { Hero, TilesBand } from "@/components/Hero";
+import { HomeCategories, HomeFaq, HomeHero, HomeRates, HomeSteps, HomeTrust } from "@/components/Home";
 import { Offers } from "@/components/Offers";
 import { Shell } from "@/components/Shell";
 import { defaultCity } from "@/components/Header";
@@ -13,23 +13,26 @@ export const metadata = pageMeta({
   path: "/",
 });
 
+/**
+ * Порядок главной: первый экран с подбором → категории → предложения банков →
+ * сравнение средних ставок → калькулятор → как это работает → банки →
+ * доверие → города → частые вопросы.
+ */
 export default function Home() {
   const c = defaultCity();
   return (
     <Shell cityName={c.name}>
-      <TilesBand />
+      <HomeHero cityId={c.id} cityName={c.name} cityIn={c.nameIn} banner={c.banner} />
       <main>
+        <HomeCategories />
         <Offers cityId={c.id} type="cash" title={<>{t("offers.title")}&nbsp;<span data-city="loc" suppressHydrationWarning>{c.nameIn}</span></>} />
-        <Hero
-          placement="mid"
-          cityId={c.id} cityName={c.name} cityIn={c.nameIn} banner={c.banner}
-          title={t("hero.title")} titleKey="hero.title" textKey="hero.text"
-          top={<p className="label" data-hero><span data-t="hero.label">{t("hero.label")}</span> · <span data-city="name" suppressHydrationWarning>{c.name}</span></p>}
-        />
+        <HomeRates />
         <Calculator cityId={c.id} cityIn={c.nameIn} />
+        <HomeSteps />
         <BanksGrid cityId={c.id} />
-        <About />
+        <HomeTrust />
         <CitiesRail cityId={c.id} />
+        <HomeFaq />
       </main>
       <CatalogData />
     </Shell>
