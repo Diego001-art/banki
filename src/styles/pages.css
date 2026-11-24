@@ -64,9 +64,82 @@ a.bt{text-decoration:none;color:inherit}
 .faq details[open] summary::after{content:"−"}
 .faq details p{margin:10px 0 0}
 
-/* Главная: плитки вверху, блок с заголовком над калькулятором */
-.hero-tiles .hero-in{padding-top:clamp(8px,2vw,20px)}
-.hero-tiles .tiles-head{margin-top:clamp(12px,2vw,24px)}
-.hero.hero-mid{width:calc(100% - 2*var(--gut));max-width:calc(1280px - 2*var(--gut));margin:clamp(56px,7vw,96px) auto 0;border-radius:28px;padding-bottom:clamp(28px,4vw,56px)}
-.hero-mid .wrap{padding:0 clamp(18px,3vw,36px)}
-.hero-mid .hero-in{padding-top:clamp(28px,4vw,56px)}
+/* ── Главная ───────────────────────────────────── */
+/* первый экран: подбор */
+.hpick{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) auto;gap:10px;align-items:end;margin-top:26px;max-width:600px;padding:14px;border-radius:22px;background:var(--white);border:1px solid var(--line);box-shadow:0 18px 40px -28px rgba(75,46,99,.45)}
+.hpick .fld>span{font-size:13px}
+.hpick select{min-height:48px;font-size:16px}
+.hpick .pill{min-height:48px;white-space:nowrap}
+.hpick-alt{margin:14px 0 0;font-size:15px;color:var(--muted)}
+.hpick-alt a{color:var(--plum);font-weight:600;text-underline-offset:3px}
+.home-hero{padding-bottom:clamp(36px,5vw,64px)}
+/* категории */
+.home-cats{padding-top:clamp(6px,1.5vw,12px)}
+.home-cats .tiles-head{margin-top:clamp(12px,2vw,24px)}
+/* сравнение ставок */
+.home-rates{display:grid;gap:22px}
+.rates-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 32px}
+.rates-head h2{margin:0;font-size:clamp(26px,3vw,40px);line-height:1.1;letter-spacing:-.02em;text-wrap:balance}
+.rates-head p{margin:0;max-width:520px;font-size:15px;line-height:1.55;color:var(--muted)}
+.rates-legend{display:flex;gap:20px;font-size:13px;color:var(--muted)}
+.rates-legend span{display:inline-flex;align-items:center;gap:8px}
+.rates-legend i{display:inline-block;width:14px;height:8px;border-radius:4px}
+.lg-avg{background:var(--plum)}
+.lg-max{width:2px!important;height:14px!important;border-radius:1px!important;background:var(--gold)}
+.rates-list{list-style:none;margin:0;padding:0;display:grid}
+.rates-list li{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr) 120px;gap:20px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+.rt-name{display:grid;gap:2px}
+.rt-name b{font-size:16px;font-weight:600}
+.rt-name span{font-size:13px;color:var(--muted)}
+.rt-bar{position:relative;height:10px;border-radius:6px;background:var(--soft)}
+.rt-avg{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:var(--plum)}
+.rt-max{position:absolute;top:-5px;bottom:-5px;width:2px;margin-left:-1px;border-radius:1px;background:var(--gold)}
+.rt-val{display:grid;justify-items:end;gap:2px;font-variant-numeric:tabular-nums}
+.rt-val strong{font-size:20px;font-weight:600}
+.rt-val span{font-size:13px;color:var(--muted)}
+.rates-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px 24px;padding-top:6px;border-top:1px solid var(--line)}
+.rates-foot p{margin:0;font-size:13px;color:var(--muted);max-width:640px}
+.rates-foot p a{color:var(--plum)}
+/* как это работает */
+.home-steps{background:var(--plum);color:#fff;border-radius:28px;padding:clamp(28px,4vw,56px)}
+.home-steps h2{margin:0 0 clamp(20px,3vw,36px);font-size:clamp(26px,3vw,40px);letter-spacing:-.02em;color:#fff}
+.home-steps ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(16px,2.4vw,32px);counter-reset:hs}
+.home-steps li{counter-increment:hs;display:grid;gap:8px;align-content:start;padding-top:18px;border-top:1px solid rgba(255,255,255,.22)}
+.home-steps li::before{content:counter(hs,decimal-leading-zero);font-size:14px;font-weight:600;color:var(--gold);font-variant-numeric:tabular-nums}
+.home-steps b{font-size:19px;font-weight:600;line-height:1.3}
+.home-steps span{font-size:15px;line-height:1.55;color:rgba(255,255,255,.78)}
+/* доверие */
+.home-trust{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:start}
+.home-trust h2{margin:0;font-size:clamp(26px,3vw,40px);line-height:1.1;letter-spacing:-.02em;text-wrap:balance}
+.trust-lead{margin:14px 0 0;font-size:16px;line-height:1.6;color:var(--ink-2)}
+.trust-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:26px 0 0}
+.trust-facts div{padding:16px;border-radius:18px;background:var(--soft)}
+.trust-facts dt{font-size:clamp(28px,3vw,40px);font-weight:600;color:var(--plum);line-height:1;font-variant-numeric:tabular-nums}
+.trust-facts dd{margin:8px 0 0;font-size:14px;color:var(--muted)}
+.trust-list{list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.trust-list li{position:relative;padding-left:36px;font-size:16px;line-height:1.55;color:var(--ink-2)}
+.trust-list li::before{content:"";position:absolute;left:0;top:1px;width:24px;height:24px;border-radius:50%;background:var(--soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234B2E63' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/14px no-repeat}
+/* гид */
+.home-guide-sec{padding-top:16px}
+.home-guide{display:grid;gap:6px;padding:clamp(18px,2.4vw,26px);border-radius:22px;background:var(--white);border:1px solid var(--line);text-decoration:none;color:inherit;transition:border-color .25s}
+.home-guide:hover{border-color:var(--plum)}
+.home-guide .label{margin:0}
+.home-guide b{font-size:clamp(18px,1.6vw,22px)}
+.home-guide span:last-child{color:var(--muted)}
+@media (max-width:1250px) and (min-width:1081px){
+  .hpick{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .hpick .pill{grid-column:1/-1}
+}
+@media (max-width:1080px){
+  .home-steps ol{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .home-trust{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .hpick{grid-template-columns:1fr;padding:12px}
+  .hpick .pill{width:100%}
+  .rates-list li{grid-template-columns:minmax(0,1fr) auto;gap:8px 16px}
+  .rt-bar{grid-column:1/-1;grid-row:2}
+  .home-steps ol{grid-template-columns:1fr}
+  .trust-facts{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .trust-facts div{padding:12px}
+}
