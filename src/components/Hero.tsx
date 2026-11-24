@@ -14,14 +14,11 @@ type Props = {
   titleKey: string;
   textKey: string;
   top: ReactNode;
-  /** mid — блок стоит в середине страницы (главная): без плиток, со скруглением со всех сторон. */
-  placement?: "top" | "mid";
 };
 
-export function Hero({ cityId, cityIn, banner, title, titleKey, textKey, top, placement = "top" }: Props) {
-  const mid = placement === "mid";
+export function Hero({ cityId, cityIn, banner, title, titleKey, textKey, top }: Props) {
   return (
-    <section className={mid ? "hero hero-mid" : "hero"} aria-label="Главный экран">
+    <section className="hero" aria-label="Главный экран">
       <div className="hero-city" aria-hidden="true"><img id="heroCityImg" data-city={cityId} src={asset(banner)} alt="" fetchPriority="high" decoding="async" suppressHydrationWarning /></div>
       <div className="wrap hero-in">
         <div className="hero-top">
@@ -36,17 +33,6 @@ export function Hero({ cityId, cityIn, banner, title, titleKey, textKey, top, pl
           </div>
           <Deck />
         </div>
-        {mid ? null : <Tiles />}
-      </div>
-    </section>
-  );
-}
-
-/** Плитки видов кредитов отдельной полосой вверху страницы (главная). */
-export function TilesBand() {
-  return (
-    <section className="hero hero-tiles" aria-label="Виды кредитов">
-      <div className="wrap hero-in">
         <Tiles />
       </div>
     </section>
