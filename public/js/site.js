@@ -108,6 +108,7 @@
       $$('[data-city="name"]').forEach(function (el) { el.textContent = c.name; });
       $$('[data-city="loc"]').forEach(function (el) { el.textContent = c.loc; });
       if (select) select.value = c.id;
+      var hCity = $("#hCity"); if (hCity) hCity.value = c.id;
       var hi = $("#heroCityImg");
       if (hi && hi.getAttribute("data-city") !== c.id) {
         hi.setAttribute("data-city", c.id);
@@ -131,6 +132,16 @@
       if (a && rail.getAttribute("data-moved") === "1") e.preventDefault();
       if (a) { try { localStorage.setItem("city", a.getAttribute("data-id")); } catch (x) {} }
     });
+    /* ── Подбор на первом экране главной ── */
+    var pick = $("#heroPick");
+    if (pick && CAT) {
+      $("#hCity").addEventListener("change", function () { setCity(this.value, true); calc(); });
+      pick.addEventListener("submit", function (e) {
+        e.preventDefault();
+        try { localStorage.setItem("city", $("#hCity").value); } catch (x) {}
+        location.href = BASE + "/kredity/" + $("#hType").value + "/";
+      });
+    }
     var cityBtn = $("#cityBtn");
     if (cityBtn) cityBtn.addEventListener("click", function () {
       var sec = $("#cities");
@@ -238,20 +249,11 @@
     /* ── Анимации ── */
     if (window.gsap && window.ScrollTrigger && !reduce) {
       gsap.registerPlugin(ScrollTrigger);
-      // на главной блок с заголовком стоит в середине страницы: его анимация стартует, когда он появляется на экране
-      var heroMid = $(".hero-mid");
-      var tl = gsap.timeline({ defaults: { ease: "power4.out" }, scrollTrigger: heroMid ? { trigger: heroMid, start: "top 80%", once: true } : undefined }).from("h1 .ln>span", { yPercent: 110, duration: 1, stagger: 0.1 });
-      var heroBits = heroMid ? ".hero-mid [data-hero]:not(.deck)" : "[data-hero]:not(.deck)";
-      if ($$(heroBits).length) tl.from(heroBits, { y: 20, opacity: 0, duration: 0.8, stagger: 0.06, clearProps: "transform,opacity" }, "-=.7");
-      if (heroMid && $(".hero-tiles [data-hero]")) gsap.from(".hero-tiles [data-hero]", { y: 20, opacity: 0, duration: 0.8, ease: "power4.out", clearProps: "transform,opacity" });
+      var tl = gsap.timeline({ defaults: { ease: "power4.out" } }).from("h1 .ln>span", { yPercent: 110, duration: 1, stagger: 0.1 });
+      if ($$("[data-hero]:not(.deck)").length) tl.from("[data-hero]:not(.deck)", { y: 20, opacity: 0, duration: 0.8, stagger: 0.06, clearProps: "transform,opacity" }, "-=.7");
       if (stage) tl.from(".bcard", { x: 160, y: -140, rotation: -24, opacity: 0, duration: 1.3, stagger: { each: 0.14, from: "end" }, ease: "expo.out", clearProps: "transform,opacity" }, 0.1);
-      if ($(".tile")) {
-        var tiles = { y: 30, opacity: 0, duration: 0.8, stagger: 0.05, ease: "power3.out", clearProps: "transform,opacity" };
-        if (heroMid) gsap.from(".tile", tiles); else tl.from(".tile", tiles, "-=.6");
-      }
-      var hc = $(".hero-city");
-      // параллакс фото — только когда блок открывает страницу; в середине страницы он сдвигал фото и оголял верх блока
-      if (hc && !heroMid) gsap.to(hc, { yPercent: 10, ease: "none", scrollTrigger: { trigger: hc.closest(".hero"), start: "top top", end: "bottom top", scrub: true } });
+      if ($(".tile")) tl.from(".tile", { y: 30, opacity: 0, duration: 0.8, stagger: 0.05, ease: "power3.out", clearProps: "transform,opacity" }, "-=.6");
+      if ($(".hero-city")) gsap.to(".hero-city", { yPercent: 10, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } });
       $$("[data-reveal]").forEach(function (el) { gsap.from(el, { y: 40, opacity: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 88%", once: true } }); });
       if ($("#bankList")) ScrollTrigger.create({ trigger: "#bankList", start: "top 88%", once: true, onEnter: function () { gsap.from("#bankList .oc:not([hidden])", { y: 20, opacity: 0, duration: 0.6, stagger: 0.04, ease: "power3.out", clearProps: "transform,opacity" }); } });
       if (grid) ScrollTrigger.create({ trigger: "#bankGrid", start: "top 90%", once: true, onEnter: function () { gsap.from("#bankGrid .bt", { y: 20, opacity: 0, duration: 0.5, stagger: 0.025, ease: "power3.out", clearProps: "transform,opacity" }); } });
