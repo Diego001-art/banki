@@ -230,3 +230,10 @@ a.bt{text-decoration:none;color:inherit}
   .hm-safety{grid-template-columns:1fr}
   .hm-safety img{width:180px}
 }
+
+/* 3D-иконки главной */
+.hm-3d{display:block;object-fit:contain}
+.hm-strip .hm-3d{width:56px;height:56px}
+.hm-tools .hm-3d{width:64px;height:64px;margin:-4px 0 0 -4px}
+.hm-safety img{width:min(100%,260px);mix-blend-mode:normal}
+@media (max-width:760px){.hm-safety img{width:160px}}
