@@ -113,7 +113,7 @@ export function HomeStrip() {
   return (
     <section className="wrap hm-strip" aria-label="Коротко о сервисе">
       <ul>
-        {items.map(([i, text]) => <li key={i}><img className="hm-3d" src={asset("img/icon-" + i + ".webp")} alt="" width={56} height={56} loading="lazy" /><span>{text}</span></li>)}
+        {items.map(([i, text]) => <li key={i}><span className="hm-strip-ic">{ICONS[i]}</span><span>{text}</span></li>)}
       </ul>
     </section>
   );
@@ -199,7 +199,7 @@ export function HomeDash() {
         </div>
         <ul className="hm-tools">
           {TOOLS.map(([i, name, to]) => (
-            <li key={to}><a href={href(to)}><img className="hm-3d" src={asset("img/icon-" + (i === "grid" ? "catalog" : i) + ".webp")} alt="" width={64} height={64} loading="lazy" /><span>{name}</span></a></li>
+            <li key={to}><a href={href(to)}><span className="hm-tool-ic">{ICONS[i]}</span><span>{name}</span></a></li>
           ))}
         </ul>
       </div>
