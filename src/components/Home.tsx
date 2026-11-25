@@ -52,7 +52,7 @@ export function HomeHero({ cityId, cityName, cityIn, banner, cityUrl }: { cityId
     <section className="hero hm-hero" aria-label="Главный экран">
       <div className="wrap hero-in">
         <p className="label hm-center" data-hero><span data-t="hero.label">{t("hero.label")}</span> · <span data-city="name" suppressHydrationWarning>{cityName}</span></p>
-        <h1 className="hm-center"><span className="ln"><span data-t="hero.title">{t("hero.title")}</span></span>{" "}<span className="ln"><span>{t("hero.titleIn")}&nbsp;<span className="city" data-city="loc" suppressHydrationWarning>{cityIn}</span></span></span></h1>
+        <h1 className="hm-center"><span className="ln"><span>Финансовый</span></span>{" "}<span className="ln"><span className="city">маркетплейс</span></span></h1>
         <div className="hm-hgrid" data-tabs="">
           <div className="hm-seg" role="tablist" aria-label="Что подобрать" data-hero>
             {HERO_SETS.map((s, i) => (
