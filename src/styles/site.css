@@ -325,3 +325,8 @@ footer{margin-top:clamp(56px,7vw,96px);background:var(--white);color:var(--ink-2
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
 }
+/* Шрифт заголовков: Kireev BJ TD (только кириллица, цифры и знаки; латиница и ₽ — из Onest) */
+@font-face{font-family:"Kireev BJ";src:url("./kireev-bj.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+:root{--font-head:"Kireev BJ","Onest",Inter,system-ui,sans-serif}
+h1,h2,.hm-h3{font-family:var(--font-head);font-weight:400;letter-spacing:.01em}
+h1{line-height:1}
