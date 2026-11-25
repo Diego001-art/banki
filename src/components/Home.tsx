@@ -310,14 +310,14 @@ type Article = { title: string; to: string; cat: string; img: string };
 export function HomeGuide() {
   const g = guides.find((x) => x.status !== "archived");
   const items: Article[] = [
-    ...(g ? [{ title: g.title, to: href("/gid/" + g.slug + "/"), cat: "Кредиты", img: "img/tile-calc.webp" }] : []),
-    { title: "Как получить кредит наличными: требования и документы", to: typeHref("cash"), cat: "Кредиты", img: "img/tile-cash.webp" },
-    { title: "Как работает льготный период по кредитной карте", to: typeHref("card"), cat: "Карты", img: "img/tile-card.webp" },
-    { title: "Как получить ипотеку: от одобрения до сделки", to: typeHref("mortgage"), cat: "Ипотека", img: "img/tile-mortgage.webp" },
-    { title: "Автокредит или кредит наличными: что выбрать", to: typeHref("auto"), cat: "Авто", img: "img/tile-auto.webp" },
-    { title: "Когда рефинансирование действительно выгодно", to: typeHref("refi"), cat: "Кредиты", img: "img/tile-refi.webp" },
-    { title: "Как выбрать дебетовую карту под свои расходы", to: typeHref("debit"), cat: "Карты", img: "img/tile-debit.webp" },
-    { title: "Кредит под залог: что можно заложить и какие риски", to: typeHref("pledge"), cat: "Кредиты", img: "img/tile-pledge.webp" },
+    ...(g ? [{ title: g.title, to: href("/gid/" + g.slug + "/"), cat: "Кредиты", img: "img/guide-compare.webp" }] : []),
+    { title: "Как получить кредит наличными: требования и документы", to: typeHref("cash"), cat: "Кредиты", img: "img/guide-cash.webp" },
+    { title: "Как работает льготный период по кредитной карте", to: typeHref("card"), cat: "Карты", img: "img/guide-card.webp" },
+    { title: "Как получить ипотеку: от одобрения до сделки", to: typeHref("mortgage"), cat: "Ипотека", img: "img/guide-mortgage.webp" },
+    { title: "Автокредит или кредит наличными: что выбрать", to: typeHref("auto"), cat: "Авто", img: "img/guide-auto.webp" },
+    { title: "Когда рефинансирование действительно выгодно", to: typeHref("refi"), cat: "Кредиты", img: "img/guide-refi.webp" },
+    { title: "Как выбрать дебетовую карту под свои расходы", to: typeHref("debit"), cat: "Карты", img: "img/guide-debit.webp" },
+    { title: "Кредит под залог: что можно заложить и какие риски", to: typeHref("pledge"), cat: "Кредиты", img: "img/guide-pledge.webp" },
   ];
   const cats = ["Все", ...Array.from(new Set(items.map((x) => x.cat)))];
   return (
@@ -331,7 +331,7 @@ export function HomeGuide() {
           {items.map((a) => (
             <li key={a.title} data-cat={a.cat}>
               <a href={a.to}>
-                <span className="hm-art-img"><img src={asset(a.img)} alt="" loading="lazy" /></span>
+                <span className="hm-art-img"><img src={asset(a.img)} alt="" width={640} height={400} loading="lazy" /></span>
                 <b>{a.title}</b>
                 <small>{a.cat}</small>
               </a>
