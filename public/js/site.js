@@ -108,7 +108,9 @@
       $$('[data-city="name"]').forEach(function (el) { el.textContent = c.name; });
       $$('[data-city="loc"]').forEach(function (el) { el.textContent = c.loc; });
       if (select) select.value = c.id;
-      var hCity = $("#hCity"); if (hCity) hCity.value = c.id;
+      var hc = $("#hCity"); if (hc) hc.value = c.id;
+      var cc = CAT ? CAT.cities.filter(function (x) { return x.id === c.id; })[0] : null;
+      if (cc) $$("[data-city-link]").forEach(function (a) { a.href = R.cityUrl(CAT, cc); });
       var hi = $("#heroCityImg");
       if (hi && hi.getAttribute("data-city") !== c.id) {
         hi.setAttribute("data-city", c.id);
@@ -132,18 +134,28 @@
       if (a && rail.getAttribute("data-moved") === "1") e.preventDefault();
       if (a) { try { localStorage.setItem("city", a.getAttribute("data-id")); } catch (x) {} }
     });
-    /* ── Подбор на первом экране главной ── */
-    var pick = $("#heroPick");
-    if (pick && CAT) {
-      $("#hCity").addEventListener("change", function () { setCity(this.value, true); calc(); });
-      pick.addEventListener("submit", function (e) {
-        e.preventDefault();
-        try { localStorage.setItem("city", $("#hCity").value); } catch (x) {}
-        location.href = BASE + "/kredity/" + $("#hType").value + "/";
+    /* ── Главная: выбор города на первом экране ── */
+    var hCity = $("#hCity");
+    if (hCity && CAT) hCity.addEventListener("change", function () { setCity(this.value, true); calc(); });
+
+    /* ── Вкладки и рубрики: контейнер [data-tabs], кнопки [data-tab], панели [data-panel] ── */
+    $$("[data-tabs]").forEach(function (box) {
+      box.addEventListener("click", function (e) {
+        var b = e.target.closest("[data-tab]");
+        if (!b || b.closest("[data-tabs]") !== box) return;
+        var key = b.getAttribute("data-tab");
+        $$("[data-tab]", b.parentNode).forEach(function (x) { var on = x === b; x.classList.toggle("on", on); x.setAttribute("aria-selected", on ? "true" : "false"); });
+        if (b.hasAttribute("data-filter")) {
+          $$("[data-cat]", box).forEach(function (li) { li.hidden = key !== "Все" && li.getAttribute("data-cat") !== key; });
+          return;
+        }
+        $$("[data-panel]", box).forEach(function (p) { if (p.closest("[data-tabs]") === box) p.hidden = p.getAttribute("data-panel") !== key; });
       });
-    }
+    });
+
     var cityBtn = $("#cityBtn");
     if (cityBtn) cityBtn.addEventListener("click", function () {
+      if (hCity) { hCity.scrollIntoView({ behavior: smooth, block: "center" }); setTimeout(function () { hCity.focus({ preventScroll: true }); }, reduce ? 0 : 500); return; }
       var sec = $("#cities");
       if (!sec) { location.href = BASE + "/goroda/"; return; }
       sec.scrollIntoView({ behavior: smooth });
@@ -168,7 +180,7 @@
     }
 
     /* ── Калькулятор: среднерыночная ПСК Банка России ── */
-    var calcBox = $(".calc[data-rates]"), cP = $("#cProduct"), cA = $("#cAmount"), cT = $("#cTerm");
+    var calcBox = $("[data-rates]"), cP = $("#cProduct"), cA = $("#cAmount"), cT = $("#cTerm");
     var RATES = {};
     try { RATES = JSON.parse(calcBox.getAttribute("data-rates")); } catch (e) {}
     var rub = function (n) { return Math.round(n).toLocaleString("ru-RU") + " ₽"; };
