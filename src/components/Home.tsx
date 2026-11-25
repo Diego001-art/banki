@@ -28,7 +28,7 @@ const HERO_SETS: { key: string; name: string; tiles: Tile[] }[] = [
     key: "cards", name: "Карты", tiles: [
       productTile("card"), productTile("debit"),
       toolTile("calc", "Калькулятор платежа", "Платёж и переплата", "img/tile-calc.webp", href("/kalkulyator/")),
-      toolTile("all", "Все предложения", "Каталог банков", null, href("/kredity/")),
+      toolTile("all", "Все предложения", "Каталог банков", "img/icon-catalog.webp", href("/kredity/")),
       productTile("cash"),
     ],
   },
@@ -113,7 +113,7 @@ export function HomeStrip() {
   return (
     <section className="wrap hm-strip" aria-label="Коротко о сервисе">
       <ul>
-        {items.map(([i, text]) => <li key={i}><span className="hm-ic">{ICONS[i]}</span><span>{text}</span></li>)}
+        {items.map(([i, text]) => <li key={i}><img className="hm-3d" src={asset("img/icon-" + i + ".webp")} alt="" width={56} height={56} loading="lazy" /><span>{text}</span></li>)}
       </ul>
     </section>
   );
@@ -199,7 +199,7 @@ export function HomeDash() {
         </div>
         <ul className="hm-tools">
           {TOOLS.map(([i, name, to]) => (
-            <li key={to}><a href={href(to)}><span className="hm-ic">{ICONS[i]}</span><span>{name}</span></a></li>
+            <li key={to}><a href={href(to)}><img className="hm-3d" src={asset("img/icon-" + (i === "grid" ? "catalog" : i) + ".webp")} alt="" width={64} height={64} loading="lazy" /><span>{name}</span></a></li>
           ))}
         </ul>
       </div>
@@ -390,7 +390,7 @@ export function HomeSafety() {
           </ul>
           <a className="hm-safety-link" href={href("/pravovaya-informatsiya/")}>Правовая информация {ARROW}</a>
         </div>
-        <img src={asset("img/tile-pledge.webp")} alt="" loading="lazy" />
+        <img src={asset("img/icon-shield.webp")} alt="" width={320} height={320} loading="lazy" />
       </div>
     </section>
   );
